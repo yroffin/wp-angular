@@ -4,3 +4,15 @@
 md-toast.md-failure-toast-theme {
     background-color: red;
 }
+
+.aligncenter {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.original-size {
+    height: auto;
+    max-width: 100%;
+    width: inherit;
+}

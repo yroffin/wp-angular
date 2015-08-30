@@ -1,0 +1,24 @@
+<div>
+    <md-grid-list
+        md-cols-sm="1" md-cols="3" md-cols-gt-md="4"
+        md-row-height-gt-md="1:2" md-row-height="2:2"
+        md-gutter="32px" md-gutter-gt-sm="8px" >
+      <md-grid-tile
+          ng-repeat="tile in working.tiles"
+          md-colspan="1"
+          md-rowspan="1" md-colspan-sm="1">
+            <md-card>
+                <style>
+                    .md-card-{{tile.ID}}  {
+                        background:url("{{tile.featured_image.guid}}") no-repeat;
+                        background-size: 100%;
+                    }
+                </style>
+                <md-card-content>
+                    <h3  class="md-card-{{tile.ID}}" style="height: 200px; width: 256px;" ng-click="working.post = undefined; location('/posts/'+tile.ID)"></h3>
+                    <h3 style="height: 64px; width: 256px;" class="md-title">{{tile.title}}</h3>
+                </md-card-content>
+              </md-card>
+      </md-grid-tile>
+    </md-grid-list>
+</div>

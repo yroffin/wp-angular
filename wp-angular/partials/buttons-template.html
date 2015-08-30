@@ -1,0 +1,12 @@
+<md-bottom-sheet class="md-grid">
+    <div ng-repeat="item in menubar">
+        <ng-md-icon icon="{{item.icon}}" style="fill:grey" size="32"></ng-md-icon>{{item.name}}
+  <md-list>
+    <md-list-item ng-repeat="subitem in item.items">
+      <md-button class="md-grid-item-content" ng-click="listItemClick($index)">
+        <div class="md-grid-text">{{item.name}}</div>
+      </md-button>
+    </md-list-item>
+  </md-list>
+        </div>
+</md-bottom-sheet>

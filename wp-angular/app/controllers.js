@@ -38,9 +38,9 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
                     controller: 'RestWordpressPageCtrl',
                     templateUrl: 'partials/pages-detail.html'
                 }).
-                when('/yy', {
-                    controller: 'RestWordpressCtrl',
-                    templateUrl: 'partials/posts.html'
+                when('/galeries/:id', {
+                    controller: 'RestWordpressGaleriesCtrl',
+                    templateUrl: 'partials/galeries.html'
                 }).
                 otherwise({
                     redirectTo: 'partials/posts.html'
@@ -49,23 +49,32 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
     .config(function($mdThemingProvider) {
         // Configure a dark theme with primary foreground yellow
         $mdThemingProvider.theme('default')
-            .primaryPalette('blue')
-            .dark();
+            .primaryPalette('grey', {
+                'default': '400', // by default use shade 400 from the pink palette for primary intentions
+                'hue-1': '100', // use shade 100 for the <code>md-hue-1</code> class
+                'hue-2': '600', // use shade 600 for the <code>md-hue-2</code> class
+                'hue-3': 'A100' // use shade A100 for the <code>md-hue-3</code> class
+            })
+                .accentPalette('orange', {
+                'default': '200' // use shade 200 for default, and keep all other shades the same
+            });
     })
     /**
      * main controller
      */
     .controller('RestWordpressCtrl',
-    ['$scope', '$mdSidenav', '$location', function($scope, $mdSidenav, $location){
+    ['$scope', '$mdSidenav', '$location', '$mdBottomSheet', function($scope, $mdSidenav, $location, $mdBottomSheet){
         /**
          * initialize configuration
          */
         $scope.toastPosition = {
-            bottom: false,
-            top: true,
+            bottom: true,
+            top: false,
             left: false,
-            right: true
+            right: false
         }
+
+        $scope.menubar = __menubar;
 
         $scope.working = {};
         $scope.menuId = "left";
@@ -215,6 +224,28 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
             $mdToast.show(
                 $mdToast.simple()
                     .content(data.title)
+                    .position($scope.getToastPosition())
+                    .hideDelay(3000)
+            );
+        }, function(failure) {
+            $mdToast.show(
+                $mdToast.simple()
+                    .content(failure)
+                    .position($scope.getToastPosition())
+                    .hideDelay(3000).theme("failure-toast")
+            );
+        });
+    }])
+    /**
+     * categories controller
+     */
+    .controller('RestWordpressGaleriesCtrl',
+    ['$scope', '$mdSidenav', '$routeParams', '$mdToast', '$location', 'RestWordpressPosts', function($scope, $mdSidenav, $routeParams, $mdToast, $location, postServices){
+        postServices.byCategory({id:$routeParams.id}, function(data) {
+            $scope.working.tiles = data;
+            $mdToast.show(
+                $mdToast.simple()
+                    .content(data.length + " Pin(s)")
                     .position($scope.getToastPosition())
                     .hideDelay(3000)
             );

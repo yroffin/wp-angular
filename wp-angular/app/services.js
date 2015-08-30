@@ -46,6 +46,15 @@ myAppServices.factory('RestWordpressPosts', [ '$resource', function($resource, $
 				url: wordpressRestApiUrl + '/posts/:id',
 				isArray: false,
 				cache: false
+			},
+			/**
+			 * get post by category
+			 */
+			byCategory: {
+				method: 'GET',
+				url: wordpressRestApiUrl + '/posts?filter[category_name]=:id',
+				isArray: true,
+				cache: false
 			}
 		}
 	)}]);

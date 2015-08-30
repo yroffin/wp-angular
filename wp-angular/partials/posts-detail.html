@@ -1,2 +1,3 @@
-<h1>Post {{working.post.ID}}</h1>
+<h1>{{working.post.title}}</h1>
+<img class="original-size" src="{{working.post.featured_image.guid}}">
 <div ng-bind-html="working.post.content" />

@@ -24,6 +24,20 @@ limitations under the License.
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
 
+    <!-- Roboto fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+
+    <!-- use the font -->
+    <style>
+        body {
+          font-family: 'Roboto', sans-serif;
+          font-size: 14px;
+        }
+        p {
+            align: "justify";
+        }
+    </style>
+
     <!-- AngularJS Material Design -->
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.css">
     <link rel="stylesheet" href="css/specific.css">
@@ -31,19 +45,32 @@ limitations under the License.
 <body layout="column" ng-controller="RestWordpressCtrl as ctrl" ng-init="ctrl.load()" >
 
 <md-toolbar layout="row">
-    <div class="md-toolbar-tools">
-        <md-button ng-click="toggleSideNav()" hide-gt-sm class="md-icon-button">
-            <md-icon aria-label="Menu" md-svg-icon="https://s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
+    <span class="md-toolbar-tools">
+        <md-button ng-click="toggleSideNav()" class="md-icon-button">
+            <ng-md-icon icon="description" style="fill:white" size="48"></ng-md-icon>
         </md-button>
         <h1>Application</h1>
-    </div>
+    </span>
 </md-toolbar>
+
 <div layout="row" flex>
-    <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
-        <md-button ng-click="location('/posts');">Posts</md-button>
-        <md-button ng-click="location('/pages');">Pages</md-button>
-        <md-button ng-click="location('/scenario');">Scenario</md-button>
-        <md-button ng-click="location('/connectors');">Connector</md-button>
+    <md-sidenav class="md-sidenav-left" md-component-id="left">
+
+    <md-content>
+        <md-list>
+            <div ng-repeat="item in menubar">
+                <md-list-item class="md-3-line">
+                    <ng-md-icon icon="{{item.icon}}" style="fill:grey" size="32"></ng-md-icon>
+                    <div class="md-list-item-text">
+                    <h3>{{item.name}}</h3>
+                    <p ng-repeat="subitem in item.items" ng-click="location(subitem.location)">{{subitem.name}}</p>
+                    </div>
+                    </md-list-item>
+                <md-divider></md-divider>
+            </div>
+        </md-list>
+    </md-content>
+
     </md-sidenav>
     <div layout="column" flex id="content">
         <md-content layout="column" flex class="md-padding">
@@ -54,7 +81,7 @@ limitations under the License.
     </div>
 </div>
 
-<!-- AngularJS -->
+    <!-- AngularJS -->
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-route.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-resource.min.js"></script>
