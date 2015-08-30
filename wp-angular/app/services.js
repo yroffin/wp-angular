@@ -44,7 +44,7 @@ myAppServices.factory('RestWordpressPosts', [ '$resource', function($resource, $
 			post: {
 				method: 'GET',
 				url: wordpressRestApiUrl + '/posts/:id',
-				isArray: true,
+				isArray: false,
 				cache: false
 			}
 		}

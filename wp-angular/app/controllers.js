@@ -26,6 +26,10 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
                     controller: 'RestWordpressPostsCtrl',
                     templateUrl: 'partials/posts.html'
                 }).
+                when('/posts/:id', {
+                    controller: 'RestWordpressPostCtrl',
+                    templateUrl: 'partials/posts-detail.html'
+                }).
                 when('/pages', {
                     controller: 'RestWordpressPagesCtrl',
                     templateUrl: 'partials/pages.html'
@@ -109,6 +113,28 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
                     .hideDelay(3000).theme("failure-toast")
             );
         });
+
+                /**
+         * select a single ne page and route browser on it
+         */
+        $scope.select = function(post) {
+            postServices.post({id:post.ID}, function(data) {
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content(post.title)
+                        .position($scope.getToastPosition())
+                        .hideDelay(3000)
+                );
+                $scope.location("/posts/" + post.ID);
+            }, function(failure) {
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content(failure)
+                        .position($scope.getToastPosition())
+                        .hideDelay(3000).theme("failure-toast")
+                );
+            });
+        }
     }])
     /**
      * pages controller
@@ -142,7 +168,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
             pageServices.page({id:page.ID}, function(data) {
                 $mdToast.show(
                     $mdToast.simple()
-                        .content(page.title.rendered)
+                        .content(page.title)
                         .position($scope.getToastPosition())
                         .hideDelay(3000)
                 );
@@ -158,6 +184,28 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
         }
     }])
     /**
+     * posts controller
+     */
+    .controller('RestWordpressPostCtrl',
+    ['$scope', '$mdSidenav', '$routeParams', '$mdToast', '$location', 'RestWordpressPosts', function($scope, $mdSidenav, $routeParams, $mdToast, $location, postServices){
+        postServices.post({id:$routeParams.id}, function(data) {
+            $scope.working.post = data;
+            $mdToast.show(
+                $mdToast.simple()
+                    .content(data.title)
+                    .position($scope.getToastPosition())
+                    .hideDelay(3000)
+            );
+        }, function(failure) {
+            $mdToast.show(
+                $mdToast.simple()
+                    .content(failure)
+                    .position($scope.getToastPosition())
+                    .hideDelay(3000).theme("failure-toast")
+            );
+        });
+    }])
+    /**
      * pages controller
      */
     .controller('RestWordpressPageCtrl',
@@ -166,7 +214,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
             $scope.working.page = data;
             $mdToast.show(
                 $mdToast.simple()
-                    .content(data.title.rendered)
+                    .content(data.title)
                     .position($scope.getToastPosition())
                     .hideDelay(3000)
             );
