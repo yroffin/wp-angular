@@ -18,7 +18,9 @@
 
 /* Services */
 
-var wordpressRestApiUrl = '../wp-json/wp/v2';
+/**
+ * wordpressRestApiUrl must contain a valid url rest api
+ */
 var myAppServices = angular.module('RestWordpressApp.services', [ 'ngResource' ]);
 
 /**
