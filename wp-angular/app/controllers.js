@@ -118,7 +118,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
         /**
          * init pages
          */
-        pageServices.posts({}, function(data) {
+        pageServices.pages({}, function(data) {
             $scope.working.pages = data;
             $mdToast.show(
                 $mdToast.simple()
@@ -135,15 +135,18 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
             );
         });
 
+        /**
+         * select a single ne page and route browser on it
+         */
         $scope.select = function(page) {
-            pageServices.post({id:page.id}, function(data) {
+            pageServices.page({id:page.ID}, function(data) {
                 $mdToast.show(
                     $mdToast.simple()
                         .content(page.title.rendered)
                         .position($scope.getToastPosition())
                         .hideDelay(3000)
                 );
-                $scope.location("/pages/" + page.id);
+                $scope.location("/pages/" + page.ID);
             }, function(failure) {
                 $mdToast.show(
                     $mdToast.simple()
@@ -159,7 +162,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
      */
     .controller('RestWordpressPageCtrl',
     ['$scope', '$mdSidenav', '$routeParams', '$mdToast', '$location', 'RestWordpressPages', function($scope, $mdSidenav, $routeParams, $mdToast, $location, pageServices){
-        pageServices.post({id:$routeParams.id}, function(data) {
+        pageServices.page({id:$routeParams.id}, function(data) {
             $scope.working.page = data;
             $mdToast.show(
                 $mdToast.simple()

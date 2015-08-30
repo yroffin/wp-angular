@@ -44,7 +44,7 @@ myAppServices.factory('RestWordpressPosts', [ '$resource', function($resource, $
 			post: {
 				method: 'GET',
 				url: wordpressRestApiUrl + '/posts/:id',
-				isArray: false,
+				isArray: true,
 				cache: false
 			}
 		}
@@ -58,7 +58,7 @@ myAppServices.factory('RestWordpressPages', [ '$resource', function($resource, $
 			/**
 			 * get all crontab (raw configuration resource)
 			 */
-			posts: {
+			pages: {
 				method: 'GET',
 				url: wordpressRestApiUrl + '/pages',
 				params: {},
@@ -68,7 +68,7 @@ myAppServices.factory('RestWordpressPages', [ '$resource', function($resource, $
 			/**
 			 * get label detail (raw configuration resource)
 			 */
-			post: {
+			page: {
 				method: 'GET',
 				url: wordpressRestApiUrl + '/pages/:id',
 				isArray: false,
