@@ -8,15 +8,11 @@
           md-colspan="1"
           md-rowspan="1" md-colspan-sm="1">
             <md-card>
-                <style>
-                    .md-card-{{tile.ID}}  {
-                        background:url("{{tile.featured_image.guid}}") no-repeat;
-                        background-size: 100%;
-                    }
-                </style>
+                <br>
+                <br>
+                <img src="{{tile.featured_image.guid}}" ng-click="working.post = undefined; location('/posts/'+tile.ID)" class="md-card-image" layout="row" alt="image caption">
                 <md-card-content>
-                    <h3  class="md-card-{{tile.ID}}" style="height: 200px; width: 256px;" ng-click="working.post = undefined; location('/posts/'+tile.ID)"></h3>
-                    <h3 style="height: 64px; width: 256px;" class="md-title">{{tile.title}}</h3>
+                    {{tile.title}}
                 </md-card-content>
               </md-card>
       </md-grid-tile>

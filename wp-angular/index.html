@@ -33,13 +33,10 @@ limitations under the License.
 
     <!-- use the font -->
     <style>
-        body, html {
+        html {
           font-family: 'Roboto', sans-serif;
           font-size: 14px;
-          height: 2048px;
-        }
-        .view-animate-container {
-          height: 2048px;
+          height: auto;
         }
         p {
             text-align:justify;
@@ -47,25 +44,26 @@ limitations under the License.
         .cadre {
             opacity: 0.95;
             filter: alpha(opacity=95);
-            margin: 50px 15px 0px 15px;
+            margin: 15px 15px 0px 15px;
+        }
+        .header {
+            opacity: 1;
+            filter: alpha(opacity=100);
+            margin: 0px 0px 0px 0px;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            visibility: visible;
+            left: 0px;
+            top: 0px;
+            z-index: 20;
+            opacity: 1;
         }
     </style>
 </head>
 <body style="background-attachment:fixed;" layout="column" ng-controller="RestWordpressCtrl as ctrl" ng-init="ctrl.load()" back-img="http://ille-et-zick.fr/prod/wp-content/uploads/2015/03/ille-et-zik-24-_comp.jpg">
 
-    <div class="cadre">
-<md-toolbar layout="row">
-    <span class="md-toolbar-tools">
-        <md-button ng-click="toggleSideNav()" class="md-icon-button">
-            <ng-md-icon icon="description" style="fill:white" size="48"></ng-md-icon>
-        </md-button>
-        <h1>Ille & Zick</h1>
-    </span>
-</md-toolbar>
-
-<div layout="row" flex>
-    <md-sidenav class="md-sidenav-left" md-component-id="left">
-
+<md-sidenav class="md-sidenav-left" md-component-id="left">
     <md-content>
         <md-list>
             <div ng-repeat="item in menubar">
@@ -80,18 +78,21 @@ limitations under the License.
             </div>
         </md-list>
     </md-content>
+</md-sidenav>
 
-    </md-sidenav>
+<div layout="row" class="cadre" flex>
     <div layout="column" flex id="content">
-        <md-content layout="column" flex class="md-padding">
-            <div class="view-animate-container">
+        <md-card>
+            <md-button ng-click="toggleSideNav()">
+                Ille & Zick
+            </md-button>
+             <img src="http://ille-et-zick.fr/prod/wp-content/uploads/2015/06/festival1.jpg" class="md-card-image" layout="row" alt="image caption">
+             <md-card-content>
                 <div class="view-animate" flex><ng-view></ng-view></div>
-            </div>
-        </md-content>
+             </md-card-content>
+        </md-card>
     </div>
 </div>
-
-        </div>
 
     <!-- AngularJS -->
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>

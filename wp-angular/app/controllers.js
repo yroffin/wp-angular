@@ -43,7 +43,8 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
                     templateUrl: 'partials/galeries.html'
                 }).
                 otherwise({
-                    redirectTo: 'partials/posts.html'
+                    controller: 'RestWordpressPageCtrl',
+                    templateUrl: 'partials/pages-detail.html'
                 });
         }])
     .config(function($mdThemingProvider) {
@@ -219,7 +220,11 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
      */
     .controller('RestWordpressPageCtrl',
     ['$scope', '$mdSidenav', '$routeParams', '$mdToast', '$location', 'RestWordpressPages', function($scope, $mdSidenav, $routeParams, $mdToast, $location, pageServices){
-        pageServices.page({id:$routeParams.id}, function(data) {
+        var id = 444;
+        if($routeParams.id != undefined) {
+            id = $routeParams.id;
+        }
+        pageServices.page({id:id}, function(data) {
             $scope.working.page = data;
             $mdToast.show(
                 $mdToast.simple()
