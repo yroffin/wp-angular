@@ -68,9 +68,9 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
          * initialize configuration
          */
         $scope.toastPosition = {
-            bottom: true,
-            top: false,
-            left: false,
+            bottom: false,
+            top: true,
+            left: true,
             right: false
         }
 

@@ -20,36 +20,46 @@ limitations under the License.
     <title>Wordpress Application</title>
 
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, height=device-height, minimum-scale=1.0, initial-scale=1, user-scalable=no">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <!-- AngularJS Material Design -->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.css">
+    <link rel="stylesheet" href="css/specific.css">
 
     <!-- Roboto fonts -->
     <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 
     <!-- use the font -->
     <style>
-        body {
+        body, html {
           font-family: 'Roboto', sans-serif;
           font-size: 14px;
+          height: 2048px;
+        }
+        .view-animate-container {
+          height: 2048px;
         }
         p {
-            align: "justify";
+            text-align:justify;
+        }
+        .cadre {
+            opacity: 0.95;
+            filter: alpha(opacity=95);
+            margin: 50px 15px 0px 15px;
         }
     </style>
-
-    <!-- AngularJS Material Design -->
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.css">
-    <link rel="stylesheet" href="css/specific.css">
 </head>
-<body layout="column" ng-controller="RestWordpressCtrl as ctrl" ng-init="ctrl.load()" >
+<body style="background-attachment:fixed;" layout="column" ng-controller="RestWordpressCtrl as ctrl" ng-init="ctrl.load()" back-img="http://ille-et-zick.fr/prod/wp-content/uploads/2015/03/ille-et-zik-24-_comp.jpg">
 
+    <div class="cadre">
 <md-toolbar layout="row">
     <span class="md-toolbar-tools">
         <md-button ng-click="toggleSideNav()" class="md-icon-button">
             <ng-md-icon icon="description" style="fill:white" size="48"></ng-md-icon>
         </md-button>
-        <h1>Application</h1>
+        <h1>Ille & Zick</h1>
     </span>
 </md-toolbar>
 
@@ -81,6 +91,8 @@ limitations under the License.
     </div>
 </div>
 
+        </div>
+
     <!-- AngularJS -->
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-route.min.js"></script>
@@ -90,7 +102,7 @@ limitations under the License.
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-aria.min.js"></script>
 
 <!-- AngularJS Material Design -->
-<script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.1/angular-material.min.js"></script>
 <!-- Cf.  https://klarsys.github.io/angular-material-icons -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.5.0/angular-material-icons.min.js"></script>
 
