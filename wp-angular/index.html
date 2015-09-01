@@ -61,17 +61,17 @@ limitations under the License.
         }
     </style>
 </head>
-<body style="background-attachment:fixed;" layout="column" ng-controller="RestWordpressCtrl as ctrl" ng-init="ctrl.load()" back-img="http://ille-et-zick.fr/prod/wp-content/uploads/2015/03/ille-et-zik-24-_comp.jpg">
+<body style="background-attachment:fixed;" layout="column" ng-controller="RestWordpressCtrl" menu="13" back-img="http://ille-et-zick.fr/prod/wp-content/uploads/2015/03/ille-et-zik-24-_comp.jpg">
 
-<md-sidenav class="md-sidenav-left" md-component-id="left">
-    <md-content>
+<md-sidenav class="md-sidenav-left" md-component-id="left" >
+    <md-content ng-if="wdMenuId" ng-controller="RestWordpressLoadMenuCtrl">
         <md-list>
-            <div ng-repeat="item in menubar">
+            <div ng-repeat="item in working.menu">
                 <md-list-item class="md-3-line">
-                    <ng-md-icon icon="{{item.icon}}" style="fill:grey" size="32"></ng-md-icon>
+                    <ng-md-icon icon="{{item.attr.icon}}" options='{"rotation": "clock"}' style="fill:grey" size="32"></ng-md-icon>
                     <div class="md-list-item-text">
-                    <h3>{{item.name}}</h3>
-                    <p ng-repeat="subitem in item.items" ng-click="location(subitem.location)">{{subitem.name}}</p>
+                    <h3 ng-click="location(item.action.location)">{{item.name}}</h3>
+                    <p ng-repeat="subitem in item.items" ng-click="location(subitem.action.location)">{{subitem.name}}</p>
                     </div>
                     </md-list-item>
                 <md-divider></md-divider>
@@ -106,6 +106,7 @@ limitations under the License.
 <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.1/angular-material.min.js"></script>
 <!-- Cf.  https://klarsys.github.io/angular-material-icons -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.5.0/angular-material-icons.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/SVG-Morpheus/0.1.8/svg-morpheus.js"></script>
 
 <!-- Application -->
 <script src="config.js"></script>

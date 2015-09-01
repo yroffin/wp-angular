@@ -38,7 +38,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
                     controller: 'RestWordpressPageCtrl',
                     templateUrl: 'partials/pages-detail.html'
                 }).
-                when('/galeries/:id', {
+                when('/category/:id', {
                     controller: 'RestWordpressGaleriesCtrl',
                     templateUrl: 'partials/galeries.html'
                 }).
@@ -64,7 +64,8 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
      * main controller
      */
     .controller('RestWordpressCtrl',
-    ['$scope', '$mdSidenav', '$location', '$mdBottomSheet', function($scope, $mdSidenav, $location, $mdBottomSheet){
+    ['$scope', '$mdSidenav', '$location', '$mdBottomSheet',
+     function($scope, $mdSidenav, $location, $mdBottomSheet){
         /**
          * initialize configuration
          */
@@ -75,11 +76,11 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
             right: false
         }
 
-        $scope.menubar = __menubar;
-
-        $scope.working = {};
         $scope.menuId = "left";
 
+        /**
+         * find toast position
+         */
         $scope.getToastPosition = function() {
             return Object.keys($scope.toastPosition)
                 .filter(function(pos) { return $scope.toastPosition[pos]; })
@@ -99,8 +100,25 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
          */
         $scope.location = function(target) {
             $mdSidenav($scope.menuId).close();
-            $location.path(target);
+            if(target != undefined) {
+                $location.path(target);
+            }
         }
+    }])
+    /**
+     * posts controller
+     */
+    .controller('RestWordpressLoadMenuCtrl',
+    ['$scope', 'RestWordpressMenus', 'RestWordpressMenusTransform', function($scope, menuServices, services){
+        /**
+         * get configured menu
+         */
+        $scope.working.menu = {};
+        menuServices.menu({id:$scope.wdMenuId}, function(data) {
+            $scope.working.menu = services.transform(data);
+        }, function(failure) {
+            console.error("menu", failure);
+        });
     }])
     /**
      * posts controller

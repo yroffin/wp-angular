@@ -9,3 +9,10 @@ app.directive('backImg', function(){
         });
     };
 });
+
+app.directive('menu', function(){
+    return function(scope, element, attrs){
+        scope.working = {};
+        scope.wdMenuId = attrs.menu;
+    };
+});

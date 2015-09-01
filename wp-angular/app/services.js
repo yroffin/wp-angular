@@ -20,6 +20,8 @@
 
 /**
  * wordpressRestApiUrl must contain a valid url rest api
+ * - for main wp-json api
+ * - and for menu extent
  */
 var myAppServices = angular.module('RestWordpressApp.services', [ 'ngResource' ]);
 
@@ -29,7 +31,7 @@ var myAppServices = angular.module('RestWordpressApp.services', [ 'ngResource' ]
 myAppServices.factory('RestWordpressPosts', [ '$resource', function($resource, $windows) {
 	return $resource('', {}, {
 			/**
-			 * get all crontab (raw configuration resource)
+			 * get posts collection
 			 */
 			posts: {
 				method: 'GET',
@@ -39,7 +41,7 @@ myAppServices.factory('RestWordpressPosts', [ '$resource', function($resource, $
 				cache: false
 			},
 			/**
-			 * get label detail (raw configuration resource)
+			 * get single post
 			 */
 			post: {
 				method: 'GET',
@@ -48,7 +50,7 @@ myAppServices.factory('RestWordpressPosts', [ '$resource', function($resource, $
 				cache: false
 			},
 			/**
-			 * get post by category
+			 * get posts by category (collection)
 			 */
 			byCategory: {
 				method: 'GET',
@@ -65,7 +67,7 @@ myAppServices.factory('RestWordpressPosts', [ '$resource', function($resource, $
 myAppServices.factory('RestWordpressPages', [ '$resource', function($resource, $windows) {
 	return $resource('', {}, {
 			/**
-			 * get all crontab (raw configuration resource)
+			 * get pages collection
 			 */
 			pages: {
 				method: 'GET',
@@ -75,7 +77,7 @@ myAppServices.factory('RestWordpressPages', [ '$resource', function($resource, $
 				cache: false
 			},
 			/**
-			 * get label detail (raw configuration resource)
+			 * get single page
 			 */
 			page: {
 				method: 'GET',
@@ -85,3 +87,139 @@ myAppServices.factory('RestWordpressPages', [ '$resource', function($resource, $
 			}
 		}
 	)}]);
+
+/**
+ * menu services
+ */
+myAppServices.factory('RestWordpressMenus', [ '$resource', function($resource, $windows) {
+	return $resource('', {}, {
+			/**
+			 * get menus collection
+			 */
+			menus: {
+				method: 'GET',
+				url: wordpressRestApiUrl + '/menus',
+				params: {},
+				isArray: true,
+				cache: false
+			},
+			/**
+			 * get single menu
+			 */
+			menu: {
+				method: 'GET',
+				url: wordpressRestApiUrl + '/menus/:id',
+				isArray: false,
+				cache: false
+			}
+		}
+	)}]);
+
+/**
+ * menu transformation
+ */
+myAppServices.factory('RestWordpressMenusTransform', function() {
+  var transformedMenu = {
+      transform: function(rawMenu) {
+
+         /**
+          * extract category from url
+          */
+         function extract(url) {
+             var index = url.lastIndexOf("category");
+             var cat = '';
+             for(index+=9;index < url.length && url[index] != '/';index++) {
+                 cat += url[index];
+             }
+             return cat;
+         }
+
+         /**
+          * menu transformation
+          */
+         function action(raw) {
+              if(raw.object === 'page') {
+                  return {
+                      raw: raw,
+                      location: '/pages/' + raw.object_id
+                  }
+              }
+              if(raw.object === 'post') {
+                  return {
+                      raw: raw,
+                      location: '/posts/' + raw.object_id
+                  }
+              }
+              if(raw.object === 'category') {
+                  return {
+                      raw: raw,
+                      location: '/category/' + extract(raw.url)
+                  }
+              }
+              /**
+               * ignore custom entry
+               */
+              if(raw.object === 'custom') {
+                  return {
+                      raw: raw
+                  }
+              }
+             throw {message: "No transformation", context: raw};
+          }
+
+          function parse(attr) {//"{&lsquo;icon&rsquo;:&rsquo;mail&rsquo;}"
+              if(attr === "") return {};
+              var transformedString = attr.
+                replace(/&lsquo;/g,"!").
+                replace(/&rsquo;/g,"!").
+                replace(/!/g, "\"") + "";
+              try {
+                  return JSON.parse(transformedString);
+              } catch(e) {
+                  throw {exception:e, raw: attr, transform: transformedString};
+              }
+          }
+
+          var menu = [];
+          var menuMap = {};
+          /**
+           * compute root level
+           */
+          for(var index=0;index < rawMenu.count;index++) {
+              var item = rawMenu.items[index];
+              if(item.parent === 0) {
+                  /**
+                   * store it in map
+                   */
+                  menuMap[item.ID] = {
+                    id:item.ID,
+                    name:item.title,
+                    action: action(item),
+                    attr: parse(item.attr),
+                    items:[]
+                  };
+                  /**
+                   * and maintain collection view
+                   */
+                  menu.push(menuMap[item.ID]);
+              }
+          }
+          /**
+           * compute first level
+           */
+          for(var index=0;index < rawMenu.count;index++) {
+              var item = rawMenu.items[index];
+              if(item.parent != 0) {
+                  menuMap[item.parent].items.push({
+                    id:item.ID,
+                    name:item.title,
+                    attr: parse(item.attr),
+                    action: action(item)
+                  });
+              }
+          }
+          return menu;
+      }
+  };
+  return transformedMenu;
+});
