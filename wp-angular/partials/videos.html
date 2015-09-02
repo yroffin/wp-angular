@@ -1,0 +1,13 @@
+<div flex>
+    <md-grid-list
+        md-cols-sm="1" md-cols="3" md-cols-gt-md="4"
+        md-row-height-gt-md="2:2" md-row-height="2:2"
+        md-gutter="32px" md-gutter-gt-sm="8px" >
+      <md-grid-tile
+          ng-repeat="video in working.videos"
+          md-colspan="1"
+          md-rowspan="1">
+                    <iframe ng-controller="RestWordpressVideosTrustedCtrl" height="100%" width="100%" frameborder="0" allowfullscreen="1" title="{{video.title}}" ng-src="{{videoUrl}}"></iframe>
+      </md-grid-tile>
+    </md-grid-list>
+</div>

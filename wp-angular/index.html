@@ -17,7 +17,7 @@ limitations under the License.
 
 <html lang="fr" ng-app="RestWordpressApp">
 <head>
-    <title>Wordpress Application</title>
+    <title>Ille & Zick</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, height=device-height, minimum-scale=1.0, initial-scale=1, user-scalable=no">
@@ -44,7 +44,7 @@ limitations under the License.
         .cadre {
             opacity: 0.95;
             filter: alpha(opacity=95);
-            margin: 15px 15px 0px 15px;
+            margin: 8% 8% 0px 8%;
         }
         .header {
             opacity: 1;
@@ -59,6 +59,26 @@ limitations under the License.
             z-index: 20;
             opacity: 1;
         }
+        .md-button {
+            text-align: left;
+        }
+        .md-link {
+            cursor: pointer;
+        }
+        img {
+            max-width: 100%;
+            height:auto;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+        blockquote {
+            display: block;
+            -webkit-margin-before: 1em;
+            -webkit-margin-after: 1em;
+            -webkit-margin-start: 0px;
+            -webkit-margin-end: 0px;
+        }
     </style>
 </head>
 <body style="background-attachment:fixed;" layout="column" ng-controller="RestWordpressCtrl" menu="13" back-img="http://ille-et-zick.fr/prod/wp-content/uploads/2015/03/ille-et-zik-24-_comp.jpg">
@@ -70,8 +90,8 @@ limitations under the License.
                 <md-list-item class="md-3-line">
                     <ng-md-icon icon="{{item.attr.icon}}" options='{"rotation": "clock"}' style="fill:grey" size="32"></ng-md-icon>
                     <div class="md-list-item-text">
-                    <h3 ng-click="location(item.action.location)">{{item.name}}</h3>
-                    <p ng-repeat="subitem in item.items" ng-click="location(subitem.action.location)">{{subitem.name}}</p>
+                    <h3 class="md-link" ng-click="location(item.action.location)">{{item.name}}</h3>
+                    <p class="md-link" ng-repeat="subitem in item.items" ng-click="location(subitem.action.location)">{{subitem.name}}</p>
                     </div>
                     </md-list-item>
                 <md-divider></md-divider>
@@ -84,7 +104,7 @@ limitations under the License.
     <div layout="column" flex id="content">
         <md-card>
             <md-button ng-click="toggleSideNav()">
-                Ille & Zick
+                <div layout="row"><ng-md-icon aria-label="Menu" icon="menu" options='{"rotation": "clock"}' style="fill:black" size="64"></ng-md-icon><h2>Ille & Zick</h2></div>
             </md-button>
              <img src="http://ille-et-zick.fr/prod/wp-content/uploads/2015/06/festival1.jpg" class="md-card-image" layout="row" alt="image caption">
              <md-card-content>
@@ -94,7 +114,7 @@ limitations under the License.
     </div>
 </div>
 
-    <!-- AngularJS -->
+<!-- AngularJS -->
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-route.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-resource.min.js"></script>

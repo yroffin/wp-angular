@@ -42,6 +42,10 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
                     controller: 'RestWordpressGaleriesCtrl',
                     templateUrl: 'partials/galeries.html'
                 }).
+                when('/youtube/:id', {
+                    controller: 'RestWordpressVideosCtrl',
+                    templateUrl: 'partials/videos.html'
+                }).
                 otherwise({
                     controller: 'RestWordpressPageCtrl',
                     templateUrl: 'partials/pages-detail.html'
@@ -116,6 +120,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
         $scope.working.menu = {};
         menuServices.menu({id:$scope.wdMenuId}, function(data) {
             $scope.working.menu = services.transform(data);
+            console.info("menu", $scope.working.menu);
         }, function(failure) {
             console.error("menu", failure);
         });
@@ -142,7 +147,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
             );
         });
 
-                /**
+        /**
          * select a single ne page and route browser on it
          */
         $scope.select = function(post) {
@@ -215,8 +220,14 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
      * posts controller
      */
     .controller('RestWordpressPostCtrl',
-    ['$scope', '$mdSidenav', '$routeParams', '$mdToast', '$location', 'RestWordpressPosts', function($scope, $mdSidenav, $routeParams, $mdToast, $location, postServices){
+    ['$scope', '$mdSidenav', '$routeParams', '$mdToast', '$location', 'RestWordpressPosts',
+        function($scope, $mdSidenav, $routeParams, $mdToast, $location, postServices){
         postServices.post({id:$routeParams.id}, function(data) {
+            /**
+             * replace HTML entities
+             * TODO: replace it with a central service
+             */
+            if(data) data.title = data.title.replace('<br>',' ');
             $scope.working.post = data;
             $mdToast.show(
                 $mdToast.simple()
@@ -237,7 +248,8 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
      * pages controller
      */
     .controller('RestWordpressPageCtrl',
-    ['$scope', '$mdSidenav', '$routeParams', '$mdToast', '$location', 'RestWordpressPages', function($scope, $mdSidenav, $routeParams, $mdToast, $location, pageServices){
+    ['$scope', '$mdSidenav', '$routeParams', '$mdToast', '$location', 'RestWordpressPages',
+        function($scope, $mdSidenav, $routeParams, $mdToast, $location, pageServices){
         var id = 444;
         if($routeParams.id != undefined) {
             id = $routeParams.id;
@@ -265,6 +277,14 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
     .controller('RestWordpressGaleriesCtrl',
     ['$scope', '$mdSidenav', '$routeParams', '$mdToast', '$location', 'RestWordpressPosts', function($scope, $mdSidenav, $routeParams, $mdToast, $location, postServices){
         postServices.byCategory({id:$routeParams.id}, function(data) {
+            /**
+             * replace HTML entities
+             * TODO: replace it with a central service
+             */
+            for(var tile=0;tile<data.length;tile++) {
+                if(data) data[tile].title = data[tile].title.replace('<br>',' ');
+                if(data) data[tile].title = data[tile].title.replace('&#8211;',' ');
+            }
             $scope.working.tiles = data;
             $mdToast.show(
                 $mdToast.simple()
@@ -280,5 +300,38 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
                     .hideDelay(3000).theme("failure-toast")
             );
         });
+    }])
+    /**
+     * videos controller
+     */
+    .controller('RestWordpressVideosCtrl',
+    ['$scope', '$mdSidenav', '$routeParams', '$mdToast', 'RestWordpressPages', '$sce',
+        function($scope, $mdSidenav, $routeParams, $mdToast, pageServices, $sce){
+        pageServices.page({id:$routeParams.id}, function(data) {
+            function plainText(text) {
+              return  text ? String(text).replace(/<[^>]+>/gm, '') : '';
+            };
+            var text = plainText(data.content);
+            console.info(text);
+            $scope.working.videos = JSON.parse(text);
+            console.info($scope.working.videos);
+            $mdToast.show(
+                $mdToast.simple()
+                    .content(data.title)
+                    .position($scope.getToastPosition())
+                    .hideDelay(3000)
+            );
+        }, function(failure) {
+            $mdToast.show(
+                $mdToast.simple()
+                    .content(failure)
+                    .position($scope.getToastPosition())
+                    .hideDelay(3000).theme("failure-toast")
+            );
+        });
+    }])
+    .controller('RestWordpressVideosTrustedCtrl',
+    ['$scope', '$sce', function($scope, $sce){
+        $scope.videoUrl = $sce.trustAsResourceUrl("https://www.youtube.com/embed/"+$scope.video.id);
     }])
 ;

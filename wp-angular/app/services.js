@@ -137,7 +137,13 @@ myAppServices.factory('RestWordpressMenusTransform', function() {
          /**
           * menu transformation
           */
-         function action(raw) {
+         function action(raw, attr) {
+              if(raw.object === 'page' && attr != undefined && attr.type === 'youtube') {
+                  return {
+                      raw: raw,
+                      location: '/youtube/' + raw.object_id
+                  }
+              }
               if(raw.object === 'page') {
                   return {
                       raw: raw,
@@ -194,7 +200,7 @@ myAppServices.factory('RestWordpressMenusTransform', function() {
                   menuMap[item.ID] = {
                     id:item.ID,
                     name:item.title,
-                    action: action(item),
+                    action: action(item, parse(item.attr)),
                     attr: parse(item.attr),
                     items:[]
                   };
@@ -214,7 +220,7 @@ myAppServices.factory('RestWordpressMenusTransform', function() {
                     id:item.ID,
                     name:item.title,
                     attr: parse(item.attr),
-                    action: action(item)
+                    action: action(item, parse(item.attr))
                   });
               }
           }
