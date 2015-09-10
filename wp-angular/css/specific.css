@@ -16,3 +16,7 @@ md-toast.md-failure-toast-theme {
     max-width: 100%;
     width: inherit;
 }
+
+.md-button.md-fab {
+    line-height: 0px;
+}

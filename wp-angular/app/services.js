@@ -229,3 +229,64 @@ myAppServices.factory('RestWordpressMenusTransform', function() {
   };
   return transformedMenu;
 });
+
+/**
+ * facebook service
+ */
+myAppServices.factory('facebookService', function($q,$window,$rootScope) {
+  return {
+        submit: function(appId, callback, args) {
+            /**
+             * check authentification
+             */
+            if(!$rootScope.facebook) {
+                $rootScope.facebook = {};
+                /**
+                 * init facebook api
+                 */
+                $window.fbAsyncInit = function() {
+                    FB.init({
+                      appId: appId,
+                      status: true,
+                      cookie: true,
+                      xfbml: true,
+                      version: 'v2.4'
+                    });
+                };
+                fbAsyncInit();
+                /**
+                 * autologin
+                 */
+                FB.login(function(response) {
+                   if (response.authResponse) {
+                     FB.api('/me', function(response) {
+                         $rootScope.facebook.me = response;
+                         /**
+                          * callback
+                          */
+                         callback(args);
+                     });
+                   } else {
+                         console.error('User cancelled login or did not fully authorize.');
+                   }
+                 });
+            } else {
+                 /**
+                  * callback
+                  */
+                callback(args);
+            }
+        },
+        api: function(ctx) {
+            var deferred = $q.defer();
+            FB.api('/'+ctx.id+'/'+ctx.api, function(response) {
+                if (!response || response.error) {
+                    deferred.reject(response);
+                } else {
+                    deferred.resolve(response);
+                }
+            });
+            return deferred.promise;
+        }
+    }
+});

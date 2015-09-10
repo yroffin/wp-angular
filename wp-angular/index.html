@@ -103,9 +103,14 @@ limitations under the License.
 <div layout="row" class="cadre" flex>
     <div layout="column" flex id="content">
         <md-card>
-            <md-button ng-click="toggleSideNav()">
-                <div layout="row"><ng-md-icon aria-label="Menu" icon="menu" options='{"rotation": "clock"}' style="fill:black" size="64"></ng-md-icon><h2>Ille & Zick</h2></div>
-            </md-button>
+            <md-toolbar layout="row">
+                <md-button class="md-fab md-raised" aria-label="Menu" ng-click="toggleSideNav()">
+                    <ng-md-icon icon="menu"></ng-md-icon><md-tooltip>Menu</md-tooltip>
+                </md-button>
+                <md-button class="md-fab md-raised" aria-label="Menu" ng-click="location('/facebook/illeetzick/feed')">
+                    <ng-md-icon icon="facebook"></ng-md-icon><md-tooltip>Facebook</md-tooltip>
+                </md-button>
+            </md-toolbar>
              <img src="http://ille-et-zick.fr/prod/wp-content/uploads/2015/06/festival1.jpg" class="md-card-image" layout="row" alt="image caption">
              <md-card-content>
                 <div class="view-animate" flex><ng-view></ng-view></div>
@@ -127,6 +132,9 @@ limitations under the License.
 <!-- Cf.  https://klarsys.github.io/angular-material-icons -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.5.0/angular-material-icons.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/SVG-Morpheus/0.1.8/svg-morpheus.js"></script>
+
+<!-- Facebook API -->
+<script src="//connect.facebook.net/en_US/all.js"></script>
 
 <!-- Application -->
 <script src="config.js"></script>

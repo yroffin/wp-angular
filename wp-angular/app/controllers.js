@@ -46,6 +46,10 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
                     controller: 'RestWordpressVideosCtrl',
                     templateUrl: 'partials/videos.html'
                 }).
+                when('/facebook/:id/:api', {
+                    controller: 'FacebookFeedCtrl',
+                    templateUrl: 'partials/facebook-feed.html'
+                }).
                 otherwise({
                     controller: 'RestWordpressPageCtrl',
                     templateUrl: 'partials/pages-detail.html'
@@ -68,8 +72,8 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
      * main controller
      */
     .controller('RestWordpressCtrl',
-    ['$scope', '$mdSidenav', '$location', '$mdBottomSheet',
-     function($scope, $mdSidenav, $location, $mdBottomSheet){
+    ['$scope', '$mdSidenav', '$location', '$mdBottomSheet', '$window', '$mdDialog',
+     function($scope, $mdSidenav, $location, $mdBottomSheet, $window, $mdDialog){
         /**
          * initialize configuration
          */
@@ -89,6 +93,13 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
             return Object.keys($scope.toastPosition)
                 .filter(function(pos) { return $scope.toastPosition[pos]; })
                 .join(' ');
+        }
+
+        /**
+         * toggle navbar
+         * @param menuId
+         */
+        $scope.facebook = function(ev) {
         }
 
         /**
@@ -120,7 +131,6 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
         $scope.working.menu = {};
         menuServices.menu({id:$scope.wdMenuId}, function(data) {
             $scope.working.menu = services.transform(data);
-            console.info("menu", $scope.working.menu);
         }, function(failure) {
             console.error("menu", failure);
         });
@@ -288,7 +298,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
             $scope.working.tiles = data;
             $mdToast.show(
                 $mdToast.simple()
-                    .content(data.length + " Pin(s)")
+                    .content(data.length + " Article(s)")
                     .position($scope.getToastPosition())
                     .hideDelay(3000)
             );
@@ -312,9 +322,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
               return  text ? String(text).replace(/<[^>]+>/gm, '') : '';
             };
             var text = plainText(data.content);
-            console.info(text);
             $scope.working.videos = JSON.parse(text);
-            console.info($scope.working.videos);
             $mdToast.show(
                 $mdToast.simple()
                     .content(data.title)
@@ -333,5 +341,45 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
     .controller('RestWordpressVideosTrustedCtrl',
     ['$scope', '$sce', function($scope, $sce){
         $scope.videoUrl = $sce.trustAsResourceUrl("https://www.youtube.com/embed/"+$scope.video.id);
+    }])
+    .controller('FacebookFeedCtrl',
+    ['$scope', '$routeParams', 'facebookService', function($scope, $routeParams, facebookService){
+        facebookService.submit(
+            wordpressFacebookAppId,
+            function(args) {
+            facebookService.api(args)
+                .then(function(response) {
+                    $scope.facebook.feeds = response;
+                },
+                function(failure) {
+                    console.error(failure);
+                }
+                )
+            },
+            {
+                id:$routeParams.id,
+                api:$routeParams.api
+            }
+        );
+    }])
+    .controller('FacebookPictureCtrl',
+    ['$scope', '$routeParams', 'facebookService', function($scope, $routeParams, facebookService){
+        facebookService.submit(
+            wordpressFacebookAppId,
+            function(args) {
+            facebookService.api(args)
+                .then(function(response) {
+                    $scope.post.picture = response;
+                },
+                function(failure) {
+                    console.error(failure);
+                }
+                )
+            },
+            {
+                id:$scope.post.from.id,
+                api:'picture'
+            }
+        );
     }])
 ;

@@ -1,0 +1,16 @@
+<md-content flex>
+    <md-list>
+      <md-list-item ng-controller="FacebookPictureCtrl" class="md-3-line" ng-repeat="post in facebook.feeds.data">
+        <img ng-src="{{post.picture.data.url}}" alt="{{post.from.name}}" class="md-avatar">
+        <div class="md-list-item-text">
+          <h2>{{post.from.name}}</h2>
+          <pre>{{post.created_time}}</pre>
+          <md-content>
+            {{post.message}}
+          </md-content>
+          <a ng-if="post.link" href="{{post.link}}"><ng-md-icon icon="link"></ng-md-icon></a>
+        </div>
+        <md-divider inset></md-divider>
+      </md-list-item>
+    </md-list>
+</md-content>
