@@ -17,8 +17,15 @@ limitations under the License.
 
 <html lang="fr" ng-app="RestWordpressApp">
 <head>
-    <title>Ille & Zick</title>
+<?php
+    /**
+     * declare all vars for html
+     */
+    $basedir = get_template_directory_uri()."/";
+    $partials = "'wp-content/themes/".get_template()."/'";
+?>
 
+    <title><?php echo bloginfo('name'); ?></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, height=device-height, minimum-scale=1.0, initial-scale=1, user-scalable=no">
     <meta name="mobile-web-app-capable" content="yes">
@@ -26,7 +33,7 @@ limitations under the License.
 
     <!-- AngularJS Material Design -->
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.css">
-    <link rel="stylesheet" href="css/specific.css">
+    <link rel="stylesheet" href="<?php echo $basedir; ?>css/specific.css">
 
     <!-- Roboto fonts -->
     <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
@@ -80,11 +87,15 @@ limitations under the License.
             -webkit-margin-end: 0px;
         }
     </style>
+    <script>
+        var wordpressPartialsUrl = <?php echo $partials; ?>;
+        var wordpressRestApiUrl = 'index.php?json_route=';
+    </script>
 </head>
-<body ng-cloak style="background-attachment:fixed;" layout="column" ng-controller="RestWordpressCtrl" menu="13" back-img="http://ille-et-zick.fr/prod/wp-content/uploads/2015/03/ille-et-zik-24-_comp.jpg">
+<body ng-cloak style="background-attachment:fixed;" layout="column" ng-controller="RestWordpressCtrl" back-img="http://ille-et-zick.fr/prod/wp-content/uploads/2015/03/ille-et-zik-24-_comp.jpg">
 
 <md-sidenav class="md-sidenav-left" md-component-id="left" >
-    <md-content ng-if="wdMenuId" ng-controller="RestWordpressLoadMenuCtrl">
+    <md-content ng-controller="RestWordpressLoadMenuCtrl">
         <md-list>
             <div ng-repeat="item in working.menu">
                 <md-list-item class="md-3-line">
@@ -137,12 +148,12 @@ limitations under the License.
 <script src="//connect.facebook.net/en_US/all.js"></script>
 
 <!-- Application -->
-<script src="config.js"></script>
-<script src="app/app.js"></script>
-<script src="app/services.js"></script>
-<script src="app/controllers.js"></script>
-<script src="app/filters.js"></script>
-<script src="app/directives.js"></script>
+<script src="<?php echo $basedir; ?>config.js"></script>
+<script src="<?php echo $basedir; ?>app/app.js"></script>
+<script src="<?php echo $basedir; ?>app/services.js"></script>
+<script src="<?php echo $basedir; ?>app/controllers.js"></script>
+<script src="<?php echo $basedir; ?>app/filters.js"></script>
+<script src="<?php echo $basedir; ?>app/directives.js"></script>
 
 </body>
 </html>

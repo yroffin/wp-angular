@@ -24,35 +24,35 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
             $routeProvider.
                 when('/posts', {
                     controller: 'RestWordpressPostsCtrl',
-                    templateUrl: 'partials/posts.html'
+                    templateUrl: wordpressPartialsUrl+'partials/posts.html'
                 }).
                 when('/posts/:id', {
                     controller: 'RestWordpressPostCtrl',
-                    templateUrl: 'partials/posts-detail.html'
+                    templateUrl: wordpressPartialsUrl+'partials/posts-detail.html'
                 }).
                 when('/pages', {
                     controller: 'RestWordpressPagesCtrl',
-                    templateUrl: 'partials/pages.html'
+                    templateUrl: wordpressPartialsUrl+'partials/pages.html'
                 }).
                 when('/pages/:id', {
                     controller: 'RestWordpressPageCtrl',
-                    templateUrl: 'partials/pages-detail.html'
+                    templateUrl: wordpressPartialsUrl+'partials/pages-detail.html'
                 }).
                 when('/category/:id', {
                     controller: 'RestWordpressGaleriesCtrl',
-                    templateUrl: 'partials/galeries.html'
+                    templateUrl: wordpressPartialsUrl+'partials/galeries.html'
                 }).
                 when('/youtube/:id', {
                     controller: 'RestWordpressVideosCtrl',
-                    templateUrl: 'partials/videos.html'
+                    templateUrl: wordpressPartialsUrl+'partials/videos.html'
                 }).
                 when('/facebook/:id/:api', {
                     controller: 'FacebookFeedCtrl',
-                    templateUrl: 'partials/facebook-feed.html'
+                    templateUrl: wordpressPartialsUrl+'partials/facebook-feed.html'
                 }).
                 otherwise({
-                    controller: 'RestWordpressPageCtrl',
-                    templateUrl: 'partials/pages-detail.html'
+                    controller: 'RestWordpressPagesCtrl',
+                    templateUrl: wordpressPartialsUrl+'partials/pages.html'
                 });
         }])
     .config(function($mdThemingProvider) {
@@ -84,6 +84,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
             right: false
         }
 
+        if($scope.working === undefined) $scope.working = {};
         $scope.menuId = "left";
 
         /**
@@ -129,10 +130,18 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
          * get configured menu
          */
         $scope.working.menu = {};
-        menuServices.menu({id:$scope.wdMenuId}, function(data) {
-            $scope.working.menu = services.transform(data);
-        }, function(failure) {
-            console.error("menu", failure);
+        menuServices.menus({}, function(menus) {
+            /**
+             * check it one menu
+             */
+            if(menus != undefined && menus[0] != undefined) {
+                $scope.wdMenuId = menus[0].ID;
+                menuServices.menu({id:$scope.wdMenuId}, function(data) {
+                    $scope.working.menu = services.transform(data);
+                }, function(failure) {
+                    console.error("menu", failure);
+                });
+            }
         });
     }])
     /**
@@ -260,11 +269,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
     .controller('RestWordpressPageCtrl',
     ['$scope', '$mdSidenav', '$routeParams', '$mdToast', '$location', 'RestWordpressPages',
         function($scope, $mdSidenav, $routeParams, $mdToast, $location, pageServices){
-        var id = 444;
-        if($routeParams.id != undefined) {
-            id = $routeParams.id;
-        }
-        pageServices.page({id:id}, function(data) {
+        pageServices.page({id:$routeParams.id}, function(data) {
             $scope.working.page = data;
             $mdToast.show(
                 $mdToast.simple()

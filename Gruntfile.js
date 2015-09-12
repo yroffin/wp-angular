@@ -22,7 +22,8 @@ module.exports = function (grunt) {
   // Configurable paths for the application
   var appConfig = {
     app: './wp-angular',
-    dist: 'dist'
+    dist: 'dist',
+    wordpress: 'dist'
   };
 
   // Define the configuration for all the tasks
@@ -371,6 +372,30 @@ module.exports = function (grunt) {
           src: ['generated/*']
         }]
       },
+      wordpress: {
+        files: [{
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>',
+          dest: 'X:/EASYPH~1/EASYPH~1.1VC/data/localweb/wordpress/ille-et-zick/wp-content/themes/angularjs',
+          src: [
+            '*.{ico,png,txt}',
+            '.htaccess',
+            '*.js',
+            '*.php',
+            'images/{,*/}*.{webp}',
+            'app/{,*/}*.*',
+            'css/{,*/}*.*',
+            'partials/{,*/}*.*',
+            'styles/fonts/{,*/}*.*'
+          ]
+        }, {
+          expand: true,
+          cwd: '.tmp/images',
+          dest: '<%= yeoman.dist %>/images',
+          src: ['generated/*']
+        }]
+      },
       styles: {
         expand: true,
         cwd: '<%= yeoman.app %>/styles',
@@ -402,8 +427,6 @@ module.exports = function (grunt) {
       }
     }
   });
-
-  console.info('<%= yeoman.app %>');
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {
@@ -450,6 +473,10 @@ module.exports = function (grunt) {
     'filerev',
     'usemin',
     'htmlmin'
+  ]);
+
+  grunt.registerTask('wordpress', [
+    'copy:wordpress'
   ]);
 
   grunt.registerTask('default', [
