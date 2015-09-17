@@ -369,6 +369,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
     }])
     .controller('FacebookPictureCtrl',
     ['$scope', '$routeParams', 'facebookService', function($scope, $routeParams, facebookService){
+        console.error($scope.post);
         facebookService.submit(
             wordpressFacebookAppId,
             function(args) {
@@ -382,7 +383,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
                 )
             },
             {
-                id:$scope.post.from.id,
+                id:$scope.post.id,
                 api:'picture'
             }
         );
