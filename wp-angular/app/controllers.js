@@ -363,13 +363,13 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
             },
             {
                 id:$routeParams.id,
-                api:$routeParams.api
+                api:$routeParams.api,
+                filter:"?fields=message,from,link"
             }
         );
     }])
     .controller('FacebookPictureCtrl',
     ['$scope', '$routeParams', 'facebookService', function($scope, $routeParams, facebookService){
-        console.error($scope.post);
         facebookService.submit(
             wordpressFacebookAppId,
             function(args) {
@@ -383,7 +383,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
                 )
             },
             {
-                id:$scope.post.id,
+                id:$scope.post.from.id,
                 api:'picture'
             }
         );

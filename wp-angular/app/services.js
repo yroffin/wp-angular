@@ -279,7 +279,9 @@ myAppServices.factory('facebookService', function($q,$window,$rootScope) {
         },
         api: function(ctx) {
             var deferred = $q.defer();
-            FB.api('/'+ctx.id+'/'+ctx.api, function(response) {
+            var filter = '';
+            if(ctx.filter != undefined) filter = ctx.filter;
+            FB.api('/'+ctx.id+'/'+ctx.api+filter, function(response) {
                 if (!response || response.error) {
                     deferred.reject(response);
                 } else {
