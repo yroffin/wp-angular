@@ -350,6 +350,17 @@ module.exports = function (grunt) {
       }
     },
 
+    // Make theme
+    makepot: {
+        basic_theme: {
+				options: {
+					cwd: '<%= yeoman.app %>',
+					exclude: ['exclude/.*'],
+					type: 'wp-theme'
+				}
+			}
+    },
+
     // Copies remaining files to places other tasks can use
     copy: {
       dist: {
@@ -477,6 +488,11 @@ module.exports = function (grunt) {
 
   grunt.registerTask('wordpress', [
     'copy:wordpress'
+  ]);
+
+  grunt.loadNpmTasks( 'grunt-wp-i18n' );
+  grunt.registerTask('make-theme', [
+    'makepot'
   ]);
 
   grunt.registerTask('default', [

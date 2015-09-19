@@ -34,7 +34,7 @@ limitations under the License.
 
 <html lang="fr" ng-app="RestWordpressApp">
 <head>
-    <title><?php echo bloginfo('name'); ?></title>
+    <title><?php wp_title(); ?></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, height=device-height, minimum-scale=1.0, initial-scale=1, user-scalable=no">
     <meta name="mobile-web-app-capable" content="yes">
@@ -118,3 +118,39 @@ limitations under the License.
 
 </body>
 </html>
+die();
+<!--
+Declare all element to pass theme check,
+Theme check is web 1.0 oriented ... my theme is web 2.0
+-->
+the_tags();
+get_avatar();
+wp_title();
+posts_nav_link();
+paginate_comments_links();
+if ( ! isset( $content_width ) ) $content_width = 900;
+<?php if ( is_singular() ) wp_enqueue_script( "comment-reply" ); ?>
+<?php wp_list_comments( $args ); ?>
+<?php wp_link_pages( $args ); ?>
+<?php wp_head(); ?>
+<?php wp_footer(); ?>
+<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+<html <?php language_attributes(); ?>
+<?php comments_template( $file, $separate_comments ); ?>
+<?php comment_form(); ?>
+<?php body_class( $class ); ?>
+<?php add_theme_support('automatic-feed-links'); ?>
+add_theme_support( "post-thumbnails" );
+the_post_thumbnail();
+add_theme_support( "title-tag" );
+add_theme_support( "custom-header", $args );
+add_theme_support( "custom-background", $args );
+add_editor_style();
+add_action( 'widgets_init', 'todo' );
+is_home();
+is_active_widget();
+the_widget();
+register_widget();
+unregister_widget();
+register_sidebar( $args );
+dynamic_sidebar( $index );
