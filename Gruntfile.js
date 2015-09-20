@@ -23,7 +23,8 @@ module.exports = function (grunt) {
   var appConfig = {
     app: './wp-angular',
     dist: 'dist',
-    wordpress: 'dist'
+    wordpress: 'dist',
+    wordpressPlugin: 'X:/EASYPH~1/EASYPH~1.1VC/data/localweb/wordpress/ille-et-zick/wp-content/themes/angularjs'
   };
 
   // Define the configuration for all the tasks
@@ -148,6 +149,17 @@ module.exports = function (grunt) {
             '.tmp',
             '<%= yeoman.dist %>/{,*/}*',
             '!<%= yeoman.dist %>/.git{,*/}*'
+          ]
+        }]
+      },
+      wordpress: {
+        options: {
+            force: true
+        },
+        files: [{
+          dot: true,
+          src: [
+            '<%= yeoman.wordpressPlugin %>/{,*/}*'
           ]
         }]
       },
@@ -396,7 +408,7 @@ module.exports = function (grunt) {
             '*.php',
             'images/{,*/}*.{webp}',
             'app/{,*/}*.*',
-            'css/{,*/}*.*',
+            '{,*/}*.css',
             'partials/{,*/}*.*',
             'styles/fonts/{,*/}*.*'
           ]
@@ -487,6 +499,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('wordpress', [
+    'clean:wordpress',
     'copy:wordpress'
   ]);
 
