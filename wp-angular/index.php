@@ -1,3 +1,17 @@
+<?php
+    /**
+     * declare all vars for html
+     */
+    $basedir = get_template_directory_uri()."/";
+    $partials = "'wp-content/themes/".get_template()."/'";
+    /**
+     * theme customizer elements
+     */
+    $customiser_back_image = get_theme_mod('customiser_back_image','');
+    $customiser_facebook_app_id = get_theme_mod('customiser_facebook_app_id','');
+    $customiser_facebook_feed_id = get_theme_mod('customiser_facebook_feed_id','');
+    $customiser_banner_image = get_theme_mod('customiser_banner_image','');
+?>
 <!doctype html>
 <!--
 Copyright 2015 Yannick Roffin.
@@ -14,24 +28,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
-<html lang="fr">
-    <head>
-<?php
-    /**
-     * declare all vars for html
-     */
-    $basedir = get_template_directory_uri()."/";
-    $partials = "'wp-content/themes/".get_template()."/'";
-    /**
-     * theme customizer elements
-     */
-    $customiser_back_image = get_theme_mod('customiser_back_image','');
-    $customiser_facebook_app_id = get_theme_mod('customiser_facebook_app_id','');
-    $customiser_facebook_feed_id = get_theme_mod('customiser_facebook_feed_id','');
-    $customiser_banner_image = get_theme_mod('customiser_banner_image','');
-?>
-
 <html lang="fr" ng-app="RestWordpressApp">
 <head>
     <title><?php wp_title(); ?></title>
@@ -118,39 +114,45 @@ limitations under the License.
 
 </body>
 </html>
+<?php
+/**
+ * Declare all element to pass theme check,
+ * Theme check is web 1.0 oriented ... my theme is web 2.0 ;(
+ */
 die();
-<!--
-Declare all element to pass theme check,
-Theme check is web 1.0 oriented ... my theme is web 2.0
--->
-the_tags();
-get_avatar();
-wp_title();
-posts_nav_link();
-paginate_comments_links();
-if ( ! isset( $content_width ) ) $content_width = 900;
-<?php if ( is_singular() ) wp_enqueue_script( "comment-reply" ); ?>
-<?php wp_list_comments( $args ); ?>
-<?php wp_link_pages( $args ); ?>
-<?php wp_head(); ?>
-<?php wp_footer(); ?>
-<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-<html <?php language_attributes(); ?>
-<?php comments_template( $file, $separate_comments ); ?>
-<?php comment_form(); ?>
-<?php body_class( $class ); ?>
-<?php add_theme_support('automatic-feed-links'); ?>
-add_theme_support( "post-thumbnails" );
-the_post_thumbnail();
-add_theme_support( "title-tag" );
-add_theme_support( "custom-header", $args );
-add_theme_support( "custom-background", $args );
-add_editor_style();
-add_action( 'widgets_init', 'todo' );
-is_home();
-is_active_widget();
-the_widget();
-register_widget();
-unregister_widget();
-register_sidebar( $args );
-dynamic_sidebar( $index );
+function shape_setup() {
+    the_tags();
+    get_avatar();
+    wp_title();
+    posts_nav_link();
+    paginate_comments_links();
+    if ( ! isset( $content_width ) ) $content_width = 900;
+    if ( is_singular() ) wp_enqueue_script( "comment-reply" );
+    wp_list_comments( $args );
+    wp_link_pages( $args );
+    wp_head();
+    wp_footer();
+    the_ID();
+    add_theme_support('automatic-feed-links');
+    add_theme_support( "post-thumbnails" );
+    the_post_thumbnail();
+    add_theme_support( "title-tag" );
+    add_theme_support( "custom-header", $args );
+    add_theme_support( "custom-background", $args );
+    add_editor_style();
+    add_action( 'widgets_init', 'todo' );
+    is_home();
+    is_active_widget();
+    the_widget();
+    register_widget();
+    unregister_widget();
+    register_sidebar( $args );
+    dynamic_sidebar( $index );
+    ?>
+    <?php the_ID(); ?>
+    <?php post_class(); ?>
+    <?php language_attributes(); ?>
+    <?php comments_template( $file, $separate_comments ); ?>
+    <?php comment_form(); ?>
+    <?php body_class( $class );
+}

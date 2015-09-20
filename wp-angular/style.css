@@ -1,3 +1,19 @@
+/*
+Theme Name: wp-angular
+Theme URI: http://wordpress.org/themes/wp-angular
+Author: Yannick Roffin
+Author URI: http://wordpress.org/
+Description: The basic angular js theme aim to propose a theme based on angularjs + angularmd frameworks.
+Version: 1.0.3
+License: Apache License Version 2.0
+License URI: http://www.apache.org/licenses/LICENSE-2.0
+Tags: black
+Text Domain: wp-angular
+
+This theme is licensed under Apache License Version 2.0.
+Use it to make something cool, have fun, and share what you've learned with others.
+*/
+
 /**
 * Copyright 2015 Yannick Roffin.
 *
@@ -12,21 +28,6 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
-*/
-
-/*
-Theme Name: Basic AngularJS Theme
-Theme URI: http://wordpress.org/themes/basicangularjstheme
-Author: the WordPress team
-Author URI: http://wordpress.org/
-Description: The basic angular js theme aim to propose a theme based on angularjs + angularmd frameworks.
-Version: 1.0
-License: Apache License Version 2.0
-License URI: http://www.apache.org/licenses/LICENSE-2.0
-Tags: Responsive, 1 Column, clean
-
-This theme is licensed under Apache License Version 2.0.
-Use it to make something cool, have fun, and share what you've learned with others.
 */
 
 .wp-caption {
