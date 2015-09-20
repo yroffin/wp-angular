@@ -84,6 +84,12 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
             right: false
         }
 
+        /**
+         * internal properties
+         */
+        $scope.wpFacebookFeedId = wpFacebookFeedId;
+         if($scope.wpFacebookFeedId === '') $scope.wpFacebookFeedId = undefined;
+
         if($scope.working === undefined) $scope.working = {};
         $scope.menuId = "left";
 

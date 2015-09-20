@@ -37,16 +37,17 @@ limitations under the License.
     <meta name="apple-mobile-web-app-capable" content="yes">
 
     <!-- AngularJS Material Design -->
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.0/angular-material.min.css">
     <link rel="stylesheet" href="<?php echo $basedir; ?>style.css">
 
-    <!-- Roboto fonts -->
-    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <!-- Google fonts -->
+    <link href='http://fonts.googleapis.com/css?family=*' rel='stylesheet' type='text/css'>
 
     <script>
         var wordpressPartialsUrl = <?php echo $partials; ?>;
         var wordpressRestApiUrl = 'index.php?json_route=';
         var wordpressFacebookAppId = <?php echo $customiser_facebook_app_id; ?>;
+        var wpFacebookFeedId = <?php echo "'".$customiser_facebook_feed_id."'"; ?>;
     </script>
 </head>
 <body ng-cloak style="background-attachment:fixed;" layout="column" ng-controller="RestWordpressCtrl" back-img="<?php echo $customiser_back_image; ?>">
@@ -77,7 +78,7 @@ limitations under the License.
                 <md-button class="md-fab md-raised" aria-label="Menu" ng-click="toggleSideNav()">
                     <ng-md-icon icon="menu"></ng-md-icon><md-tooltip>Menu</md-tooltip>
                 </md-button>
-                <md-button class="md-fab md-raised" aria-label="Menu" ng-click="location('/facebook/<?php echo $customiser_facebook_feed_id ?>/feed')">
+                <md-button ng-show="wpFacebookFeedId" class="md-fab md-raised" aria-label="Menu" ng-click="location('/facebook/<?php echo $customiser_facebook_feed_id ?>/feed')">
                     <ng-md-icon icon="facebook"></ng-md-icon><md-tooltip>Facebook</md-tooltip>
                 </md-button>
             </md-toolbar>

@@ -55,20 +55,20 @@ class theme_customizer
         $wp_manager->add_control( 'customiser_facebook_app_id', array(
             'label'   => __('Face book app id'),
             'section' => 'customiser_section',
-            'description' => 'Enter here your Facebook App ID to access to a rich set of client-side functionality for adding Social Plugins, Facebook Login and Graph API calls.',
+            'description' => 'Enter here your Facebook App ID to access to a rich set of client-side functionality for adding Social Plugins, Facebook Login and Graph API calls. If empty Facebook App Id option is disabled.',
             'type'    => 'text',
             'priority' => 1
         ) );
 
         // Facebook feed id
         $wp_manager->add_setting( 'customiser_facebook_feed_id', array(
-            'default' => '01234560123456789',
+            'default' => '',
         ) );
 
         $wp_manager->add_control( 'customiser_facebook_feed_id', array(
             'label'   => __('Face book feed id'),
             'section' => 'customiser_section',
-            'description' => 'Enter here your Facebook feed id you want to browse.',
+            'description' => 'Enter here your Facebook feed id you want to browse. If empty Facebook Feed browse option is disabled.',
             'type'    => 'text',
             'priority' => 1
         ) );
