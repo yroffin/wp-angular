@@ -92,10 +92,46 @@ class theme_customizer
         ) );
 
         $wp_manager->add_control( new WP_Customize_Image_Control( $wp_manager, 'customiser_banner_image', array(
-            'label'   => 'Image Setting',
+            'label'   => 'Banner Setting',
             'section' => 'customiser_section',
             'description' => 'Cutomize here the banner image for your site.',
             'settings'   => 'customiser_banner_image',
+            'priority' => 8
+        ) ) );
+
+        // Police
+        $wp_manager->add_setting( 'customiser_default_police', array(
+            'default'        => ''
+        ) );
+
+        $wp_manager->add_control( 'customiser_default_police', array(
+            'label'   => __('Default police'),
+            'section' => 'customiser_section',
+            'description' => 'Enter here your default font.',
+            'settings'   => 'customiser_default_police'
+        ) );
+
+        // Logo
+        $wp_manager->add_setting( 'customiser_logo_width', array(
+            'default'        => ''
+        ) );
+
+        $wp_manager->add_control( 'customiser_logo_width', array(
+            'label'   => __('Logo width'),
+            'section' => 'customiser_section',
+            'description' => 'Enter here your logo width.',
+            'settings'   => 'customiser_logo_width'
+        ) );
+
+        $wp_manager->add_setting( 'customiser_logo', array(
+            'default'        => ''
+        ) );
+
+        $wp_manager->add_control( new WP_Customize_Image_Control( $wp_manager, 'customiser_logo', array(
+            'label'   => 'Logo Setting',
+            'section' => 'customiser_section',
+            'description' => 'Cutomize here the logo image for your site.',
+            'settings'   => 'customiser_logo',
             'priority' => 8
         ) ) );
 }

@@ -72,8 +72,8 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
      * main controller
      */
     .controller('RestWordpressCtrl',
-    ['$scope', '$mdSidenav', '$location', '$mdBottomSheet', '$window', '$mdDialog',
-     function($scope, $mdSidenav, $location, $mdBottomSheet, $window, $mdDialog){
+    ['$scope', '$mdSidenav', '$location', '$mdBottomSheet', '$window', '$mdDialog', '$mdMedia',
+     function($scope, $mdSidenav, $location, $mdBottomSheet, $window, $mdDialog, $mdMedia){
         /**
          * initialize configuration
          */
@@ -83,6 +83,18 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
             left: true,
             right: false
         }
+
+        /**
+         * wath media
+         */
+        $scope.$watch(function() { return $mdMedia('sm'); }, function(small) {
+            $scope.screenIsSmall = small;
+        });
+
+        /**
+         * store customizer in scope
+         */
+        $scope.customizer = initVars();
 
         /**
          * internal properties

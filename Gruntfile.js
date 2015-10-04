@@ -24,7 +24,7 @@ module.exports = function (grunt) {
     app: './wp-angular',
     dist: 'dist',
     wordpress: 'dist',
-    wordpressPlugin: 'X:/EASYPH~1/EASYPH~1.1VC/data/localweb/wordpress/ille-et-zick/wp-content/themes/angularjs'
+    wordpressTheme: 'U:/tools/org/EasyPHP-DevServer-14.1VC11/data/localweb/projects/demo/wp-content/themes/angularjs'
   };
 
   // Define the configuration for all the tasks
@@ -159,7 +159,7 @@ module.exports = function (grunt) {
         files: [{
           dot: true,
           src: [
-            '<%= yeoman.wordpressPlugin %>/{,*/}*'
+            '<%= yeoman.wordpressTheme %>/{,*/}*'
           ]
         }]
       },
@@ -400,7 +400,7 @@ module.exports = function (grunt) {
           expand: true,
           dot: true,
           cwd: '<%= yeoman.app %>',
-          dest: 'X:/EASYPH~1/EASYPH~1.1VC/data/localweb/wordpress/ille-et-zick/wp-content/themes/angularjs',
+          dest: '<%= yeoman.wordpressTheme %>',
           src: [
             '*.{ico,png,txt}',
             '.htaccess',

@@ -8,9 +8,12 @@
      * theme customizer elements
      */
     $customiser_back_image = get_theme_mod('customiser_back_image','');
+    $customiser_logo = get_theme_mod('customiser_logo','');
+    $customiser_logo_width = get_theme_mod('customiser_logo_width','');
     $customiser_facebook_app_id = get_theme_mod('customiser_facebook_app_id','');
     $customiser_facebook_feed_id = get_theme_mod('customiser_facebook_feed_id','');
     $customiser_banner_image = get_theme_mod('customiser_banner_image','');
+    $customiser_default_police = get_theme_mod('customiser_default_police','');
 ?>
 <!doctype html>
 <!--
@@ -41,13 +44,33 @@ limitations under the License.
     <link rel="stylesheet" href="<?php echo $basedir; ?>style.css">
 
     <!-- Google fonts -->
-    <link href='http://fonts.googleapis.com/css?family=*' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=<?php echo customiser_default_police; ?>' rel='stylesheet' type='text/css'>
+
+    <style>
+    html {
+      font-family: <?php echo customiser_default_police; ?>;
+      font-size: 14px;
+      height: auto;
+    }
+    </style>
 
     <script>
         var wordpressPartialsUrl = <?php echo $partials; ?>;
         var wordpressRestApiUrl = 'index.php?json_route=';
-        var wordpressFacebookAppId = <?php echo $customiser_facebook_app_id; ?>;
+        var wordpressFacebookAppId = <?php echo "'".$customiser_facebook_app_id."'"; ?>;
         var wpFacebookFeedId = <?php echo "'".$customiser_facebook_feed_id."'"; ?>;
+        function initVars() {
+            var customizer = {
+                wordpressPartialsUrl:<?php echo $partials; ?>,
+                wordpressRestApiUrl:'index.php?json_route=',
+                wordpressFacebookAppId:<?php echo "'".$customiser_facebook_app_id."'"; ?>,
+                wpFacebookFeedId:<?php echo "'".$customiser_facebook_feed_id."'"; ?>,
+                wpLogo:<?php echo "'".$customiser_logo."'"; ?>,
+                wpLogoWidth:<?php echo "'".$customiser_logo_width."'"; ?>
+            }
+            return customizer;
+        }
+        console.info(initVars());
     </script>
 </head>
 <body ng-cloak style="background-attachment:fixed;" layout="column" ng-controller="RestWordpressCtrl" back-img="<?php echo $customiser_back_image; ?>">
@@ -73,14 +96,38 @@ limitations under the License.
 <!-- Main view -->
 <div layout="row" class="cadre" flex>
     <div layout="column" flex id="content">
+        <!-- Logo -->
+        <img width="{{customizer.wpLogoWidth}}" src="{{customizer.wpLogo}}">
+        <!-- Main view -->
         <md-card>
-            <md-toolbar layout="row">
+            <!-- Toolbar in sm mode -->
+            <md-toolbar ng-if="screenIsSmall" layout="row">
                 <md-button class="md-fab md-raised" aria-label="Menu" ng-click="toggleSideNav()">
                     <ng-md-icon icon="menu"></ng-md-icon><md-tooltip>Menu</md-tooltip>
                 </md-button>
                 <md-button ng-show="wpFacebookFeedId" class="md-fab md-raised" aria-label="Menu" ng-click="location('/facebook/<?php echo $customiser_facebook_feed_id ?>/feed')">
                     <ng-md-icon icon="facebook"></ng-md-icon><md-tooltip>Facebook</md-tooltip>
                 </md-button>
+            </md-toolbar>
+            <!-- Toolbar in no sm mode -->
+            <md-toolbar ng-if="!screenIsSmall">
+                <div layout="row">
+                    <div>
+                    <md-menu-bar>
+                        <md-menu ng-repeat="item in working.menu">
+                            <button ng-click="$mdOpenMenu()">{{item.name}}</button>
+                            <md-menu-content>
+                                <md-menu-item ng-if="item.items.length == 0">
+                                    <md-button>Default</md-button>
+                                </md-menu-item>
+                                <md-menu-item ng-repeat="subitem in item.items">
+                                    <md-button>{{subitem.name}}</md-button>
+                                </md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
+                    </md-menu-bar>
+                    </div>
+                </div>
             </md-toolbar>
              <img src="<?php echo $customiser_banner_image ?>" class="md-card-image" layout="row" alt="image caption">
              <md-card-content>
