@@ -140,10 +140,10 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
         }
     }])
     /**
-     * posts controller
+     * menu controller
      */
     .controller('RestWordpressLoadMenuCtrl',
-    ['$scope', 'RestWordpressMenus', 'RestWordpressMenusTransform', function($scope, menuServices, services){
+    ['$scope', 'RestWordpressMenus', 'RestWordpressMenusTransform', '$log', '$document', '$mdMenu', function($scope, menuServices, services, $log, $document, $mdMenu){
         /**
          * get configured menu
          */
@@ -161,6 +161,43 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
                 });
             }
         });
+
+        /**
+         * open menu handler
+         */
+        $scope.openMenu = function(item, $event, $mdOpenMenu) {
+            $mdOpenMenu($event);
+        }
+        /**
+         * close menu handler
+         */
+        $scope.closeMenu = function(item, $element) {
+            $mdMenu.hide($element);
+        }
+    }])
+    /**
+     * menu controller
+     */
+    .controller('MenuWrapperCtrl',
+    ['$scope', '$log', function($scope, $log){
+        /**
+         * menu wrapper
+         */
+        $scope.toggle = function(wrapperId) {
+            var wrap = $(wrapperId);
+
+            wrap.on("scroll", function(e) {
+
+              if (this.scrollTop > 147) {
+                wrap.addClass("fix-search");
+                $log.info("add");
+              } else {
+                wrap.removeClass("fix-search");
+                $log.info("remove");
+              }
+
+            });
+        }
     }])
     /**
      * posts controller

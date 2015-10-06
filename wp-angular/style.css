@@ -55,6 +55,18 @@ Use it to make something cool, have fun, and share what you've learned with othe
 }
 
 /**
+ * fix on top element when scrolling
+ */
+.fix-to-top {
+    position: fixed;
+    top: 0;
+    opacity: 0.90;
+    filter: alpha(opacity=90);
+    z-index: 10000;
+    width: 100%;
+}
+
+/**
  * CSS
  */
 md-toast.md-failure-toast-theme {

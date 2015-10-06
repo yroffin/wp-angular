@@ -90,6 +90,7 @@ myAppServices.factory('RestWordpressPages', [ '$resource', function($resource, $
 
 /**
  * menu services
+ * - url are cached
  */
 myAppServices.factory('RestWordpressMenus', [ '$resource', function($resource, $windows) {
 	return $resource('', {}, {
@@ -101,7 +102,7 @@ myAppServices.factory('RestWordpressMenus', [ '$resource', function($resource, $
 				url: wordpressRestApiUrl + '/menus',
 				params: {},
 				isArray: true,
-				cache: false
+				cache: true
 			},
 			/**
 			 * get single menu
@@ -110,7 +111,7 @@ myAppServices.factory('RestWordpressMenus', [ '$resource', function($resource, $
 				method: 'GET',
 				url: wordpressRestApiUrl + '/menus/:id',
 				isArray: false,
-				cache: false
+				cache: true
 			}
 		}
 	)}]);

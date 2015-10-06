@@ -13,7 +13,8 @@
     $customiser_facebook_app_id = get_theme_mod('customiser_facebook_app_id','');
     $customiser_facebook_feed_id = get_theme_mod('customiser_facebook_feed_id','');
     $customiser_banner_image = get_theme_mod('customiser_banner_image','');
-    $customiser_default_police = get_theme_mod('customiser_default_police','');
+    $customiser_default_police = get_theme_mod('customiser_default_police','Roboto, sans serif');
+    $customiser_default_police_name = get_theme_mod('customiser_default_police_name','Roboto');
 ?>
 <!doctype html>
 <!--
@@ -44,11 +45,11 @@ limitations under the License.
     <link rel="stylesheet" href="<?php echo $basedir; ?>style.css">
 
     <!-- Google fonts -->
-    <link href='http://fonts.googleapis.com/css?family=<?php echo customiser_default_police; ?>' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=<?php echo $customiser_default_police_name; ?>' rel='stylesheet' type='text/css'>
 
     <style>
     html {
-      font-family: <?php echo customiser_default_police; ?>;
+      font-family: <?php echo $customiser_default_police; ?>;
       font-size: 14px;
       height: auto;
     }
@@ -66,7 +67,10 @@ limitations under the License.
                 wordpressFacebookAppId:<?php echo "'".$customiser_facebook_app_id."'"; ?>,
                 wpFacebookFeedId:<?php echo "'".$customiser_facebook_feed_id."'"; ?>,
                 wpLogo:<?php echo "'".$customiser_logo."'"; ?>,
-                wpLogoWidth:<?php echo "'".$customiser_logo_width."'"; ?>
+                wpLogoWidth:<?php echo "'".$customiser_logo_width."'"; ?>,
+                wpBannerImage:<?php echo "'".$customiser_banner_image."'"; ?>,
+                wpDefaultPolice:<?php echo "'".$customiser_default_police."'"; ?>,
+                wpDefaultPoliceName:<?php echo "'".$customiser_default_police_name."'"; ?>
             }
             return customizer;
         }
@@ -93,11 +97,41 @@ limitations under the License.
     </md-content>
 </md-sidenav>
 
+<!-- Logo -->
+<img width="{{customizer.wpLogoWidth}}" ng-src="{{customizer.wpLogo}}">
+
+<!-- Toolbar in no sm mode -->
+<div layout="row" flex set-class-when-at-top="fix-to-top">
+    <div layout="column" id="menu-bar" flex>
+        <md-content>
+            <md-toolbar ng-controller="RestWordpressLoadMenuCtrl" ng-if="!screenIsSmall">
+                <div layout="row">
+                    <div>
+                    <md-menu-bar>
+                        <md-menu ng-mouseleave="closeMenu(item, $element)" ng-repeat="item in working.menu">
+                            <button ng-click="location(item.action.location)" ng-mouseover="openMenu(item, $event, $mdOpenMenu)">
+                                {{item.name}}
+                            </button>
+                            <md-menu-content class="sub-menu-class" id="sub-menu-{{item.id}}">
+                                <md-menu-item ng-if="item.items.length == 0">
+                                    <md-button ng-click="location(item.action.location)">{{item.name}}</md-button>
+                                </md-menu-item>
+                                <md-menu-item ng-repeat="subitem in item.items">
+                                    <md-button ng-click="location(subitem.action.location)">{{subitem.name}}</md-button>
+                                </md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
+                    </md-menu-bar>
+                    </div>
+                </div>
+            </md-toolbar>
+        </md-content>
+    </div>
+</div>
+
 <!-- Main view -->
 <div layout="row" class="cadre" flex>
     <div layout="column" flex id="content">
-        <!-- Logo -->
-        <img width="{{customizer.wpLogoWidth}}" src="{{customizer.wpLogo}}">
         <!-- Main view -->
         <md-card>
             <!-- Toolbar in sm mode -->
@@ -109,33 +143,16 @@ limitations under the License.
                     <ng-md-icon icon="facebook"></ng-md-icon><md-tooltip>Facebook</md-tooltip>
                 </md-button>
             </md-toolbar>
-            <!-- Toolbar in no sm mode -->
-            <md-toolbar ng-if="!screenIsSmall">
-                <div layout="row">
-                    <div>
-                    <md-menu-bar>
-                        <md-menu ng-repeat="item in working.menu">
-                            <button ng-click="$mdOpenMenu()">{{item.name}}</button>
-                            <md-menu-content>
-                                <md-menu-item ng-if="item.items.length == 0">
-                                    <md-button>Default</md-button>
-                                </md-menu-item>
-                                <md-menu-item ng-repeat="subitem in item.items">
-                                    <md-button>{{subitem.name}}</md-button>
-                                </md-menu-item>
-                            </md-menu-content>
-                        </md-menu>
-                    </md-menu-bar>
-                    </div>
-                </div>
-            </md-toolbar>
-             <img src="<?php echo $customiser_banner_image ?>" class="md-card-image" layout="row" alt="image caption">
+             <img ng-src="{{customizer.wpBannerImage}}" class="md-card-image" layout="row" alt="image caption">
              <md-card-content>
                 <div class="view-animate" flex><ng-view></ng-view></div>
              </md-card-content>
         </md-card>
     </div>
 </div>
+
+<!-- JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
 <!-- AngularJS -->
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
@@ -146,7 +163,7 @@ limitations under the License.
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-aria.min.js"></script>
 
 <!-- AngularJS Material Design -->
-<script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.0/angular-material.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.0/angular-material.js"></script>
 <!-- Cf.  https://klarsys.github.io/angular-material-icons -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.5.0/angular-material-icons.min.js"></script>
 

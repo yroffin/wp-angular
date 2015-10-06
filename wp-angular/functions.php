@@ -101,7 +101,7 @@ class theme_customizer
 
         // Police
         $wp_manager->add_setting( 'customiser_default_police', array(
-            'default'        => ''
+            'default'        => 'Roboto, sans serif'
         ) );
 
         $wp_manager->add_control( 'customiser_default_police', array(
@@ -109,6 +109,17 @@ class theme_customizer
             'section' => 'customiser_section',
             'description' => 'Enter here your default font.',
             'settings'   => 'customiser_default_police'
+        ) );
+
+        $wp_manager->add_setting( 'customiser_default_police_name', array(
+            'default'        => 'Roboto'
+        ) );
+
+        $wp_manager->add_control( 'customiser_default_police_name', array(
+            'label'   => __('Default police'),
+            'section' => 'customiser_section',
+            'description' => 'Enter here your default font.',
+            'settings'   => 'customiser_default_police_name'
         ) );
 
         // Logo
