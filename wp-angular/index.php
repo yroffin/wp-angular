@@ -18,6 +18,9 @@
     // Carousel
     $customiser_carousel_slide01 = get_theme_mod('customiser_carousel_slide01','');
     $customiser_carousel_slide02 = get_theme_mod('customiser_carousel_slide02','');
+    $customiser_carousel_slide03 = get_theme_mod('customiser_carousel_slide03','');
+    $customiser_carousel_slide04 = get_theme_mod('customiser_carousel_slide04','');
+    $customiser_carousel_slide05 = get_theme_mod('customiser_carousel_slide05','');
 ?>
 <!doctype html>
 <!--
