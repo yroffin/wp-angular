@@ -15,6 +15,9 @@
     $customiser_banner_image = get_theme_mod('customiser_banner_image','');
     $customiser_default_police = get_theme_mod('customiser_default_police','Roboto, sans serif');
     $customiser_default_police_name = get_theme_mod('customiser_default_police_name','Roboto');
+    // Carousel
+    $customiser_carousel_slide01 = get_theme_mod('customiser_carousel_slide01','');
+    $customiser_carousel_slide02 = get_theme_mod('customiser_carousel_slide02','');
 ?>
 <!doctype html>
 <!--
@@ -42,17 +45,21 @@ limitations under the License.
 
     <!-- AngularJS Material Design -->
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.0/angular-material.min.css">
+    <!-- Latest compiled and minified CSS for bootstrap -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="<?php echo $basedir; ?>style.css">
 
     <!-- Google fonts -->
     <link href='http://fonts.googleapis.com/css?family=<?php echo $customiser_default_police_name; ?>' rel='stylesheet' type='text/css'>
 
+    <!-- Default style CSS -->
     <style>
-    html {
-      font-family: <?php echo $customiser_default_police; ?>;
-      font-size: 14px;
-      height: auto;
-    }
+        html, body {
+          font-family: <?php echo $customiser_default_police; ?>;
+          font-size: 14px;
+          height: auto;
+        }
     </style>
 
     <script>
@@ -62,7 +69,7 @@ limitations under the License.
         var wpFacebookFeedId = <?php echo "'".$customiser_facebook_feed_id."'"; ?>;
         function initVars() {
             var customizer = {
-                wordpressPartialsUrl:<?php echo $partials; ?>,
+                wpPartials:<?php echo $partials; ?>,
                 wordpressRestApiUrl:'index.php?json_route=',
                 wordpressFacebookAppId:<?php echo "'".$customiser_facebook_app_id."'"; ?>,
                 wpFacebookFeedId:<?php echo "'".$customiser_facebook_feed_id."'"; ?>,
@@ -70,11 +77,27 @@ limitations under the License.
                 wpLogoWidth:<?php echo "'".$customiser_logo_width."'"; ?>,
                 wpBannerImage:<?php echo "'".$customiser_banner_image."'"; ?>,
                 wpDefaultPolice:<?php echo "'".$customiser_default_police."'"; ?>,
-                wpDefaultPoliceName:<?php echo "'".$customiser_default_police_name."'"; ?>
+                wpDefaultPoliceName:<?php echo "'".$customiser_default_police_name."'"; ?>,
+                wpCarousel: [
+                {
+                    url:<?php echo "'".$customiser_carousel_slide01."'"; ?>
+                },
+                {
+                    url:<?php echo "'".$customiser_carousel_slide02."'"; ?>
+                },
+                {
+                    url:<?php echo "'".$customiser_carousel_slide03."'"; ?>
+                },
+                {
+                    url:<?php echo "'".$customiser_carousel_slide04."'"; ?>
+                },
+                {
+                    url:<?php echo "'".$customiser_carousel_slide05."'"; ?>
+                }
+                ]
             }
             return customizer;
         }
-        console.info(initVars());
     </script>
 </head>
 <body ng-cloak style="background-attachment:fixed;" layout="column" ng-controller="RestWordpressCtrl" back-img="<?php echo $customiser_back_image; ?>">
@@ -143,10 +166,10 @@ limitations under the License.
                     <ng-md-icon icon="facebook"></ng-md-icon><md-tooltip>Facebook</md-tooltip>
                 </md-button>
             </md-toolbar>
-             <img ng-src="{{customizer.wpBannerImage}}" class="md-card-image" layout="row" alt="image caption">
-             <md-card-content>
+            <carousel ng-controller="RestWordpressCtrl"></carousel>
+            <md-card-content>
                 <div class="view-animate" flex><ng-view></ng-view></div>
-             </md-card-content>
+            </md-card-content>
         </md-card>
     </div>
 </div>
@@ -163,9 +186,15 @@ limitations under the License.
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-aria.min.js"></script>
 
 <!-- AngularJS Material Design -->
-<script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.0/angular-material.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.0/angular-material.min.js"></script>
 <!-- Cf.  https://klarsys.github.io/angular-material-icons -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.5.0/angular-material-icons.min.js"></script>
+
+<!-- Latest compiled JavaScript Lodash -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js"></script>
+
+<!-- Latest compiled JavaScript Bootstrap -->
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 <!-- Facebook API -->
 <script src="//connect.facebook.net/en_US/all.js"></script>

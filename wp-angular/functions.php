@@ -145,6 +145,72 @@ class theme_customizer
             'settings'   => 'customiser_logo',
             'priority' => 8
         ) ) );
+
+        // Carousel
+        $wp_manager->add_section( 'customiser_carousel', array(
+            'title'          => 'Carousel configuration',
+            'priority'       => 35,
+        ) );
+
+        $wp_manager->add_setting( 'customiser_carousel_slide01', array(
+            'default'        => ''
+        ) );
+
+        $wp_manager->add_control( new WP_Customize_Image_Control( $wp_manager, 'customiser_carousel_slide01', array(
+            'label'   => 'Carousel Setting',
+            'section' => 'customiser_carousel',
+            'description' => 'Cutomize here the slide01 image for your carousel.',
+            'settings'   => 'customiser_carousel_slide01',
+            'priority' => 8
+        ) ) );
+
+        $wp_manager->add_setting( 'customiser_carousel_slide02', array(
+            'default'        => ''
+        ) );
+
+        $wp_manager->add_control( new WP_Customize_Image_Control( $wp_manager, 'customiser_carousel_slide02', array(
+            'label'   => 'Carousel Setting',
+            'section' => 'customiser_carousel',
+            'description' => 'Cutomize here the slide02 image for your carousel.',
+            'settings'   => 'customiser_carousel_slide02',
+            'priority' => 8
+        ) ) );
+
+        $wp_manager->add_setting( 'customiser_carousel_slide03', array(
+            'default'        => ''
+        ) );
+
+        $wp_manager->add_control( new WP_Customize_Image_Control( $wp_manager, 'customiser_carousel_slide03', array(
+            'label'   => 'Carousel Setting',
+            'section' => 'customiser_carousel',
+            'description' => 'Cutomize here the slide02 image for your carousel.',
+            'settings'   => 'customiser_carousel_slide03',
+            'priority' => 8
+        ) ) );
+
+        $wp_manager->add_setting( 'customiser_carousel_slide04', array(
+            'default'        => ''
+        ) );
+
+        $wp_manager->add_control( new WP_Customize_Image_Control( $wp_manager, 'customiser_carousel_slide04', array(
+            'label'   => 'Carousel Setting',
+            'section' => 'customiser_carousel',
+            'description' => 'Cutomize here the slide02 image for your carousel.',
+            'settings'   => 'customiser_carousel_slide04',
+            'priority' => 8
+        ) ) );
+
+        $wp_manager->add_setting( 'customiser_carousel_slide05', array(
+            'default'        => ''
+        ) );
+
+        $wp_manager->add_control( new WP_Customize_Image_Control( $wp_manager, 'customiser_carousel_slide05', array(
+            'label'   => 'Carousel Setting',
+            'section' => 'customiser_carousel',
+            'description' => 'Cutomize here the slide02 image for your carousel.',
+            'settings'   => 'customiser_carousel_slide05',
+            'priority' => 8
+        ) ) );
 }
 
 }?>

@@ -30,3 +30,10 @@ app.directive('setClassWhenAtTop', function ($window, $log) {
     }
   };
 });
+
+app.directive('carousel', function ($window, $log) {
+  return {
+    restrict: 'E',
+    templateUrl: wordpressPartialsUrl +'partials/carousel.html'
+  }
+});

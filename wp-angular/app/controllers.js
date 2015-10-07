@@ -21,38 +21,39 @@
 angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSanitize', 'RestWordpressApp.services'])
     .config(['$routeProvider', '$locationProvider',
         function($routeProvider, $locationProvider) {
+            console.info("scope", initVars());
             $routeProvider.
                 when('/posts', {
                     controller: 'RestWordpressPostsCtrl',
-                    templateUrl: wordpressPartialsUrl+'partials/posts.html'
+                    templateUrl: initVars().wpPartials+'partials/posts.html'
                 }).
                 when('/posts/:id', {
                     controller: 'RestWordpressPostCtrl',
-                    templateUrl: wordpressPartialsUrl+'partials/posts-detail.html'
+                    templateUrl: initVars().wpPartials+'partials/posts-detail.html'
                 }).
                 when('/pages', {
                     controller: 'RestWordpressPagesCtrl',
-                    templateUrl: wordpressPartialsUrl+'partials/pages.html'
+                    templateUrl: initVars().wpPartials+'partials/pages.html'
                 }).
                 when('/pages/:id', {
                     controller: 'RestWordpressPageCtrl',
-                    templateUrl: wordpressPartialsUrl+'partials/pages-detail.html'
+                    templateUrl: initVars().wpPartials+'partials/pages-detail.html'
                 }).
                 when('/category/:id', {
                     controller: 'RestWordpressGaleriesCtrl',
-                    templateUrl: wordpressPartialsUrl+'partials/galeries.html'
+                    templateUrl: initVars().wpPartials+'partials/galeries.html'
                 }).
                 when('/youtube/:id', {
                     controller: 'RestWordpressVideosCtrl',
-                    templateUrl: wordpressPartialsUrl+'partials/videos.html'
+                    templateUrl: initVars().wpPartials+'partials/videos.html'
                 }).
                 when('/facebook/:id/:api', {
                     controller: 'FacebookFeedCtrl',
-                    templateUrl: wordpressPartialsUrl+'partials/facebook-feed.html'
+                    templateUrl: initVars().wpPartials+'partials/facebook-feed.html'
                 }).
                 otherwise({
                     controller: 'RestWordpressPagesCtrl',
-                    templateUrl: wordpressPartialsUrl+'partials/pages.html'
+                    templateUrl: initVars().wpPartials+'partials/pages.html'
                 });
         }])
     .config(function($mdThemingProvider) {
@@ -72,8 +73,8 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
      * main controller
      */
     .controller('RestWordpressCtrl',
-    ['$scope', '$mdSidenav', '$location', '$mdBottomSheet', '$window', '$mdDialog', '$mdMedia',
-     function($scope, $mdSidenav, $location, $mdBottomSheet, $window, $mdDialog, $mdMedia){
+    ['$scope', '$mdSidenav', '$location', '$mdBottomSheet', '$window', '$mdDialog', '$mdMedia', '$log',
+     function($scope, $mdSidenav, $location, $mdBottomSheet, $window, $mdDialog, $mdMedia, $log){
         /**
          * initialize configuration
          */
@@ -93,8 +94,12 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
 
         /**
          * store customizer in scope
+         * and filter empty url
          */
         $scope.customizer = initVars();
+        $scope.customizer.wpCarousel = _.filter($scope.customizer.wpCarousel, function(n) {
+        return n.url.length > 0});
+         $log.info($scope.customizer);
 
         /**
          * internal properties
@@ -137,6 +142,13 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
             if(target != undefined) {
                 $location.path(target);
             }
+        }
+
+        /**
+         * carousel configuration
+         */
+        $scope.isActive = function(index) {
+            if(index === 0) return 'active';
         }
     }])
     /**
