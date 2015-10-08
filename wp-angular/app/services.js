@@ -54,7 +54,7 @@ myAppServices.factory('RestWordpressPosts', [ '$resource', function($resource, $
 			 */
 			byCategory: {
 				method: 'GET',
-				url: wordpressRestApiUrl + '/posts?filter[category_name]=:id',
+				url: wordpressRestApiUrl + '/posts&filter[category_name]=:id',
 				isArray: true,
 				cache: false
 			}
@@ -115,6 +115,243 @@ myAppServices.factory('RestWordpressMenus', [ '$resource', function($resource, $
 			}
 		}
 	)}]);
+
+/**
+ * menu transformation
+ */
+myAppServices.factory('businessServices', ['$mdToast', '$log', 'RestWordpressPosts', function($mdToast, $log, wpPostServices) {
+    /**
+     * initialize configuration
+     */
+    return {
+        /**
+         * transform post
+         */
+        transformPost: function(post) {
+            var data = {
+                id: post.ID,
+                content: post.content,
+                title: post.title,
+                date: post.date
+            }
+            if(post.featured_image && post.featured_image.guid) {
+                data.featured_image = post.featured_image.guid;
+            }
+            /**
+             * replace HTML entities
+             * TODO: replace it with a central service
+             */
+            if(data) {
+                data.title = data.title.replace('<br>',' ');
+                data.title = data.title.replace('&#8211;',' ');
+            }
+            return data;
+        },
+        /**
+         * transform page
+         */
+        transformPage: function(page) {
+            var data = {
+                id: page.ID,
+                content: page.content,
+                title: page.title,
+                date: page.date
+            }
+            if(page.featured_image && page.featured_image.guid) {
+                data.featured_image = page.featured_image.guid;
+            }
+            return data;
+        },
+        /**
+         * toast position
+         */
+        getToastPosition : function() {
+            var toastPosition = {
+                bottom: false,
+                top: true,
+                left: true,
+                right: false
+            }
+            return Object.keys(toastPosition).filter(function(pos) { return toastPosition[pos]; }).join(' ');
+        },
+        /**
+         * toast ok
+         */
+        toastOk : function(message) {
+            $mdToast.show(
+                $mdToast.simple()
+                    .content(message)
+                    .position(this.getToastPosition())
+                    .hideDelay(3000)
+            );
+        },
+        /**
+         * toast failure
+         */
+        toastFailure : function(message) {
+            $mdToast.show(
+                $mdToast.simple()
+                    .content(message)
+                    .position(this.getToastPosition())
+                    .hideDelay(3000)
+            ).theme("failure-toast")
+        }
+    }
+}]);
+
+/**
+ * menu transformation
+ */
+myAppServices.factory('pageServices', ['$q', '$log', 'businessServices', 'RestWordpressPages', function($q, $log, businessServices, wpPageServices) {
+    /**
+     * initialize configuration
+     */
+    return {
+        /**
+         * retrieve normalized pages
+         */
+        pages: function() {
+            var deferred = $q.defer();
+
+            wpPageServices.pages({}, function(data) {
+                /**
+                 * normalize data
+                 */
+                var pages = [];
+                _.forEach(data, function(n) {
+                    pages.push(businessServices.transformPage(n));
+                });
+                deferred.resolve(pages);
+                businessServices.toastOk(pages.length + " page(s)");
+            }, function(failure) {
+                businessServices.toastFailure(failure);
+                deferred.reject(failure);
+            });
+
+            return deferred.promise;
+        },
+        /**
+         * retrieve normalized page
+         */
+        page: function(page) {
+            var deferred = $q.defer();
+
+            wpPageServices.page({id:page.id}, function(data) {
+                /**
+                 * normalize data
+                 */
+                deferred.resolve(businessServices.transformPage(data));
+                businessServices.toastOk("Page " + data.title);
+            }, function(failure) {
+                businessServices.toastFailure(failure);
+                deferred.reject(failure);
+            });
+
+            return deferred.promise;
+        },
+        /**
+         * retrieve normalized page
+         */
+        youtube: function(page) {
+            var deferred = $q.defer();
+
+            wpPageServices.page({id:page.id}, function(data) {
+                /**
+                 * normalize data
+                 */
+                function plainText(text) {
+                  return  text ? String(text).replace(/<[^>]+>/gm, '') : '';
+                };
+                var text = plainText(data.content);
+                var result = JSON.parse(text);
+                deferred.resolve(result);
+                $log.info("Vidéo(s)", result);
+                businessServices.toastOk("Video(s) " + data.title);
+            }, function(failure) {
+                businessServices.toastFailure(failure);
+                deferred.reject(failure);
+            });
+
+            return deferred.promise;
+        }
+    }
+}]);
+
+/**
+ * menu transformation
+ */
+myAppServices.factory('postServices', ['$mdToast', '$q', '$log', 'businessServices', 'RestWordpressPosts', function($mdToast, $q, $log, businessServices, wpPostServices) {
+    /**
+     * initialize configuration
+     */
+    return {
+        /**
+         * retrieve normalized posts
+         */
+        posts: function() {
+            var deferred = $q.defer();
+
+            wpPostServices.posts({}, function(data) {
+                /**
+                 * normalize data
+                 */
+                var posts = [];
+                _.forEach(data, function(n) {
+                    posts.push(businessServices.transformPost(n));
+                });
+                deferred.resolve(posts);
+                businessServices.toastOk(posts.length + " article(s)");
+            }, function(failure) {
+                businessServices.toastFailure(failure);
+                deferred.reject(failure);
+            });
+
+            return deferred.promise;
+        },
+        /**
+         * retrieve normalized post
+         */
+        post: function(post) {
+            var deferred = $q.defer();
+
+            wpPostServices.post({id:post.id}, function(data) {
+                /**
+                 * normalize data
+                 */
+                deferred.resolve(businessServices.transformPost(data));
+                businessServices.toastOk("Article " + data.title);
+            }, function(failure) {
+                businessServices.toastFailure(failure);
+                deferred.reject(failure);
+            });
+
+            return deferred.promise;
+        },
+        /**
+         * retrieve normalized post
+         */
+        category: function(category) {
+            var deferred = $q.defer();
+
+            wpPostServices.byCategory({id:category.id}, function(data) {
+                /**
+                 * normalize data
+                 */
+                var posts = [];
+                _.forEach(data, function(n) {
+                    posts.push(businessServices.transformPost(n));
+                });
+                deferred.resolve(posts);
+                businessServices.toastOk(posts.length + " article(s)");
+            }, function(failure) {
+                businessServices.toastFailure(failure);
+                deferred.reject(failure);
+            });
+
+            return deferred.promise;
+        }
+    }
+}]);
 
 /**
  * menu transformation

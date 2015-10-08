@@ -175,7 +175,7 @@ limitations under the License.
             </md-toolbar>
             <carousel ng-controller="RestWordpressCtrl"></carousel>
             <md-card-content>
-                <div class="view-animate" flex><ng-view></ng-view></div>
+                <ng-view></ng-view>
             </md-card-content>
         </md-card>
     </div>
@@ -193,7 +193,7 @@ limitations under the License.
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-aria.min.js"></script>
 
 <!-- AngularJS Material Design -->
-<script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.0/angular-material.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.0/angular-material.js"></script>
 <!-- Cf.  https://klarsys.github.io/angular-material-icons -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.5.0/angular-material-icons.min.js"></script>
 

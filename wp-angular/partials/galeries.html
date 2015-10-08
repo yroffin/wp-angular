@@ -1,19 +1,17 @@
-<div>
-    <md-grid-list
-        md-cols-sm="1" md-cols="3" md-cols-gt-md="4"
-        md-row-height-gt-md="1:2" md-row-height="2:2"
-        md-gutter="32px" md-gutter-gt-sm="8px" >
+<div ng-cloak>
+    <br>
+    <br>
+    <br>
+    <md-grid-list md-gutter="2px" md-cols-sm="1" md-cols-md="4" md-cols-lg="8" md-cols-gt-lg="12" md-row-height="1:1">
       <md-grid-tile
-          ng-repeat="tile in working.tiles"
-          md-colspan="1"
-          md-rowspan="1" md-colspan-sm="1">
-            <md-card>
-                <br>
-                <br>
-                <img src="{{tile.featured_image.guid}}" ng-click="working.post = undefined; location('/posts/'+tile.ID)" class="md-card-image" layout="row" alt="image caption">
-                <md-card-content>
-                    {{tile.title}}
-                </md-card-content>
+          ng-repeat="tile in working.tiles">
+            <md-card class="md-rotate">
+                <md-card-header>
+                </md-card-header>
+                <md-card-content>{{tile.title}}</md-card-content>
+                <md-card-footer>
+<img class="md-card-image" ng-src="{{tile.featured_image}}" ng-click="working.post = undefined; location('/posts/'+tile.id)" alt="{{tile.title}}">
+                </md-card-footer>
               </md-card>
       </md-grid-tile>
     </md-grid-list>

@@ -20,7 +20,6 @@ app.directive('setClassWhenAtTop', function ($window, $log) {
           offsetTop = element.offset().top; // get element's offset top relative to document
 
       $win.on('scroll', function (e) {
-        $log.info('scroll', offsetTop);
         if ($win.scrollTop() > offsetTop) {
           element.addClass(topClass);
         } else {

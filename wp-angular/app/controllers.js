@@ -76,17 +76,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
     ['$scope', '$mdSidenav', '$location', '$mdBottomSheet', '$window', '$mdDialog', '$mdMedia', '$log',
      function($scope, $mdSidenav, $location, $mdBottomSheet, $window, $mdDialog, $mdMedia, $log){
         /**
-         * initialize configuration
-         */
-        $scope.toastPosition = {
-            bottom: false,
-            top: true,
-            left: true,
-            right: false
-        }
-
-        /**
-         * wath media
+         * wath media for adaptive render
          */
         $scope.$watch(function() { return $mdMedia('sm'); }, function(small) {
             $scope.screenIsSmall = small;
@@ -109,15 +99,6 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
 
         if($scope.working === undefined) $scope.working = {};
         $scope.menuId = "left";
-
-        /**
-         * find toast position
-         */
-        $scope.getToastPosition = function() {
-            return Object.keys($scope.toastPosition)
-                .filter(function(pos) { return $scope.toastPosition[pos]; })
-                .join(' ');
-        }
 
         /**
          * toggle navbar
@@ -215,90 +196,45 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
      * posts controller
      */
     .controller('RestWordpressPostsCtrl',
-    ['$scope', '$mdToast', 'RestWordpressPosts', function($scope, $mdToast, postServices){
-        postServices.posts({}, function(data) {
-            $scope.working.posts = data;
-            $mdToast.show(
-                $mdToast.simple()
-                    .content(data.length + " post(s)")
-                    .position($scope.getToastPosition())
-                    .hideDelay(3000)
-            );
-        }, function(failure) {
-            $mdToast.show(
-                $mdToast.simple()
-                    .content(failure)
-                    .position($scope.getToastPosition())
-                    .hideDelay(3000).theme("failure-toast")
-            );
-        });
+    ['$scope', '$mdToast', 'postServices', function($scope, $mdToast, postServices){
+        /**
+         * load posts in scope
+         */
+        postServices.posts().then(
+            function(data) {
+                $scope.working.posts = data;
+            }
+        );
 
         /**
          * select a single ne page and route browser on it
          */
         $scope.select = function(post) {
-            postServices.post({id:post.ID}, function(data) {
-                $mdToast.show(
-                    $mdToast.simple()
-                        .content(post.title)
-                        .position($scope.getToastPosition())
-                        .hideDelay(3000)
-                );
-                $scope.location("/posts/" + post.ID);
-            }, function(failure) {
-                $mdToast.show(
-                    $mdToast.simple()
-                        .content(failure)
-                        .position($scope.getToastPosition())
-                        .hideDelay(3000).theme("failure-toast")
-                );
-            });
+            postServices.post().then(
+                function(data) {
+                    $scope.location("/posts/" + post.id);
+                }
+            );
         }
     }])
     /**
      * pages controller
      */
     .controller('RestWordpressPagesCtrl',
-    ['$scope', '$mdToast', '$location', 'RestWordpressPages', function($scope, $mdToast, $location, pageServices){
+    ['$scope', '$mdToast', '$location', 'pageServices', function($scope, $mdToast, $location, pageServices){
         /**
          * init pages
          */
-        pageServices.pages({}, function(data) {
+        pageServices.pages().then(function(data) {
             $scope.working.pages = data;
-            $mdToast.show(
-                $mdToast.simple()
-                    .content(data.length + " pages(s)")
-                    .position($scope.getToastPosition())
-                    .hideDelay(3000)
-            );
-        }, function(failure) {
-            $mdToast.show(
-                $mdToast.simple()
-                    .content(failure)
-                    .position($scope.getToastPosition())
-                    .hideDelay(3000).theme("failure-toast")
-            );
         });
 
         /**
          * select a single ne page and route browser on it
          */
         $scope.select = function(page) {
-            pageServices.page({id:page.ID}, function(data) {
-                $mdToast.show(
-                    $mdToast.simple()
-                        .content(page.title)
-                        .position($scope.getToastPosition())
-                        .hideDelay(3000)
-                );
+            pageServices.page(page).then(function(data) {
                 $scope.location("/pages/" + page.ID);
-            }, function(failure) {
-                $mdToast.show(
-                    $mdToast.simple()
-                        .content(failure)
-                        .position($scope.getToastPosition())
-                        .hideDelay(3000).theme("failure-toast")
-                );
             });
         }
     }])
@@ -306,108 +242,39 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
      * posts controller
      */
     .controller('RestWordpressPostCtrl',
-    ['$scope', '$mdSidenav', '$routeParams', '$mdToast', '$location', 'RestWordpressPosts',
+    ['$scope', '$mdSidenav', '$routeParams', '$mdToast', '$location', 'postServices',
         function($scope, $mdSidenav, $routeParams, $mdToast, $location, postServices){
-        postServices.post({id:$routeParams.id}, function(data) {
-            /**
-             * replace HTML entities
-             * TODO: replace it with a central service
-             */
-            if(data) data.title = data.title.replace('<br>',' ');
+        postServices.post({id:$routeParams.id}).then(function(data) {
             $scope.working.post = data;
-            $mdToast.show(
-                $mdToast.simple()
-                    .content(data.title)
-                    .position($scope.getToastPosition())
-                    .hideDelay(3000)
-            );
-        }, function(failure) {
-            $mdToast.show(
-                $mdToast.simple()
-                    .content(failure)
-                    .position($scope.getToastPosition())
-                    .hideDelay(3000).theme("failure-toast")
-            );
         });
     }])
     /**
      * pages controller
      */
     .controller('RestWordpressPageCtrl',
-    ['$scope', '$mdSidenav', '$routeParams', '$mdToast', '$location', 'RestWordpressPages',
+    ['$scope', '$mdSidenav', '$routeParams', '$mdToast', '$location', 'pageServices',
         function($scope, $mdSidenav, $routeParams, $mdToast, $location, pageServices){
-        pageServices.page({id:$routeParams.id}, function(data) {
+        pageServices.page({id:$routeParams.id}).then(function(data) {
             $scope.working.page = data;
-            $mdToast.show(
-                $mdToast.simple()
-                    .content(data.title)
-                    .position($scope.getToastPosition())
-                    .hideDelay(3000)
-            );
-        }, function(failure) {
-            $mdToast.show(
-                $mdToast.simple()
-                    .content(failure)
-                    .position($scope.getToastPosition())
-                    .hideDelay(3000).theme("failure-toast")
-            );
         });
     }])
     /**
      * categories controller
      */
     .controller('RestWordpressGaleriesCtrl',
-    ['$scope', '$mdSidenav', '$routeParams', '$mdToast', '$location', 'RestWordpressPosts', function($scope, $mdSidenav, $routeParams, $mdToast, $location, postServices){
-        postServices.byCategory({id:$routeParams.id}, function(data) {
-            /**
-             * replace HTML entities
-             * TODO: replace it with a central service
-             */
-            for(var tile=0;tile<data.length;tile++) {
-                if(data) data[tile].title = data[tile].title.replace('<br>',' ');
-                if(data) data[tile].title = data[tile].title.replace('&#8211;',' ');
-            }
+    ['$scope', '$routeParams', 'postServices', function($scope, $routeParams, postServices){
+        postServices.category({id:$routeParams.id}).then(function(data) {
             $scope.working.tiles = data;
-            $mdToast.show(
-                $mdToast.simple()
-                    .content(data.length + " Article(s)")
-                    .position($scope.getToastPosition())
-                    .hideDelay(3000)
-            );
-        }, function(failure) {
-            $mdToast.show(
-                $mdToast.simple()
-                    .content(failure)
-                    .position($scope.getToastPosition())
-                    .hideDelay(3000).theme("failure-toast")
-            );
         });
     }])
     /**
      * videos controller
      */
     .controller('RestWordpressVideosCtrl',
-    ['$scope', '$mdSidenav', '$routeParams', '$mdToast', 'RestWordpressPages', '$sce',
+    ['$scope', '$mdSidenav', '$routeParams', '$mdToast', 'pageServices', '$sce',
         function($scope, $mdSidenav, $routeParams, $mdToast, pageServices, $sce){
-        pageServices.page({id:$routeParams.id}, function(data) {
-            function plainText(text) {
-              return  text ? String(text).replace(/<[^>]+>/gm, '') : '';
-            };
-            var text = plainText(data.content);
-            $scope.working.videos = JSON.parse(text);
-            $mdToast.show(
-                $mdToast.simple()
-                    .content(data.title)
-                    .position($scope.getToastPosition())
-                    .hideDelay(3000)
-            );
-        }, function(failure) {
-            $mdToast.show(
-                $mdToast.simple()
-                    .content(failure)
-                    .position($scope.getToastPosition())
-                    .hideDelay(3000).theme("failure-toast")
-            );
+        pageServices.youtube({id:$routeParams.id}).then(function(data) {
+            $scope.working.videos = data;
         });
     }])
     .controller('RestWordpressVideosTrustedCtrl',

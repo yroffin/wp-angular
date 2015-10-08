@@ -70,6 +70,3 @@ md-menu-bar md-backdrop.md-menu-backdrop {
     z-index: 0;
 }
 
-md-card>:not(md-card-content) img, md-card>img {
-    width: auto;
-}
