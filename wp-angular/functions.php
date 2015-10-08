@@ -134,6 +134,18 @@ class theme_customizer
             'settings'   => 'customiser_logo_width'
         ) );
 
+        // Logo
+        $wp_manager->add_setting( 'customiser_logo_height', array(
+            'default'        => ''
+        ) );
+
+        $wp_manager->add_control( 'customiser_logo_height', array(
+            'label'   => __('Logo height'),
+            'section' => 'customiser_section',
+            'description' => 'Enter here your logo height.',
+            'settings'   => 'customiser_logo_height'
+        ) );
+
         $wp_manager->add_setting( 'customiser_logo', array(
             'default'        => ''
         ) );

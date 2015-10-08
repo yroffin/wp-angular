@@ -10,6 +10,7 @@
     $customiser_back_image = get_theme_mod('customiser_back_image','');
     $customiser_logo = get_theme_mod('customiser_logo','');
     $customiser_logo_width = get_theme_mod('customiser_logo_width','');
+    $customiser_logo_height = get_theme_mod('customiser_logo_height','');
     $customiser_facebook_app_id = get_theme_mod('customiser_facebook_app_id','');
     $customiser_facebook_feed_id = get_theme_mod('customiser_facebook_feed_id','');
     $customiser_banner_image = get_theme_mod('customiser_banner_image','');
@@ -78,6 +79,7 @@ limitations under the License.
                 wpFacebookFeedId:<?php echo "'".$customiser_facebook_feed_id."'"; ?>,
                 wpLogo:<?php echo "'".$customiser_logo."'"; ?>,
                 wpLogoWidth:<?php echo "'".$customiser_logo_width."'"; ?>,
+                wpLogoHeight:<?php echo "'".$customiser_logo_height."'"; ?>,
                 wpBannerImage:<?php echo "'".$customiser_banner_image."'"; ?>,
                 wpDefaultPolice:<?php echo "'".$customiser_default_police."'"; ?>,
                 wpDefaultPoliceName:<?php echo "'".$customiser_default_police_name."'"; ?>,
@@ -123,15 +125,14 @@ limitations under the License.
     </md-content>
 </md-sidenav>
 
-<!-- Logo -->
-<img width="{{customizer.wpLogoWidth}}" ng-src="{{customizer.wpLogo}}">
-
 <!-- Toolbar in no sm mode -->
 <div layout="row" flex set-class-when-at-top="fix-to-top">
     <div layout="column" id="menu-bar" flex>
         <md-content>
             <md-toolbar ng-controller="RestWordpressLoadMenuCtrl" ng-if="!screenIsSmall">
                 <div layout="row">
+                    <!-- Logo -->
+                    <img width="{{customizer.wpLogoWidth}}" height="{{customizer.wpLogoHeight}}" ng-src="{{customizer.wpLogo}}">
                     <div>
                     <md-menu-bar>
                         <md-menu ng-mouseleave="closeMenu(item, $element)" ng-repeat="item in working.menu">
@@ -161,8 +162,11 @@ limitations under the License.
         <!-- Main view -->
         <md-card>
             <!-- Toolbar in sm mode -->
-            <md-toolbar ng-if="screenIsSmall" layout="row">
-                <md-button class="md-fab md-raised" aria-label="Menu" ng-click="toggleSideNav()">
+            <md-toolbar ng-if="screenIsSmall" layout="row" class="md-right" >
+                <!-- Logo -->
+                <img class="md-fab" width="{{customizer.wpLogoWidth}}" height="{{customizer.wpLogoHeight}}" ng-src="{{customizer.wpLogo}}">
+                <span flex></span>
+                <md-button style="clear: right" class="md-fab md-raised" aria-label="Menu" ng-click="toggleSideNav()">
                     <ng-md-icon icon="menu"></ng-md-icon><md-tooltip>Menu</md-tooltip>
                 </md-button>
                 <md-button ng-show="wpFacebookFeedId" class="md-fab md-raised" aria-label="Menu" ng-click="location('/facebook/<?php echo $customiser_facebook_feed_id ?>/feed')">
