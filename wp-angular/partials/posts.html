@@ -1,14 +1,18 @@
-<md-content flex>
-    <md-list>
-      <md-list-item class="md-3-line" ng-repeat="post in working.posts">
-        <div class="md-list-item-text">
-          <h2>{{post.title}}</h2>
-          <pre>{{post.date}}</pre>
-          <md-content>
-              <ng-md-icon ng-click="location('/posts/'+post.id)" icon="link"></ng-md-icon>
-          </md-content>
-        </div>
-        <md-divider inset></md-divider>
-      </md-list-item>
-    </md-list>
-</md-content>
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Post(s)</div>
+
+  <!-- Table -->
+  <table class="table">
+    <tbody>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tbody>
+    <tr ng-repeat="post in working.posts">
+        <td>{{post.title}}</td>
+        <td>{{post.date}}</td>
+        <td><ng-md-icon ng-click="location('/posts/'+post.id)" icon="link"></ng-md-icon></td>
+    </tr>
+  </table>
+</div>

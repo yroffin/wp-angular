@@ -62,6 +62,9 @@ limitations under the License.
         html, body {
           font-family: <?php echo $customiser_default_police; ?>;
           font-size: 14px;
+        }
+        body {
+          background-image: url('<?php echo $customiser_back_image; ?>');
           height: auto;
         }
     </style>
@@ -105,7 +108,7 @@ limitations under the License.
         }
     </script>
 </head>
-<body ng-cloak style="background-attachment:fixed;" layout="column" ng-controller="RestWordpressCtrl" back-img="<?php echo $customiser_back_image; ?>">
+<body ng-cloak ng-controller="RestWordpressCtrl">
 
 <!-- Side bar -->
 <md-sidenav class="md-sidenav-left" md-component-id="left" >
@@ -126,7 +129,7 @@ limitations under the License.
 </md-sidenav>
 
 <!-- Toolbar in no sm mode -->
-<div layout="row" flex set-class-when-at-top="fix-to-top">
+<div set-class-when-at-top="fix-to-top">
     <div layout="column" id="menu-bar" flex>
         <md-content>
             <md-toolbar ng-controller="RestWordpressLoadMenuCtrl" ng-if="!screenIsSmall">
@@ -135,8 +138,8 @@ limitations under the License.
                     <img width="{{customizer.wpLogoWidth}}" height="{{customizer.wpLogoHeight}}" ng-src="{{customizer.wpLogo}}">
                     <div>
                     <md-menu-bar>
-                        <md-menu ng-mouseleave="closeMenu(item, $element)" ng-repeat="item in working.menu">
-                            <button ng-click="location(item.action.location)" ng-mouseover="openMenu(item, $event, $mdOpenMenu)">
+                        <md-menu ng-mouseleave="closeMenu(item, $element)" ng-repeat="item in working.menu" ng-mouseenter="openMenu(item, $event, $mdOpenMenu)" ng-mouseover="openMenu(item, $event, $mdOpenMenu)">
+                            <button ng-click="location(item.action.location)">
                                 {{item.name}}
                             </button>
                             <md-menu-content class="sub-menu-class" id="sub-menu-{{item.id}}">
@@ -162,11 +165,11 @@ limitations under the License.
         <!-- Main view -->
         <md-card>
             <!-- Toolbar in sm mode -->
-            <md-toolbar ng-if="screenIsSmall" layout="row" class="md-right" >
+            <md-toolbar ng-if="screenIsSmall" layout="row" class="md-right">
                 <!-- Logo -->
                 <img class="md-fab" width="{{customizer.wpLogoWidth}}" height="{{customizer.wpLogoHeight}}" ng-src="{{customizer.wpLogo}}">
                 <span flex></span>
-                <md-button style="clear: right" class="md-fab md-raised" aria-label="Menu" ng-click="toggleSideNav()">
+                <md-button class="md-fab md-raised" aria-label="Menu" ng-click="toggleSideNav()">
                     <ng-md-icon icon="menu"></ng-md-icon><md-tooltip>Menu</md-tooltip>
                 </md-button>
                 <md-button ng-show="wpFacebookFeedId" class="md-fab md-raised" aria-label="Menu" ng-click="location('/facebook/<?php echo $customiser_facebook_feed_id ?>/feed')">

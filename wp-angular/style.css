@@ -66,7 +66,25 @@ Use it to make something cool, have fun, and share what you've learned with othe
     width: 100%;
 }
 
+/**
+ * fix zIndex bug
+ */
 md-menu-bar md-backdrop.md-menu-backdrop {
     z-index: 0;
 }
 
+/**
+ * fix md-card button alignment
+ */
+img.md-fab {
+    width: auto;
+}
+
+.default-style {
+    text-align:justify;
+    max-width: 100%;
+    height:auto;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
