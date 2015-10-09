@@ -129,33 +129,29 @@ limitations under the License.
 </md-sidenav>
 
 <!-- Toolbar in no sm mode -->
-<div set-class-when-at-top="fix-to-top">
+<div ng-controller="RestWordpressLoadMenuCtrl" ng-if="!screenIsSmall" set-class-when-at-top="fix-to-top">
     <div layout="column" id="menu-bar" flex>
-        <md-content>
-            <md-toolbar ng-controller="RestWordpressLoadMenuCtrl" ng-if="!screenIsSmall">
-                <div layout="row">
-                    <!-- Logo -->
-                    <img width="{{customizer.wpLogoWidth}}" height="{{customizer.wpLogoHeight}}" ng-src="{{customizer.wpLogo}}">
-                    <div>
-                    <md-menu-bar>
-                        <md-menu ng-mouseleave="closeMenu(item, $element)" ng-repeat="item in working.menu" ng-mouseenter="openMenu(item, $event, $mdOpenMenu)" ng-mouseover="openMenu(item, $event, $mdOpenMenu)">
-                            <button ng-click="location(item.action.location)">
-                                {{item.name}}
-                            </button>
-                            <md-menu-content class="sub-menu-class" id="sub-menu-{{item.id}}">
-                                <md-menu-item ng-if="item.items.length == 0">
-                                    <md-button ng-click="location(item.action.location)">{{item.name}}</md-button>
-                                </md-menu-item>
-                                <md-menu-item ng-repeat="subitem in item.items">
-                                    <md-button ng-click="location(subitem.action.location)">{{subitem.name}}</md-button>
-                                </md-menu-item>
-                            </md-menu-content>
-                        </md-menu>
-                    </md-menu-bar>
-                    </div>
-                </div>
-            </md-toolbar>
-        </md-content>
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <img width="{{customizer.wpLogoWidth}}" height="{{customizer.wpLogoHeight}}" ng-src="{{customizer.wpLogo}}">
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li ng-repeat="item in working.menu" class="{{item.items.length === 0 ? '' : 'dropdown'}}">
+                  <a ng-if="item.items.length === 0" href="#{{item.action.location}}">{{item.name}}</a>
+                  <a ng-if="item.items.length != 0" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{item.name}} <span class="caret"></span></a>
+                  <ul ng-if="item.items.length != 0" class="dropdown-menu">
+                    <li ng-repeat="subitem in item.items"><a href="#{{subitem.action.location}}">{{subitem.name}}</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
     </div>
 </div>
 

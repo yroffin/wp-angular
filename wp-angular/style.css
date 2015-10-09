@@ -88,3 +88,7 @@ img.md-fab {
     margin-right: auto;
     display: block;
 }
+
+.navbar-default {
+    background-color: #C3C3C3;
+}
