@@ -21,10 +21,10 @@
  */
 
 angular.module('RestWordpressApp', [
-  'ngResource',
-  'ngRoute',
-  'ngMaterial',
-  'ngAnimate',
-  'ngMdIcons',
-  'ngSanitize'
+    'ngResource',
+    'ngRoute',
+    'ngMaterial',
+    'ngAnimate',
+    'ngMdIcons',
+    'ngSanitize'
 ]);

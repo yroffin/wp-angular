@@ -47,6 +47,10 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
                     controller: 'RestWordpressVideosCtrl',
                     templateUrl: initVars().wpPartials+'partials/videos.html'
                 }).
+                when('/slide/:id', {
+                    controller: 'wpSliderCtrl',
+                    templateUrl: initVars().wpPartials+'partials/animated-galeries.html'
+                }).
                 when('/facebook/:id/:api', {
                     controller: 'FacebookFeedCtrl',
                     templateUrl: initVars().wpPartials+'partials/facebook-feed.html'
@@ -266,6 +270,47 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
         postServices.category({id:$routeParams.id}).then(function(data) {
             $scope.working.tiles = data;
         });
+    }])
+    /**
+     * slider controller
+     */
+    .controller('wpSliderCtrl',
+    ['$scope', '$log', '$routeParams', '$timeout', 'postServices', function($scope, $log, $routeParams, $timeout, postServices){
+        /**
+         * next slide animation
+         */
+        $scope.nextSlide = function() {
+            var idx = _.findIndex($scope.working.slides, 'selected', true);
+            var newIdx = idx+1;
+            if(newIdx>=$scope.working.slides.length) {
+                newIdx = 0;
+            }
+            $scope.working.slides[newIdx].selected = true;
+            $scope.working.slides[idx].selected = false;
+            $timeout($scope.nextSlide, 5000);
+        }
+        /**
+         * init slides
+         */
+        $scope.loadSlides = function(id) {
+            postServices.category({id:id}).then(function(data) {
+                $scope.working.slides = data;
+                _.forEach(data, function(item) {
+                  item.selected = false;
+                });
+                _.last(data).selected = true;
+                $scope.nextSlide();
+                $log.info($scope.working.slides.length," slides loaded", $scope.working.slides);
+            });
+        }
+        /**
+         * load from scope
+         */
+        var slides = $routeParams.id;
+        if(slides === undefined) {
+            slides = 'caterogy-6';
+        }
+        $scope.loadSlides(slides);
     }])
     /**
      * videos controller

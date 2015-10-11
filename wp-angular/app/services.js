@@ -117,7 +117,7 @@ myAppServices.factory('RestWordpressMenus', [ '$resource', function($resource, $
 	)}]);
 
 /**
- * menu transformation
+ * posts transformation
  */
 myAppServices.factory('businessServices', ['$mdToast', '$log', 'RestWordpressPosts', function($mdToast, $log, wpPostServices) {
     /**
@@ -200,7 +200,7 @@ myAppServices.factory('businessServices', ['$mdToast', '$log', 'RestWordpressPos
 }]);
 
 /**
- * menu transformation
+ * pages transformation
  */
 myAppServices.factory('pageServices', ['$q', '$log', 'businessServices', 'RestWordpressPages', function($q, $log, businessServices, wpPageServices) {
     /**
@@ -278,7 +278,7 @@ myAppServices.factory('pageServices', ['$q', '$log', 'businessServices', 'RestWo
 }]);
 
 /**
- * menu transformation
+ * postServices
  */
 myAppServices.factory('postServices', ['$mdToast', '$q', '$log', 'businessServices', 'RestWordpressPosts', function($mdToast, $q, $log, businessServices, wpPostServices) {
     /**
@@ -356,8 +356,8 @@ myAppServices.factory('postServices', ['$mdToast', '$q', '$log', 'businessServic
 /**
  * menu transformation
  */
-myAppServices.factory('RestWordpressMenusTransform', function() {
-  var transformedMenu = {
+myAppServices.factory('RestWordpressMenusTransform', ['$log', function($log) {
+  return {
       transform: function(rawMenu) {
 
          /**
@@ -401,11 +401,20 @@ myAppServices.factory('RestWordpressMenusTransform', function() {
                   }
               }
               /**
-               * ignore custom entry
+               * ignore custom entry, only if not start with #
                */
               if(raw.object === 'custom') {
-                  return {
-                      raw: raw
+                  $log.debug("custom", raw, attr, raw.url, (raw.url != undefined), raw.url.substring(0,1));
+                  if(raw.url != undefined && raw.url.substring(0,1) === '#') {
+                      $log.debug("custom", raw, attr, raw.url);
+                      return {
+                          raw: raw,
+                          location: raw.url.substring(1)
+                      }
+                  } else {
+                      return {
+                          raw: raw
+                      }
                   }
               }
              throw {message: "No transformation", context: raw};
@@ -465,8 +474,7 @@ myAppServices.factory('RestWordpressMenusTransform', function() {
           return menu;
       }
   };
-  return transformedMenu;
-});
+}]);
 
 /**
  * facebook service
