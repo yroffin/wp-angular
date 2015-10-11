@@ -21,12 +21,12 @@
 angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSanitize', 'RestWordpressApp.services'])
     .config(['$routeProvider', '$locationProvider',
         function($routeProvider, $locationProvider) {
-            console.info("scope", initVars());
             $routeProvider.
                 when('/posts', {
                     controller: 'RestWordpressPostsCtrl',
                     templateUrl: initVars().wpPartials+'partials/posts.html'
-                }).
+                });
+            $routeProvider.
                 when('/posts/:id', {
                     controller: 'RestWordpressPostCtrl',
                     templateUrl: initVars().wpPartials+'partials/posts-detail.html'
