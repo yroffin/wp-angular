@@ -89,10 +89,18 @@ img.md-fab {
     display: block;
 }
 
+.container {
+    opacity: 0.90;
+    filter: alpha(opacity=90);
+}
+
 .navbar-default {
     background-color: #C3C3C3;
 }
 
+/**
+ * animation on slide
+ */
 .animate-slide.ng-enter, .animate-slide.ng-leave {
   transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
 }
@@ -113,8 +121,16 @@ img.md-fab {
     transform: rotateY(0deg) translate(0px,0px);
 }
 
+/**
+ * carousel
+ */
 .carousel-inner {
     max-height: 256px;
     overflow: hidden;
     vertical-align: middle;
+}
+
+.carousel-caption {
+    vertical-align: top;
+    bottom: auto;
 }

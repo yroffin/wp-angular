@@ -34,19 +34,6 @@ class theme_customizer
             'priority'       => 35,
         ) );
 
-        // Back Image
-        $wp_manager->add_setting( 'customiser_back_image', array(
-            'default' => 'http://www.google.fr',
-        ) );
-
-        $wp_manager->add_control( 'customiser_back_image', array(
-            'label'   => __('Url for background image'),
-            'section' => 'customiser_section',
-            'description' => 'Cutomize here the background image for your site.',
-            'type'    => 'text',
-            'priority' => 1
-        ) );
-
         // Facebook secure id
         $wp_manager->add_setting( 'customiser_facebook_app_id', array(
             'default' => '01234560123456789',
@@ -176,6 +163,19 @@ class theme_customizer
             'priority' => 8
         ) ) );
 
+        // Description for slide 01
+        $wp_manager->add_setting( 'customiser_carousel_description_slide01', array(
+            'default' => 'TODO',
+        ) );
+
+        $wp_manager->add_control( 'customiser_carousel_description_slide01', array(
+            'label'   => __('Description of slide 01'),
+            'section' => 'customiser_carousel',
+            'description' => 'Cutomize here the description for slide 01.',
+            'type'    => 'text',
+            'priority' => 1
+        ) );
+
         $wp_manager->add_setting( 'customiser_carousel_slide02', array(
             'default'        => ''
         ) );
@@ -187,6 +187,19 @@ class theme_customizer
             'settings'   => 'customiser_carousel_slide02',
             'priority' => 8
         ) ) );
+
+        // Description for slide 02
+        $wp_manager->add_setting( 'customiser_carousel_description_slide02', array(
+            'default' => 'TODO',
+        ) );
+
+        $wp_manager->add_control( 'customiser_carousel_description_slide02', array(
+            'label'   => __('Description of slide 02'),
+            'section' => 'customiser_carousel',
+            'description' => 'Cutomize here the description for slide 02.',
+            'type'    => 'text',
+            'priority' => 1
+        ) );
 
         $wp_manager->add_setting( 'customiser_carousel_slide03', array(
             'default'        => ''
@@ -200,6 +213,19 @@ class theme_customizer
             'priority' => 8
         ) ) );
 
+        // Description for slide 03
+        $wp_manager->add_setting( 'customiser_carousel_description_slide03', array(
+            'default' => 'TODO',
+        ) );
+
+        $wp_manager->add_control( 'customiser_carousel_description_slide03', array(
+            'label'   => __('Description of slide 03'),
+            'section' => 'customiser_carousel',
+            'description' => 'Cutomize here the description for slide 03.',
+            'type'    => 'text',
+            'priority' => 1
+        ) );
+
         $wp_manager->add_setting( 'customiser_carousel_slide04', array(
             'default'        => ''
         ) );
@@ -212,6 +238,19 @@ class theme_customizer
             'priority' => 8
         ) ) );
 
+        // Description for slide 04
+        $wp_manager->add_setting( 'customiser_carousel_description_slide04', array(
+            'default' => 'TODO',
+        ) );
+
+        $wp_manager->add_control( 'customiser_carousel_description_slide04', array(
+            'label'   => __('Description of slide 04'),
+            'section' => 'customiser_carousel',
+            'description' => 'Cutomize here the description for slide 04.',
+            'type'    => 'text',
+            'priority' => 1
+        ) );
+
         $wp_manager->add_setting( 'customiser_carousel_slide05', array(
             'default'        => ''
         ) );
@@ -223,6 +262,20 @@ class theme_customizer
             'settings'   => 'customiser_carousel_slide05',
             'priority' => 8
         ) ) );
+
+        // Description for slide 05
+        $wp_manager->add_setting( 'customiser_carousel_description_slide05', array(
+            'default' => 'TODO',
+        ) );
+
+        $wp_manager->add_control( 'customiser_carousel_description_slide05', array(
+            'label'   => __('Description of slide 05'),
+            'section' => 'customiser_carousel',
+            'description' => 'Cutomize here the description for slide 05.',
+            'type'    => 'text',
+            'priority' => 1
+        ) );
+
 }
 
 }?>

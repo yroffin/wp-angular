@@ -9,10 +9,8 @@
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
     <div ng-repeat="item in customizer.wpCarousel" class="item {{isActive($index)}}">
+      <p ng-if="item.text" class="carousel-caption">{{item.text}}</p>
       <img ng-src="{{item.url}}" ng-alt="{{item.alt}}">
-      <div ng-if="item.description" class="carousel-caption">
-        {{item.description}}
-      </div>
     </div>
   </div>
 </div>

@@ -22,6 +22,11 @@
     $customiser_carousel_slide03 = get_theme_mod('customiser_carousel_slide03','');
     $customiser_carousel_slide04 = get_theme_mod('customiser_carousel_slide04','');
     $customiser_carousel_slide05 = get_theme_mod('customiser_carousel_slide05','');
+    $customiser_carousel_desc_slide01 = get_theme_mod('customiser_carousel_description_slide01','');
+    $customiser_carousel_desc_slide02 = get_theme_mod('customiser_carousel_description_slide02','');
+    $customiser_carousel_desc_slide03 = get_theme_mod('customiser_carousel_description_slide03','');
+    $customiser_carousel_desc_slide04 = get_theme_mod('customiser_carousel_description_slide04','');
+    $customiser_carousel_desc_slide05 = get_theme_mod('customiser_carousel_description_slide05','');
 ?>
 <!doctype html>
 <!--
@@ -88,19 +93,24 @@ limitations under the License.
                 wpDefaultPoliceName:<?php echo "'".$customiser_default_police_name."'"; ?>,
                 wpCarousel: [
                 {
-                    url:<?php echo "'".$customiser_carousel_slide01."'"; ?>
+                    url:<?php echo "'".$customiser_carousel_slide01."'"; ?>,
+                    text:<?php echo "'".$customiser_carousel_desc_slide01."'"; ?>
                 },
                 {
-                    url:<?php echo "'".$customiser_carousel_slide02."'"; ?>
+                    url:<?php echo "'".$customiser_carousel_slide02."'"; ?>,
+                    text:<?php echo "'".$customiser_carousel_desc_slide02."'"; ?>
                 },
                 {
-                    url:<?php echo "'".$customiser_carousel_slide03."'"; ?>
+                    url:<?php echo "'".$customiser_carousel_slide03."'"; ?>,
+                    text:<?php echo "'".$customiser_carousel_desc_slide03."'"; ?>
                 },
                 {
-                    url:<?php echo "'".$customiser_carousel_slide04."'"; ?>
+                    url:<?php echo "'".$customiser_carousel_slide04."'"; ?>,
+                    text:<?php echo "'".$customiser_carousel_desc_slide04."'"; ?>
                 },
                 {
-                    url:<?php echo "'".$customiser_carousel_slide05."'"; ?>
+                    url:<?php echo "'".$customiser_carousel_slide05."'"; ?>,
+                    text:<?php echo "'".$customiser_carousel_desc_slide05."'"; ?>
                 }
                 ]
             }
@@ -156,7 +166,7 @@ limitations under the License.
 </div>
 
 <!-- Main view -->
-<div layout="row" class="cadre" flex>
+<div layout="row" class="container" flex>
     <div layout="column" flex id="content">
         <!-- Main view -->
         <md-card>
