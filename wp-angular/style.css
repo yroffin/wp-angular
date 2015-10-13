@@ -112,3 +112,9 @@ img.md-fab {
     -webkit-transform: rotateY(0deg) translate(0px,0px); /* Safari */
     transform: rotateY(0deg) translate(0px,0px);
 }
+
+.carousel-inner {
+    max-height: 256px;
+    overflow: hidden;
+    vertical-align: middle;
+}
