@@ -1,5 +1,5 @@
 # wp-angular
-Simple wordpress theme based on angular (and based on plugin wp-rest and wp-menu), all render are computed on workstation side.
+Simple wordpress theme based on angular (and based on plugin wp-rest and wp-menu), all render are computed on internet browser.
 
 # How it works
 
@@ -8,11 +8,16 @@ This theme simply use standard wordpress items :
 - post
 - page
 
-And render them in angularjs [angularjs](https://angularjs.org) way using partials html
+And render them in angularjs [angularjs](https://angularjs.org) way using partials html.
 
-# Local links oriented urls
+Specific menu item can also be used :
+- slide
+- youtube
+- facebook
 
-All items can be retrieve with local links using [$routeProvider](https://docs.angularjs.org/api/ngRoute/provider/$routeProvider) with this kind of url http://[baseurl]/#[route]
+# Internal mecanism
+
+All items can be retrieve with local links using angularjs [$routeProvider](https://docs.angularjs.org/api/ngRoute/provider/$routeProvider) with this kind of url http://[baseurl]/#[route]
 
     angular.module('wpApp',['ngMaterial', ...
     .config(['$routeProvider', '$locationProvider',
@@ -37,59 +42,114 @@ All items can be retrieve with local links using [$routeProvider](https://docs.a
 | /slide/:cat-id     | for sliding a specific category    |
 | /facebook/:id/:api | for read facebook feed    |
 
-## Pages browsing
+## Page plugin
 
-Default pages menu is fully analyzed and automaticaly transformed in menu for this theme, no action is needed by the webmaster.
+Page worpress menu item is automaticaly transformed into one menu category item.
 
-![Texte alternatif](https://googledrive.com/host/0B-1rUiMKBiO4TktVRTk1VVVMY0U/Capture001.PNG)
+![Texte alternatif](https://googledrive.com/host/0B-1rUiMKBiO4TktVRTk1VVVMY0U/menu-page.PNG)
 
-A page is transformed to http://[baseurl]/#/pages/:id (:id is the page id)
+## Post plugin
 
-## Posts browsing
+Post worpress menu item is automaticaly transformed into one menu category item.
 
-Default posts menu is fully analyzed and automaticaly transformed in menu for this theme, no action is needed by the webmaster.
+![Texte alternatif](https://googledrive.com/host/0B-1rUiMKBiO4TktVRTk1VVVMY0U/menu-post.PNG)
 
-![Texte alternatif](https://googledrive.com/host/0B-1rUiMKBiO4TktVRTk1VVVMY0U/Capture002.PNG)
+## Category plugin
 
-A post is transformed to http://[baseurl]/#/posts/:id (:id is the page id)
+Category worpress menu item is automaticaly transformed into one menu category item.
 
-## Category browsing
+![Texte alternatif](https://googledrive.com/host/0B-1rUiMKBiO4TktVRTk1VVVMY0U/menu-category.PNG)
 
-TODO
+## Youtube plugin
 
-## Youtube browsing
+In order to declare __youtube__ plugin just add a custom link to your default menu.
 
-TODO
+![Texte alternatif](https://googledrive.com/host/0B-1rUiMKBiO4TktVRTk1VVVMY0U/menu-youtube.PNG)
 
-## Slide browsing
+| Attribute              | Description  |
+| :------------      |:--------------- |
+| url           | url ex: \#/youtube/:pageId (pageId is the page id) |
+| title         | title of your custom link in menu |
+| attribute     | attributes of your custom menu |
 
-TODO
+All youtube links are described in the target page like this :
 
-## Facebook browsing
+    <code>
+    [
+    {"title":"your_title","id":"youtube_id"},
+    ...
+    {"title":"your_title","id":"youtube_id"}
+    ]
+    </code>
 
-TODO
+## Slide plugin
 
-# Menu management
+In order to declare __slide__ plugin just add a custom link to your default menu.
 
-Standard default menu is read and used in theme with some transformation :
-- post target become \#/posts/:id
-- page target become \#/posts/:id
-- category target become \#/category/:id
-- custom link are used to access to specific components 
-    - youtube
-    - slide
-    - facebook
+![Texte alternatif](https://googledrive.com/host/0B-1rUiMKBiO4TktVRTk1VVVMY0U/menu-slide.PNG)
 
-## Youtube custom link
+| Attribute              | Description  |
+| :------------      |:--------------- |
+| url           | url ex: \#/slide/:categoryId (categoryId is the category id) |
+| title         | title of your custom link in menu |
+| attribute     | attributes of your custom menu |
 
-TODO
+## Facebook plugin
 
-## Slide custom link
+In order to declare __facebook__ plugin just add a custom link to your default menu.
 
-TODO
+![Texte alternatif](https://googledrive.com/host/0B-1rUiMKBiO4TktVRTk1VVVMY0U/menu-facebook.PNG)
 
-## Facebook custom link
-
-TODO
+| Attribute              | Description  |
+| :------------      |:--------------- |
+| url           | url ex: \#/facebook/:facebookId/feed (facebookId is the page id) |
+| title         | title of your custom link in menu |
+| attribute     | attributes of your custom menu |
 
 # Theme customizer
+
+## Facebook configuration
+
+### Face book app id
+
+Enter here your Facebook App ID to access to a rich set of client-side functionality for adding Social Plugins, Facebook Login and Graph API calls. If empty Facebook App Id option is disabled.
+
+### Face book feed id
+
+Enter here your Facebook feed id you want to browse. If empty Facebook Feed browse option is disabled.
+
+## Theme configuration
+
+### Image Setting
+
+Cutomize here the background image for your site.
+
+### Logo Setting
+
+Cutomize here the logo image for your site.
+
+###  Default police
+
+Enter here your default font to apply in your theme.
+
+### Default police name
+
+Enter here your default font name, used to load css file.
+
+### Logo width
+
+Enter here your logo width.
+
+### Logo height
+
+Enter here your logo height.
+
+## Carousel configuration
+
+### Description of slide xx
+
+Cutomize here the description for slide xx.
+
+### Description of slide image xx
+
+Cutomize here the slide01 image for your carousel.

@@ -404,9 +404,7 @@ myAppServices.factory('RestWordpressMenusTransform', ['$log', function($log) {
                * ignore custom entry, only if not start with #
                */
               if(raw.object === 'custom') {
-                  $log.debug("custom", raw, attr, raw.url, (raw.url != undefined), raw.url.substring(0,1));
                   if(raw.url != undefined && raw.url.substring(0,1) === '#') {
-                      $log.debug("custom", raw, attr, raw.url);
                       return {
                           raw: raw,
                           location: raw.url.substring(1)
@@ -419,14 +417,21 @@ myAppServices.factory('RestWordpressMenusTransform', ['$log', function($log) {
               }
              throw {message: "No transformation", context: raw};
           }
-
-          function parse(attr) {//"{&lsquo;icon&rsquo;:&rsquo;mail&rsquo;}"
+          /**
+           * parse attributes
+           */
+          function parse(attr) {
               if(attr === "") return {};
               var transformedString = attr.
-                replace(/&lsquo;/g,"!").
-                replace(/&rsquo;/g,"!").
-                replace(/!/g, "\"") + "";
+                replace(/&nbsp;/g,"!x!").
+                replace(/&laquo;/g,"!%!").
+                replace(/&raquo;/g,"!%!").
+                replace(/&lsquo;/g,"!%!").
+                replace(/&rsquo;/g,"!%!").
+                replace(/!x!/g, "").
+                replace(/!%!/g, "\"") + "";
               try {
+                  $log.debug("ATTR:", attr, transformedString);
                   return JSON.parse(transformedString);
               } catch(e) {
                   throw {exception:e, raw: attr, transform: transformedString};

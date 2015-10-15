@@ -29,9 +29,16 @@ class theme_customizer
 
     public function demo_section( $wp_manager )
     {
-        $wp_manager->add_section( 'customiser_section', array(
-            'title'          => 'Theme configuration',
-            'priority'       => 35,
+        $this->theme_configuration($wp_manager, 35);
+        $this->facebook_configuration($wp_manager, 36);
+        $this->carousel_configuration($wp_manager, 37);
+    }
+
+    public function facebook_configuration( $wp_manager, $wp_priority )
+    {
+        $wp_manager->add_section( 'customiser_facebook_section', array(
+            'title'          => 'Facebook configuration',
+            'priority'       => $wp_priority,
         ) );
 
         // Facebook secure id
@@ -41,7 +48,7 @@ class theme_customizer
 
         $wp_manager->add_control( 'customiser_facebook_app_id', array(
             'label'   => __('Face book app id'),
-            'section' => 'customiser_section',
+            'section' => 'customiser_facebook_section',
             'description' => 'Enter here your Facebook App ID to access to a rich set of client-side functionality for adding Social Plugins, Facebook Login and Graph API calls. If empty Facebook App Id option is disabled.',
             'type'    => 'text',
             'priority' => 1
@@ -54,10 +61,18 @@ class theme_customizer
 
         $wp_manager->add_control( 'customiser_facebook_feed_id', array(
             'label'   => __('Face book feed id'),
-            'section' => 'customiser_section',
+            'section' => 'customiser_facebook_section',
             'description' => 'Enter here your Facebook feed id you want to browse. If empty Facebook Feed browse option is disabled.',
             'type'    => 'text',
             'priority' => 1
+        ) );
+    }
+
+    public function theme_configuration( $wp_manager, $wp_priority )
+    {
+        $wp_manager->add_section( 'customiser_section', array(
+            'title'          => 'Theme configuration',
+            'priority'       => $wp_priority,
         ) );
 
         // Back image
@@ -73,26 +88,13 @@ class theme_customizer
             'priority' => 8
         ) ) );
 
-        // Banner
-        $wp_manager->add_setting( 'customiser_banner_image', array(
-            'default'        => '',
-        ) );
-
-        $wp_manager->add_control( new WP_Customize_Image_Control( $wp_manager, 'customiser_banner_image', array(
-            'label'   => 'Banner Setting',
-            'section' => 'customiser_section',
-            'description' => 'Cutomize here the banner image for your site.',
-            'settings'   => 'customiser_banner_image',
-            'priority' => 8
-        ) ) );
-
         // Police
         $wp_manager->add_setting( 'customiser_default_police', array(
             'default'        => 'Roboto, sans serif'
         ) );
 
         $wp_manager->add_control( 'customiser_default_police', array(
-            'label'   => __('Default police'),
+            'label'   => __('Default police name'),
             'section' => 'customiser_section',
             'description' => 'Enter here your default font.',
             'settings'   => 'customiser_default_police'
@@ -144,138 +146,59 @@ class theme_customizer
             'settings'   => 'customiser_logo',
             'priority' => 8
         ) ) );
+    }
 
+    /**
+     * CAROUSEL
+     */
+    public function carousel_configuration_slide( $wp_manager, $wp_numero )
+    {
+        // Description
+        $wp_manager->add_setting( 'customiser_carousel_description_slide0'.$wp_numero, array(
+            'default' => 'TODO',
+        ) );
+
+        $wp_manager->add_control( 'customiser_carousel_description_slide0'.$wp_numero, array(
+            'label'   => __('Description of slide '.$wp_numero),
+            'section' => 'customiser_carousel',
+            'description' => 'Cutomize here the description for slide0'.$wp_numero.'.',
+            'type'    => 'text',
+            'priority' => $wp_numero
+        ) );
+
+        // Image
+        $wp_manager->add_setting( 'customiser_carousel_slide0'.$wp_numero, array(
+            'default'        => 'TODO'
+        ) );
+
+        $wp_manager->add_control( new WP_Customize_Image_Control( $wp_manager, 'customiser_carousel_slide0'.$wp_numero, array(
+            'label'   => 'Image',
+            'section' => 'customiser_carousel',
+            'description' => 'Cutomize here the slide0'.$wp_numero.' image.',
+            'settings'   => 'customiser_carousel_slide0'.$wp_numero,
+            'priority' => $wp_numero
+        ) ) );
+    }
+
+    /**
+     * CAROUSEL
+     */
+    public function carousel_configuration( $wp_manager, $wp_priority )
+    {
         // Carousel
         $wp_manager->add_section( 'customiser_carousel', array(
             'title'          => 'Carousel configuration',
-            'priority'       => 35,
+            'priority'       => $wp_priority,
         ) );
 
         $wp_manager->add_setting( 'customiser_carousel_slide01', array(
             'default'        => ''
         ) );
 
-        $wp_manager->add_control( new WP_Customize_Image_Control( $wp_manager, 'customiser_carousel_slide01', array(
-            'label'   => 'Carousel Setting',
-            'section' => 'customiser_carousel',
-            'description' => 'Cutomize here the slide01 image for your carousel.',
-            'settings'   => 'customiser_carousel_slide01',
-            'priority' => 8
-        ) ) );
-
-        // Description for slide 01
-        $wp_manager->add_setting( 'customiser_carousel_description_slide01', array(
-            'default' => 'TODO',
-        ) );
-
-        $wp_manager->add_control( 'customiser_carousel_description_slide01', array(
-            'label'   => __('Description of slide 01'),
-            'section' => 'customiser_carousel',
-            'description' => 'Cutomize here the description for slide 01.',
-            'type'    => 'text',
-            'priority' => 1
-        ) );
-
-        $wp_manager->add_setting( 'customiser_carousel_slide02', array(
-            'default'        => ''
-        ) );
-
-        $wp_manager->add_control( new WP_Customize_Image_Control( $wp_manager, 'customiser_carousel_slide02', array(
-            'label'   => 'Carousel Setting',
-            'section' => 'customiser_carousel',
-            'description' => 'Cutomize here the slide02 image for your carousel.',
-            'settings'   => 'customiser_carousel_slide02',
-            'priority' => 8
-        ) ) );
-
-        // Description for slide 02
-        $wp_manager->add_setting( 'customiser_carousel_description_slide02', array(
-            'default' => 'TODO',
-        ) );
-
-        $wp_manager->add_control( 'customiser_carousel_description_slide02', array(
-            'label'   => __('Description of slide 02'),
-            'section' => 'customiser_carousel',
-            'description' => 'Cutomize here the description for slide 02.',
-            'type'    => 'text',
-            'priority' => 1
-        ) );
-
-        $wp_manager->add_setting( 'customiser_carousel_slide03', array(
-            'default'        => ''
-        ) );
-
-        $wp_manager->add_control( new WP_Customize_Image_Control( $wp_manager, 'customiser_carousel_slide03', array(
-            'label'   => 'Carousel Setting',
-            'section' => 'customiser_carousel',
-            'description' => 'Cutomize here the slide02 image for your carousel.',
-            'settings'   => 'customiser_carousel_slide03',
-            'priority' => 8
-        ) ) );
-
-        // Description for slide 03
-        $wp_manager->add_setting( 'customiser_carousel_description_slide03', array(
-            'default' => 'TODO',
-        ) );
-
-        $wp_manager->add_control( 'customiser_carousel_description_slide03', array(
-            'label'   => __('Description of slide 03'),
-            'section' => 'customiser_carousel',
-            'description' => 'Cutomize here the description for slide 03.',
-            'type'    => 'text',
-            'priority' => 1
-        ) );
-
-        $wp_manager->add_setting( 'customiser_carousel_slide04', array(
-            'default'        => ''
-        ) );
-
-        $wp_manager->add_control( new WP_Customize_Image_Control( $wp_manager, 'customiser_carousel_slide04', array(
-            'label'   => 'Carousel Setting',
-            'section' => 'customiser_carousel',
-            'description' => 'Cutomize here the slide02 image for your carousel.',
-            'settings'   => 'customiser_carousel_slide04',
-            'priority' => 8
-        ) ) );
-
-        // Description for slide 04
-        $wp_manager->add_setting( 'customiser_carousel_description_slide04', array(
-            'default' => 'TODO',
-        ) );
-
-        $wp_manager->add_control( 'customiser_carousel_description_slide04', array(
-            'label'   => __('Description of slide 04'),
-            'section' => 'customiser_carousel',
-            'description' => 'Cutomize here the description for slide 04.',
-            'type'    => 'text',
-            'priority' => 1
-        ) );
-
-        $wp_manager->add_setting( 'customiser_carousel_slide05', array(
-            'default'        => ''
-        ) );
-
-        $wp_manager->add_control( new WP_Customize_Image_Control( $wp_manager, 'customiser_carousel_slide05', array(
-            'label'   => 'Carousel Setting',
-            'section' => 'customiser_carousel',
-            'description' => 'Cutomize here the slide02 image for your carousel.',
-            'settings'   => 'customiser_carousel_slide05',
-            'priority' => 8
-        ) ) );
-
-        // Description for slide 05
-        $wp_manager->add_setting( 'customiser_carousel_description_slide05', array(
-            'default' => 'TODO',
-        ) );
-
-        $wp_manager->add_control( 'customiser_carousel_description_slide05', array(
-            'label'   => __('Description of slide 05'),
-            'section' => 'customiser_carousel',
-            'description' => 'Cutomize here the description for slide 05.',
-            'type'    => 'text',
-            'priority' => 1
-        ) );
-
-}
-
+        $this->carousel_configuration_slide($wp_manager, 1);
+        $this->carousel_configuration_slide($wp_manager, 2);
+        $this->carousel_configuration_slide($wp_manager, 3);
+        $this->carousel_configuration_slide($wp_manager, 4);
+        $this->carousel_configuration_slide($wp_manager, 5);
+    }
 }?>

@@ -13,7 +13,6 @@
     $customiser_logo_height = get_theme_mod('customiser_logo_height','');
     $customiser_facebook_app_id = get_theme_mod('customiser_facebook_app_id','');
     $customiser_facebook_feed_id = get_theme_mod('customiser_facebook_feed_id','');
-    $customiser_banner_image = get_theme_mod('customiser_banner_image','');
     $customiser_default_police = get_theme_mod('customiser_default_police','Roboto, sans serif');
     $customiser_default_police_name = get_theme_mod('customiser_default_police_name','Roboto');
     // Carousel
@@ -88,7 +87,6 @@ limitations under the License.
                 wpLogo:<?php echo "'".$customiser_logo."'"; ?>,
                 wpLogoWidth:<?php echo "'".$customiser_logo_width."'"; ?>,
                 wpLogoHeight:<?php echo "'".$customiser_logo_height."'"; ?>,
-                wpBannerImage:<?php echo "'".$customiser_banner_image."'"; ?>,
                 wpDefaultPolice:<?php echo "'".$customiser_default_police."'"; ?>,
                 wpDefaultPoliceName:<?php echo "'".$customiser_default_police_name."'"; ?>,
                 wpCarousel: [
