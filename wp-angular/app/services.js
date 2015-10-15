@@ -431,7 +431,6 @@ myAppServices.factory('RestWordpressMenusTransform', ['$log', function($log) {
                 replace(/!x!/g, "").
                 replace(/!%!/g, "\"") + "";
               try {
-                  $log.debug("ATTR:", attr, transformedString);
                   return JSON.parse(transformedString);
               } catch(e) {
                   throw {exception:e, raw: attr, transform: transformedString};
