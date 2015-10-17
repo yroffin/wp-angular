@@ -68,6 +68,9 @@ blockquote {
     font-size: auto;
 }
 
+.clickable {
+    cursor: pointer;
+}
 
 /**
  * fix on top element when scrolling

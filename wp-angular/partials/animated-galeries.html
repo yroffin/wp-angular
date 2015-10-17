@@ -1,28 +1,30 @@
-<div ng-repeat="slide in working.slides track by $index" layout="row">
-    <div ng-if="!slide.selected">
-        {{slide.title.substring(0,10) + '...'}}
+<div layout="row">
+    <div flex>
+        <div ng-repeat="slide in working.slides track by $index" layout="row">
+            <div ng-if="slide.selected" class="animate-slide">
+                    <md-card>
+                        <md-card-header>
+                        </md-card-header>
+                        <md-card-content>{{slide.title}}</md-card-content>
+                        <md-card-footer>
+        <img class="md-card-image" ng-src="{{slide.featured_image}}" ng-click="location('/posts/'+slide.id)" class="clickable" alt="{{slide.title}}">
+                        </md-card-footer>
+                      </md-card>
+            </div>
+        </div>
     </div>
-    <div ng-if="slide.selected">
-    </div>
-    <div ng-if="slide.selected" class="animate-slide" flex>
-            <md-card>
-                <md-card-header>
-                </md-card-header>
-                <md-card-content>{{slide.title}}</md-card-content>
-                <md-card-footer>
-<img class="md-card-image" ng-src="{{slide.featured_image}}" ng-click="location('/posts/'+slide.id)" alt="{{slide.title}}">
-                </md-card-footer>
-              </md-card>
-    </div>
-    <div ng-if="!slide.selected" class="animate-slide-unselected" flex>
-            <md-card>
-                <md-card-header>
-                </md-card-header>
-                <md-card-content>
-                </md-card-content>
-                <md-card-footer>
-<img class="md-card-image" ng-src="{{slide.featured_image}}" ng-click="location('/posts/'+slide.id)" alt="{{slide.title}}">
-                </md-card-footer>
-              </md-card>
+    <div layout="column">
+        <table class="table table-bordered">
+            <thead>
+                    <th></th>
+                    <th>Le 27/06/2015</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="slide in working.slides track by $index" ng-click="location('/posts/'+slide.id)" class="clickable" ng-class="{'success':slide.selected, '':!slide.selected}">
+                    <td><ng-md-icon ng-if="slide.selected" icon="fast_forward" tyle="fill:grey" size="32"></ng-md-icon></td>
+                    <td>{{slide.title}}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>

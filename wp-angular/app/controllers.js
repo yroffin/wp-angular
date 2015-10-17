@@ -280,6 +280,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
          * next slide animation
          */
         $scope.nextSlide = function() {
+            $scope.working.slideActive = true;
             var idx = _.findIndex($scope.working.slides, 'selected', true);
             var newIdx = idx+1;
             if(newIdx>=$scope.working.slides.length) {
@@ -287,7 +288,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
             }
             $scope.working.slides[newIdx].selected = true;
             $scope.working.slides[idx].selected = false;
-            $timeout($scope.nextSlide, 5000);
+            $timeout($scope.nextSlide, 10000);
         }
         /**
          * init slides
@@ -299,8 +300,13 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
                   item.selected = false;
                 });
                 _.last(data).selected = true;
-                $scope.nextSlide();
                 $log.info($scope.working.slides.length," slides loaded", $scope.working.slides);
+                /**
+                 * activate slides
+                 */
+                if($scope.working.slideActive === undefined || $scope.working.slideActive === false) {
+                    $scope.nextSlide();
+                }
             });
         }
         /**
