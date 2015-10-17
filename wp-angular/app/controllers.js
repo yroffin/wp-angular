@@ -39,8 +39,12 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
                     controller: 'RestWordpressPageCtrl',
                     templateUrl: initVars().wpPartials+'partials/pages-detail.html'
                 }).
+                when('/category', {
+                    controller: 'wpCategoriesCtrl',
+                    templateUrl: initVars().wpPartials+'partials/categories.html'
+                }).
                 when('/category/:id', {
-                    controller: 'RestWordpressGaleriesCtrl',
+                    controller: 'wpGaleriesCtrl',
                     templateUrl: initVars().wpPartials+'partials/galeries.html'
                 }).
                 when('/youtube/:id', {
@@ -224,6 +228,18 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
     /**
      * pages controller
      */
+    .controller('wpCategoriesCtrl',
+    ['$scope', '$mdToast', '$location', 'categoryServices', function($scope, $mdToast, $location, categoryServices){
+        /**
+         * init categories
+         */
+        categoryServices.categories().then(function(cat) {
+            $scope.working.categories = cat;
+        });
+    }])
+    /**
+     * pages controller
+     */
     .controller('RestWordpressPagesCtrl',
     ['$scope', '$mdToast', '$location', 'pageServices', function($scope, $mdToast, $location, pageServices){
         /**
@@ -265,10 +281,13 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
     /**
      * categories controller
      */
-    .controller('RestWordpressGaleriesCtrl',
-    ['$scope', '$routeParams', 'postServices', function($scope, $routeParams, postServices){
+    .controller('wpGaleriesCtrl',
+    ['$scope', '$routeParams', 'postServices', '$log', function($scope, $routeParams, postServices, $log){
         postServices.category({id:$routeParams.id}).then(function(data) {
-            $scope.working.tiles = data;
+            $log.info("Galery", data.cat.name, data.posts)
+            $scope.working.galery = {};
+            $scope.working.galery.category = data.cat;
+            $scope.working.galery.posts = data.posts;
         });
     }])
     /**
@@ -295,11 +314,11 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
          */
         $scope.loadSlides = function(id) {
             postServices.category({id:id}).then(function(data) {
-                $scope.working.slides = data;
-                _.forEach(data, function(item) {
+                $scope.working.slides = data.posts;
+                _.forEach(data.posts, function(item) {
                   item.selected = false;
                 });
-                _.last(data).selected = true;
+                _.last(data.posts).selected = true;
                 $log.info($scope.working.slides.length," slides loaded", $scope.working.slides);
                 /**
                  * activate slides

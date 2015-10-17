@@ -2,9 +2,13 @@
     <br>
     <br>
     <br>
+    {{working.galery.category.name}}<br>
+    {{working.galery.category.description}}
+    <br>
+    <br>
     <md-grid-list md-gutter="2px" md-cols-sm="1" md-cols-md="3" md-cols-lg="5" md-cols-gt-lg="7" md-row-height="2:2">
       <md-grid-tile
-          ng-repeat="tile in working.tiles">
+          ng-repeat="tile in working.galery.posts">
             <md-card>
                 <md-card-header>
                 </md-card-header>

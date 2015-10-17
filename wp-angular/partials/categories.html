@@ -1,0 +1,22 @@
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Categorie(s)</div>
+
+  <!-- Table -->
+  <table class="table">
+    <thead>
+        <th>Id</th>
+        <th>Nom</th>
+        <th>Description</th>
+        <th>Lien</th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="category in working.categories">
+            <td>{{category.id}}</td>
+            <td>{{category.name}}</td>
+            <td>{{category.description}}</td>
+            <td><ng-md-icon ng-click="location('/category/'+category.id)" icon="link"></ng-md-icon></td>
+        </tr>
+    </tbody>
+  </table>
+</div>

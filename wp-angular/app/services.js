@@ -26,9 +26,36 @@
 var myAppServices = angular.module('RestWordpressApp.services', [ 'ngResource' ]);
 
 /**
+ * category services
+ */
+myAppServices.factory('wpCategoriesRest', [ '$resource', function($resource, $windows) {
+	return $resource('', {}, {
+			/**
+			 * get categories collection
+			 */
+			categories: {
+				method: 'GET',
+				url: wordpressRestApiUrl + '/taxonomies/category/terms',
+				params: {},
+				isArray: true,
+				cache: false
+			},
+			/**
+			 * get single category
+			 */
+			category: {
+				method: 'GET',
+				url: wordpressRestApiUrl + '/taxonomies/category/terms/:id',
+				isArray: false,
+				cache: false
+			}
+    });
+}]);
+
+/**
  * posts services
  */
-myAppServices.factory('RestWordpressPosts', [ '$resource', function($resource, $windows) {
+myAppServices.factory('wpPostsRest', [ '$resource', function($resource, $windows) {
 	return $resource('', {}, {
 			/**
 			 * get posts collection
@@ -52,9 +79,18 @@ myAppServices.factory('RestWordpressPosts', [ '$resource', function($resource, $
 			/**
 			 * get posts by category (collection)
 			 */
-			byCategory: {
+			byCategoryName: {
 				method: 'GET',
 				url: wordpressRestApiUrl + '/posts&filter[category_name]=:id',
+				isArray: true,
+				cache: false
+			},
+			/**
+			 * get posts by category (collection)
+			 */
+			byCategoryId: {
+				method: 'GET',
+				url: wordpressRestApiUrl + '/posts&filter[category_id]=:id',
 				isArray: true,
 				cache: false
 			}
@@ -119,7 +155,7 @@ myAppServices.factory('RestWordpressMenus', [ '$resource', function($resource, $
 /**
  * posts transformation
  */
-myAppServices.factory('businessServices', ['$mdToast', '$log', 'RestWordpressPosts', function($mdToast, $log, wpPostServices) {
+myAppServices.factory('businessServices', ['$mdToast', '$log', 'wpPostsRest', function($mdToast, $log, wpPostServices) {
     /**
      * initialize configuration
      */
@@ -132,7 +168,8 @@ myAppServices.factory('businessServices', ['$mdToast', '$log', 'RestWordpressPos
                 id: post.ID,
                 content: post.content,
                 title: post.title,
-                date: post.date
+                date: post.date,
+                category: post.terms.category
             }
             if(post.featured_image && post.featured_image.guid) {
                 data.featured_image = post.featured_image.guid;
@@ -144,6 +181,17 @@ myAppServices.factory('businessServices', ['$mdToast', '$log', 'RestWordpressPos
             if(data) {
                 data.title = data.title.replace('<br>',' ');
                 data.title = data.title.replace('&#8211;',' ');
+            }
+            return data;
+        },
+        /**
+         * transform post
+         */
+        transformCategory: function(cat) {
+            var data = {
+                id: cat.ID,
+                name: cat.name,
+                description: cat.description
             }
             return data;
         },
@@ -195,6 +243,60 @@ myAppServices.factory('businessServices', ['$mdToast', '$log', 'RestWordpressPos
                     .position(this.getToastPosition())
                     .hideDelay(3000)
             ).theme("failure-toast")
+        }
+    }
+}]);
+
+/**
+ * pages transformation
+ */
+myAppServices.factory('categoryServices', ['$q', '$log', 'businessServices', 'wpCategoriesRest', function($q, $log, businessServices, wpCategoriesRest) {
+    /**
+     * initialize configuration
+     */
+    return {
+        /**
+         * retrieve normalized pages
+         */
+        categories: function() {
+            var deferred = $q.defer();
+
+            wpCategoriesRest.categories({}, function(data) {
+                /**
+                 * normalize data
+                 */
+                var categories = [];
+                _.forEach(data, function(n) {
+                    categories.push(businessServices.transformCategory(n));
+                });
+                deferred.resolve(categories);
+                businessServices.toastOk(categories.length + " categorie(s)");
+            }, function(failure) {
+                businessServices.toastFailure(failure);
+                deferred.reject(failure);
+            });
+
+            return deferred.promise;
+        },
+        /**
+         * retrieve normalized category
+         */
+        category: function(category) {
+            var deferred = $q.defer();
+
+            wpCategoriesRest.category({id:category.id}, function(data) {
+                /**
+                 * normalize data
+                 */
+                var transformed = businessServices.transformCategory(data);
+                deferred.resolve(transformed);
+                businessServices.toastOk("Categorie " + transformed.name + " #" + transformed.id);
+            }, function(failure) {
+                businessServices.toastFailure(failure);
+                deferred.reject(failure);
+            });
+
+            return deferred.promise;
         }
     }
 }]);
@@ -280,7 +382,7 @@ myAppServices.factory('pageServices', ['$q', '$log', 'businessServices', 'RestWo
 /**
  * postServices
  */
-myAppServices.factory('postServices', ['$mdToast', '$q', '$log', 'businessServices', 'RestWordpressPosts', function($mdToast, $q, $log, businessServices, wpPostServices) {
+myAppServices.factory('postServices', ['$mdToast', '$q', '$log', 'businessServices', 'wpPostsRest', 'categoryServices', function($mdToast, $q, $log, businessServices, wpPostsRest, categoryServices) {
     /**
      * initialize configuration
      */
@@ -291,7 +393,7 @@ myAppServices.factory('postServices', ['$mdToast', '$q', '$log', 'businessServic
         posts: function() {
             var deferred = $q.defer();
 
-            wpPostServices.posts({}, function(data) {
+            wpPostsRest.posts({}, function(data) {
                 /**
                  * normalize data
                  */
@@ -314,7 +416,7 @@ myAppServices.factory('postServices', ['$mdToast', '$q', '$log', 'businessServic
         post: function(post) {
             var deferred = $q.defer();
 
-            wpPostServices.post({id:post.id}, function(data) {
+            wpPostsRest.post({id:post.id}, function(data) {
                 /**
                  * normalize data
                  */
@@ -330,22 +432,27 @@ myAppServices.factory('postServices', ['$mdToast', '$q', '$log', 'businessServic
         /**
          * retrieve normalized post
          */
-        category: function(category) {
+        category: function(parameter) {
             var deferred = $q.defer();
 
-            wpPostServices.byCategory({id:category.id}, function(data) {
+            categoryServices.category({id:parameter.id}).then(function(cat) {
                 /**
-                 * normalize data
+                 * founded category
                  */
-                var posts = [];
-                _.forEach(data, function(n) {
-                    posts.push(businessServices.transformPost(n));
+                wpPostsRest.byCategoryId({id:cat.id}, function(data) {
+                    /**
+                     * normalize data
+                     */
+                    var posts = [];
+                    _.forEach(data, function(n) {
+                        posts.push(businessServices.transformPost(n));
+                    });
+                    deferred.resolve({cat:cat, posts:posts});
+                    businessServices.toastOk(posts.length + " article(s)");
+                }, function(failure) {
+                    businessServices.toastFailure(failure);
+                    deferred.reject(failure);
                 });
-                deferred.resolve(posts);
-                businessServices.toastOk(posts.length + " article(s)");
-            }, function(failure) {
-                businessServices.toastFailure(failure);
-                deferred.reject(failure);
             });
 
             return deferred.promise;
