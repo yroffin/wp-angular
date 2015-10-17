@@ -54,6 +54,21 @@ Use it to make something cool, have fun, and share what you've learned with othe
 .alignleft {
 }
 
+.size-full {
+    max-width: 100%;
+    height: auto;
+}
+
+.size-large {
+    max-width: 100%;
+    height: auto;
+}
+
+blockquote {
+    font-size: auto;
+}
+
+
 /**
  * fix on top element when scrolling
  */
@@ -101,7 +116,8 @@ img.md-fab {
 /**
  * animation on slide
  */
-.animate-slide.ng-enter, .animate-slide.ng-leave {
+.animate-slide.ng-enter,
+.animate-slide.ng-leave {
   transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
 }
 
@@ -119,6 +135,17 @@ img.md-fab {
     -ms-transform: rotateY(0deg) translate(0px,0px); /* IE 9 */
     -webkit-transform: rotateY(0deg) translate(0px,0px); /* Safari */
     transform: rotateY(0deg) translate(0px,0px);
+}
+
+/**
+ * animation on slide
+ */
+.animate-slide-unselected {
+  opacity:0.1;
+  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+    -ms-transform: rotate(20deg) translate(-10px,0px); /* IE 9 */
+    -webkit-transform: rotate(20deg) translate(-10px,0px); /* Safari */
+    transform: rotate(20deg) translate(-10px,0px);
 }
 
 /**

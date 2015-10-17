@@ -1,9 +1,25 @@
-<div ng-repeat="slide in working.slides track by $index">
-    <div ng-if="slide.selected" class="animate-slide">
+<div ng-repeat="slide in working.slides track by $index" layout="row">
+    <div ng-if="!slide.selected">
+        {{slide.title.substring(0,10) + '...'}}
+    </div>
+    <div ng-if="slide.selected">
+    </div>
+    <div ng-if="slide.selected" class="animate-slide" flex>
             <md-card>
                 <md-card-header>
                 </md-card-header>
                 <md-card-content>{{slide.title}}</md-card-content>
+                <md-card-footer>
+<img class="md-card-image" ng-src="{{slide.featured_image}}" ng-click="location('/posts/'+slide.id)" alt="{{slide.title}}">
+                </md-card-footer>
+              </md-card>
+    </div>
+    <div ng-if="!slide.selected" class="animate-slide-unselected" flex>
+            <md-card>
+                <md-card-header>
+                </md-card-header>
+                <md-card-content>
+                </md-card-content>
                 <md-card-footer>
 <img class="md-card-image" ng-src="{{slide.featured_image}}" ng-click="location('/posts/'+slide.id)" alt="{{slide.title}}">
                 </md-card-footer>
