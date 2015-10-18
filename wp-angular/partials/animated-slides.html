@@ -1,6 +1,6 @@
 <div layout="row">
     <div flex>
-        <div ng-repeat="slide in working.slides track by $index" layout="row">
+        <div ng-repeat="slide in working.slide.slides track by $index" layout="row">
             <div ng-if="slide.selected" class="animate-slide">
                     <md-card>
                         <md-card-header>
@@ -16,11 +16,11 @@
     <div layout="column">
         <table class="table table-bordered">
             <thead>
-                    <th></th>
-                    <th>Le 27/06/2015</th>
+                    <th>{{working.slide.category.name}}</th>
+                    <th>{{working.slide.category.description}}</th>
             </thead>
             <tbody>
-                <tr ng-repeat="slide in working.slides track by $index" ng-click="location('/posts/'+slide.id)" class="clickable" ng-class="{'success':slide.selected, '':!slide.selected}">
+                <tr ng-repeat="slide in working.slide.slides track by $index" ng-click="location('/posts/'+slide.id)" class="clickable" ng-class="{'success':slide.selected, '':!slide.selected}">
                     <td><ng-md-icon ng-if="slide.selected" icon="fast_forward" tyle="fill:grey" size="32"></ng-md-icon></td>
                     <td>{{slide.title}}</td>
                 </tr>

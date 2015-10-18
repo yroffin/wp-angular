@@ -81,7 +81,16 @@ myAppServices.factory('wpPostsRest', [ '$resource', function($resource, $windows
 			 */
 			byCategoryName: {
 				method: 'GET',
-				url: wordpressRestApiUrl + '/posts&filter[category_name]=:id',
+				url: wordpressRestApiUrl + '/posts&filter[category_name]=:name',
+				isArray: true,
+				cache: false
+			},
+			/**
+			 * get posts by category (collection)
+			 */
+			byCategorySlug: {
+				method: 'GET',
+				url: wordpressRestApiUrl + '/posts&filter[category_name]=:slug',
 				isArray: true,
 				cache: false
 			},
@@ -128,7 +137,7 @@ myAppServices.factory('RestWordpressPages', [ '$resource', function($resource, $
  * menu services
  * - url are cached
  */
-myAppServices.factory('RestWordpressMenus', [ '$resource', function($resource, $windows) {
+myAppServices.factory('RestWordpressMenus', [ '$resource', function($resource) {
 	return $resource('', {}, {
 			/**
 			 * get menus collection
@@ -191,6 +200,7 @@ myAppServices.factory('businessServices', ['$mdToast', '$log', 'wpPostsRest', fu
             var data = {
                 id: cat.ID,
                 name: cat.name,
+                slug: cat.slug,
                 description: cat.description
             }
             return data;
@@ -232,6 +242,7 @@ myAppServices.factory('businessServices', ['$mdToast', '$log', 'wpPostsRest', fu
                     .position(this.getToastPosition())
                     .hideDelay(3000)
             );
+            $log.info(message);
         },
         /**
          * toast failure
@@ -241,8 +252,10 @@ myAppServices.factory('businessServices', ['$mdToast', '$log', 'wpPostsRest', fu
                 $mdToast.simple()
                     .content(message)
                     .position(this.getToastPosition())
-                    .hideDelay(3000)
-            ).theme("failure-toast")
+                    .hideDelay(6000)
+                    .theme("warn")
+            )
+            $log.warn(message);
         }
     }
 }]);
@@ -291,6 +304,37 @@ myAppServices.factory('categoryServices', ['$q', '$log', 'businessServices', 'wp
                 var transformed = businessServices.transformCategory(data);
                 deferred.resolve(transformed);
                 businessServices.toastOk("Categorie " + transformed.name + " #" + transformed.id);
+            }, function(failure) {
+                businessServices.toastFailure(failure);
+                deferred.reject(failure);
+            });
+
+            return deferred.promise;
+        },
+        /**
+         * retrieve normalized category
+         */
+        categoryBySlug: function(parameter) {
+            var deferred = $q.defer();
+
+            wpCategoriesRest.categories({}, function(data) {
+                /**
+                 * filter it
+                 */
+                var cats = _.filter(data, function(cat) {
+                    return cat.slug === parameter.slug;
+                })
+                if(cats === undefined) {
+                    businessServices.toastFailure("Category " + parameter.slug + " inconnue");
+                    deferred.reject("Category " + parameter.slug + " inconnue");
+                }else {
+                    /**
+                     * normalize data
+                     */
+                    var transformed = businessServices.transformCategory(cats[0]);
+                    deferred.resolve(transformed);
+                    businessServices.toastOk("Categorie " + transformed.name + " #" + transformed.id);
+                }
             }, function(failure) {
                 businessServices.toastFailure(failure);
                 deferred.reject(failure);
@@ -430,16 +474,16 @@ myAppServices.factory('postServices', ['$mdToast', '$q', '$log', 'businessServic
             return deferred.promise;
         },
         /**
-         * retrieve normalized post
+         * retrieve normalized category, then its posts
          */
-        category: function(parameter) {
+        categoryBySlug: function(parameter) {
             var deferred = $q.defer();
 
-            categoryServices.category({id:parameter.id}).then(function(cat) {
+            categoryServices.categoryBySlug({slug:parameter.slug}).then(function(cat) {
                 /**
                  * founded category
                  */
-                wpPostsRest.byCategoryId({id:cat.id}, function(data) {
+                wpPostsRest.byCategorySlug({slug:cat.slug}, function(data) {
                     /**
                      * normalize data
                      */

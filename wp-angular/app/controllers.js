@@ -39,11 +39,11 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
                     controller: 'RestWordpressPageCtrl',
                     templateUrl: initVars().wpPartials+'partials/pages-detail.html'
                 }).
-                when('/category', {
+                when('/categories', {
                     controller: 'wpCategoriesCtrl',
                     templateUrl: initVars().wpPartials+'partials/categories.html'
                 }).
-                when('/category/:id', {
+                when('/categories/:slug', {
                     controller: 'wpGaleriesCtrl',
                     templateUrl: initVars().wpPartials+'partials/galeries.html'
                 }).
@@ -51,9 +51,13 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
                     controller: 'RestWordpressVideosCtrl',
                     templateUrl: initVars().wpPartials+'partials/videos.html'
                 }).
-                when('/slide/:id', {
+                when('/slides', {
+                    controller: 'wpCategoriesCtrl',
+                    templateUrl: initVars().wpPartials+'partials/slides.html'
+                }).
+                when('/slides/:slug', {
                     controller: 'wpSliderCtrl',
-                    templateUrl: initVars().wpPartials+'partials/animated-galeries.html'
+                    templateUrl: initVars().wpPartials+'partials/animated-slides.html'
                 }).
                 when('/facebook/:id/:api', {
                     controller: 'FacebookFeedCtrl',
@@ -66,7 +70,8 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
         }])
     .config(function($mdThemingProvider) {
         // Configure a dark theme with primary foreground yellow
-        $mdThemingProvider.theme('default')
+        $mdThemingProvider
+            .theme('default')
             .primaryPalette('grey', {
                 'default': '400', // by default use shade 400 from the pink palette for primary intentions
                 'hue-1': '100', // use shade 100 for the <code>md-hue-1</code> class
@@ -75,6 +80,15 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
             })
                 .accentPalette('orange', {
                 'default': '200' // use shade 200 for default, and keep all other shades the same
+            });
+        // Configure a dark theme with primary foreground yellow
+        $mdThemingProvider
+            .theme('warn')
+            .primaryPalette('red', {
+                'default': '500',
+                'hue-1': '300',
+                'hue-2': '800',
+                'hue-3': 'A100'
             });
     })
     /**
@@ -283,8 +297,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
      */
     .controller('wpGaleriesCtrl',
     ['$scope', '$routeParams', 'postServices', '$log', function($scope, $routeParams, postServices, $log){
-        postServices.category({id:$routeParams.id}).then(function(data) {
-            $log.info("Galery", data.cat.name, data.posts)
+        postServices.categoryBySlug({slug:$routeParams.slug}).then(function(data) {
             $scope.working.galery = {};
             $scope.working.galery.category = data.cat;
             $scope.working.galery.posts = data.posts;
@@ -300,26 +313,28 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
          */
         $scope.nextSlide = function() {
             $scope.working.slideActive = true;
-            var idx = _.findIndex($scope.working.slides, 'selected', true);
+            var idx = _.findIndex($scope.working.slide.slides, 'selected', true);
             var newIdx = idx+1;
-            if(newIdx>=$scope.working.slides.length) {
+            if(newIdx>=$scope.working.slide.slides.length) {
                 newIdx = 0;
             }
-            $scope.working.slides[newIdx].selected = true;
-            $scope.working.slides[idx].selected = false;
+            $scope.working.slide.slides[newIdx].selected = true;
+            $scope.working.slide.slides[idx].selected = false;
             $timeout($scope.nextSlide, 10000);
         }
         /**
          * init slides
          */
-        $scope.loadSlides = function(id) {
-            postServices.category({id:id}).then(function(data) {
-                $scope.working.slides = data.posts;
+        $scope.loadSlides = function(slug) {
+            postServices.categoryBySlug({slug:slug}).then(function(data) {
+                $scope.working.slide = {};
+                $scope.working.slide.category = data.cat;
+                $scope.working.slide.slides = data.posts;
                 _.forEach(data.posts, function(item) {
                   item.selected = false;
                 });
                 _.last(data.posts).selected = true;
-                $log.info($scope.working.slides.length," slides loaded", $scope.working.slides);
+                $log.info($scope.working.slide.slides.length," slides loaded", $scope.working.slide.slides);
                 /**
                  * activate slides
                  */
@@ -331,10 +346,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
         /**
          * load from scope
          */
-        var slides = $routeParams.id;
-        if(slides === undefined) {
-            slides = 'caterogy-6';
-        }
+        var slides = $routeParams.slug;
         $scope.loadSlides(slides);
     }])
     /**

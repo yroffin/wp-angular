@@ -4,15 +4,17 @@
 
   <!-- Table -->
   <table class="table">
+    <thead>
+        <th>Nom</th>
+        <th>Dernière modification</th>
+        <th>Lien</th>
+    </thead>
     <tbody>
-        <th></th>
-        <th></th>
-        <th></th>
+        <tr ng-repeat="page in working.pages">
+            <td>{{page.title}}</td>
+            <td>{{page.date}}</td>
+            <td><ng-md-icon ng-click="location('/pages/'+page.id)" icon="link"></ng-md-icon></td>
+        </tr>
     </tbody>
-    <tr ng-repeat="page in working.pages">
-        <td>{{page.title}}</td>
-        <td>{{page.date}}</td>
-        <td><ng-md-icon ng-click="location('/pages/'+page.id)" icon="link"></ng-md-icon></td>
-    </tr>
   </table>
 </div>
