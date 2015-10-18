@@ -590,43 +590,39 @@ myAppServices.factory('RestWordpressMenusTransform', ['$log', function($log) {
 
           var menu = [];
           var menuMap = {};
+          $log.debug("menuMap:forEach", rawMenu.items);
           /**
-           * compute root level
+           * compute all level in a single map
            */
-          for(var index=0;index < rawMenu.count;index++) {
-              var item = rawMenu.items[index];
+          _.forEach(rawMenu.items, function(item, key) {
+              /**
+               * store it in map
+               */
+              menuMap[item.ID] = {
+                id:item.ID,
+                order:item.order,
+                name:item.title,
+                action: action(item, parse(item.attr)),
+                attr: parse(item.attr),
+                parent: item.parent,
+                items:[]
+              };
+          });
+          /**
+           * compute all level
+           */
+          _.forEach(menuMap, function(item, key) {
+              var parentId = item.id;
+              item.items = _.filter(menuMap, function(element) {
+                 return element.parent === parentId;
+              });
               if(item.parent === 0) {
-                  /**
-                   * store it in map
-                   */
-                  menuMap[item.ID] = {
-                    id:item.ID,
-                    name:item.title,
-                    action: action(item, parse(item.attr)),
-                    attr: parse(item.attr),
-                    items:[]
-                  };
-                  /**
-                   * and maintain collection view
-                   */
-                  menu.push(menuMap[item.ID]);
+                  menu.push(item);
               }
-          }
-          /**
-           * compute first level
-           */
-          for(var index=0;index < rawMenu.count;index++) {
-              var item = rawMenu.items[index];
-              if(item.parent != 0) {
-                  menuMap[item.parent].items.push({
-                    id:item.ID,
-                    name:item.title,
-                    attr: parse(item.attr),
-                    action: action(item, parse(item.attr))
-                  });
-              }
-          }
-          return menu;
+          });
+          return _.sortBy(menu, function(item) {
+              return item.order;
+          });
       }
   };
 }]);

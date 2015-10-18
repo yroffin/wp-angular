@@ -147,13 +147,25 @@ limitations under the License.
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class="collapse navbar-collapse" id="them-main-menu">
               <ul class="nav navbar-nav">
-                <li ng-repeat="item in working.menu" class="{{item.items.length === 0 ? '' : 'dropdown'}}">
-                  <a ng-if="item.items.length === 0" href="#{{item.action.location}}">{{item.name}}</a>
-                  <a ng-if="item.items.length != 0" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{item.name}} <span class="caret"></span></a>
-                  <ul ng-if="item.items.length != 0" class="dropdown-menu">
-                    <li ng-repeat="subitem in item.items"><a href="#{{subitem.action.location}}">{{subitem.name}}</a></li>
+                <!-- first level iterate on working.menu (default menu) activate dropdown if any items -->
+                <li ng-repeat="level0 in working.menu" class="{{level0.items.length === 0 ? '' : 'dropdown'}}">
+                  <!-- case no items just make a single link -->
+                  <a ng-if="level0.items.length === 0" href="#{{level0.action.location}}">{{level0.name}}</a>
+                  <!-- case items toggle dropdown behaviour a + ul -->
+                  <a  ng-if="level0.items.length != 0" class="dropdown-toggle" data-toggle="dropdown" role="button">{{level0.name}} <span class="caret"></span></a>
+                  <ul ng-if="level0.items.length != 0" class="dropdown-menu">
+                    <!-- second level iterate on level0.items activate dropdown if any items -->
+                    <li ng-repeat="level1 in level0.items" class="{{level1.items.length === 0 ? '' : 'dropdown-submenu'}}">
+                      <!-- case no items just make a single link -->
+                      <a ng-if="level1.items.length === 0" href="#{{level1.action.location}}">{{level1.name}}</a>
+                      <!-- case items toggle dropdown behaviour a + ul -->
+                      <a  ng-if="level1.items.length != 0" class="dropdown-toggle" data-toggle="dropdown" role="button">{{level1.name}}</span></a>
+                      <ul ng-if="level1.items.length != 0" class="dropdown-menu">
+                          <li ng-repeat="level2 in level1.items"><a href="#{{level2.action.location}}">{{level2.name}}</a></li>
+                      </ul>
+                    </li>
                   </ul>
                 </li>
               </ul>
