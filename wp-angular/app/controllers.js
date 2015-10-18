@@ -100,7 +100,9 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
         /**
          * wath media for adaptive render
          */
-        $scope.$watch(function() { return $mdMedia('sm'); }, function(small) {
+        $scope.$watch(function() {
+            return $mdMedia('(max-width: 768px)');
+        }, function(small) {
             $scope.screenIsSmall = small;
         });
 
@@ -111,7 +113,6 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
         $scope.customizer = initVars();
         $scope.customizer.wpCarousel = _.filter($scope.customizer.wpCarousel, function(n) {
         return n.url.length > 0});
-         $log.info($scope.customizer);
 
         /**
          * internal properties
@@ -205,10 +206,8 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
 
               if (this.scrollTop > 147) {
                 wrap.addClass("fix-search");
-                $log.info("add");
               } else {
                 wrap.removeClass("fix-search");
-                $log.info("remove");
               }
 
             });
@@ -334,7 +333,6 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
                   item.selected = false;
                 });
                 _.last(data.posts).selected = true;
-                $log.info($scope.working.slide.slides.length," slides loaded", $scope.working.slide.slides);
                 /**
                  * activate slides
                  */

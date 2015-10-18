@@ -411,7 +411,6 @@ myAppServices.factory('pageServices', ['$q', '$log', 'businessServices', 'RestWo
                 var text = plainText(data.content);
                 var result = JSON.parse(text);
                 deferred.resolve(result);
-                $log.info("Vidéo(s)", result);
                 businessServices.toastOk("Video(s) " + data.title);
             }, function(failure) {
                 businessServices.toastFailure(failure);
@@ -548,7 +547,7 @@ myAppServices.factory('RestWordpressMenusTransform', ['$log', function($log) {
               if(raw.object === 'category') {
                   return {
                       raw: raw,
-                      location: '/category/' + extract(raw.url)
+                      location: '/categories/' + extract(raw.url)
                   }
               }
               /**
@@ -590,7 +589,6 @@ myAppServices.factory('RestWordpressMenusTransform', ['$log', function($log) {
 
           var menu = [];
           var menuMap = {};
-          $log.debug("menuMap:forEach", rawMenu.items);
           /**
            * compute all level in a single map
            */
