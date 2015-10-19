@@ -1,18 +1,22 @@
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading">Post(s)</div>
+  <div class="panel-heading">Article(s)</div>
 
   <!-- Table -->
   <table class="table">
+    <thead>
+        <th>Id</th>
+        <th>Titre</th>
+        <th>Date</th>
+        <th>Lien</th>
+    </thead>
     <tbody>
-        <th></th>
-        <th></th>
-        <th></th>
+        <tr ng-repeat="post in working.posts">
+            <td>{{post.id}}</td>
+            <td>{{post.title}}</td>
+            <td>{{post.date}}</td>
+            <td><ng-md-icon ng-click="location('/posts/'+post.id)" icon="link"></ng-md-icon></td>
+        </tr>
     </tbody>
-    <tr ng-repeat="post in working.posts">
-        <td>{{post.title}}</td>
-        <td>{{post.date}}</td>
-        <td><ng-md-icon ng-click="location('/posts/'+post.id)" icon="link"></ng-md-icon></td>
-    </tr>
   </table>
 </div>

@@ -197,6 +197,9 @@ limitations under the License.
             </md-toolbar>
             <carousel ng-controller="RestWordpressCtrl"></carousel>
             <md-card-content>
+                <ol class="breadcrumb">
+                  <li ng-repeat="crumb in breadcrumb.breadcrumbs track by $index" ><a href="{{crumb.location}}">{{crumb.name}}</a></li>
+                </ol>
                 <ng-view></ng-view>
             </md-card-content>
         </md-card>

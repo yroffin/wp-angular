@@ -124,6 +124,59 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
          if($scope.wpFacebookFeedId === '') $scope.wpFacebookFeedId = undefined;
 
         if($scope.working === undefined) $scope.working = {};
+        /**
+         * breadcrumbs
+         */
+        $scope.breadcrumb = {};
+        $scope.breadcrumb.breadcrumbs = [];
+
+        /**
+         * fix posts breadcrumb
+         */
+        $scope.breadcrumb.posts = function(detail) {
+            if(detail == undefined) {
+                $scope.breadcrumb.breadcrumbs = [
+                    {'location':'#/posts', 'name':'article(s)'}
+                ];
+            } else {
+                $scope.breadcrumb.breadcrumbs = [
+                    {'location':'#/posts', 'name':'article(s)'},
+                    {'location':'#/posts/' + detail.id, 'name':detail.title}
+                ];
+            }
+        }
+        /**
+         * fix pages breadcrumb
+         */
+        $scope.breadcrumb.pages = function(detail) {
+            if(detail == undefined) {
+                $scope.breadcrumb.breadcrumbs = [
+                    {'location':'#/pages', 'name':'page(s)'}
+                ];
+            } else {
+                $scope.breadcrumb.breadcrumbs = [
+                    {'location':'#/pages', 'name':'page(s)'},
+                    {'location':'#/pages/' + detail.id, 'name':detail.title}
+                ];
+            }
+        }
+        /**
+         * fix category breadcrumb
+         */
+        $scope.breadcrumb.categories = function(detail) {
+            if(detail === undefined) {
+                $scope.breadcrumb.breadcrumbs = [
+                    {'location':'#/categories', 'name':'categorie(s)'}
+                ];
+            } else {
+                $scope.breadcrumb.breadcrumbs = [
+                    {'location':'#/categories', 'name':'categorie(s)'},
+                    {'location':'#/categories/' + detail.slug, 'name':detail.name},
+                    {'location':'#/slides/' + detail.slug, 'name':detail.name + ' (slide)'}
+                ];
+            }
+        }
+
         $scope.menuId = "left";
 
         /**
@@ -221,6 +274,8 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
      */
     .controller('RestWordpressPostsCtrl',
     ['$scope', '$mdToast', 'postServices', function($scope, $mdToast, postServices){
+        $scope.breadcrumb.posts();
+
         /**
          * load posts in scope
          */
@@ -246,6 +301,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
      */
     .controller('wpCategoriesCtrl',
     ['$scope', '$mdToast', '$location', 'categoryServices', function($scope, $mdToast, $location, categoryServices){
+        $scope.breadcrumb.categories();
         /**
          * init categories
          */
@@ -258,6 +314,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
      */
     .controller('RestWordpressPagesCtrl',
     ['$scope', '$mdToast', '$location', 'pageServices', function($scope, $mdToast, $location, pageServices){
+        $scope.breadcrumb.pages();
         /**
          * init pages
          */
@@ -280,8 +337,10 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
     .controller('RestWordpressPostCtrl',
     ['$scope', '$mdSidenav', '$routeParams', '$mdToast', '$location', 'postServices',
         function($scope, $mdSidenav, $routeParams, $mdToast, $location, postServices){
+        $scope.breadcrumb.posts();
         postServices.post({id:$routeParams.id}).then(function(data) {
             $scope.working.post = data;
+            $scope.breadcrumb.posts(data);
         });
     }])
     /**
@@ -290,8 +349,10 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
     .controller('RestWordpressPageCtrl',
     ['$scope', '$mdSidenav', '$routeParams', '$mdToast', '$location', 'pageServices',
         function($scope, $mdSidenav, $routeParams, $mdToast, $location, pageServices){
+        $scope.breadcrumb.pages();
         pageServices.page({id:$routeParams.id}).then(function(data) {
             $scope.working.page = data;
+            $scope.breadcrumb.pages(data);
         });
     }])
     /**
@@ -299,9 +360,11 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
      */
     .controller('wpGaleriesCtrl',
     ['$scope', '$routeParams', 'postServices', '$log', function($scope, $routeParams, postServices, $log){
+        $scope.breadcrumb.categories();
         postServices.categoryBySlug({slug:$routeParams.slug}).then(function(data) {
             $scope.working.galery = {};
             $scope.working.galery.category = data.cat;
+            $scope.breadcrumb.categories(data.cat);
             $scope.working.galery.posts = data.posts;
         });
     }])
@@ -310,6 +373,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
      */
     .controller('wpSliderCtrl',
     ['$scope', '$log', '$routeParams', '$timeout', 'postServices', function($scope, $log, $routeParams, $timeout, postServices){
+        $scope.breadcrumb.categories();
         /**
          * next slide animation
          */
@@ -331,6 +395,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
             postServices.categoryBySlug({slug:slug}).then(function(data) {
                 $scope.working.slide = {};
                 $scope.working.slide.category = data.cat;
+                $scope.breadcrumb.categories(data.cat);
                 $scope.working.slide.slides = data.posts;
                 _.forEach(data.posts, function(item) {
                   item.selected = false;
