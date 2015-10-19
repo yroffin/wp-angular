@@ -1,19 +1,6 @@
-<div layout="row">
-    <div flex>
-        <div ng-repeat="slide in working.slide.slides track by $index" layout="row">
-            <div ng-if="slide.selected" class="animate-slide">
-                    <md-card>
-                        <md-card-header>
-                        </md-card-header>
-                        <md-card-content>{{slide.title}}</md-card-content>
-                        <md-card-footer>
-        <img class="md-card-image" ng-src="{{slide.featured_image}}" ng-click="location('/posts/'+slide.id)" class="clickable" alt="{{slide.title}}">
-                        </md-card-footer>
-                      </md-card>
-            </div>
-        </div>
-    </div>
-    <div layout="column">
+<div ng-cloak>
+  <md-grid-list md-gutter="2px" md-cols-sm="1" md-cols-md="2" md-cols-lg="2" md-cols-gt-lg="2" md-row-height="1:1">
+  <md-grid-tile>
         <table class="table table-bordered">
             <thead>
                     <th>{{working.slide.category.name}}</th>
@@ -26,5 +13,21 @@
                 </tr>
             </tbody>
         </table>
-    </div>
+  </md-grid-tile>
+  <md-grid-tile flex>
+        <div ng-repeat="slide in working.slide.slides track by $index">
+            <div ng-if="slide.selected" class="animate-slide">
+                    <md-card>
+                        <md-card-header>
+                        </md-card-header>
+                        <md-card-content>{{slide.title}}</md-card-content>
+                        <md-card-footer>
+        <img class="md-card-image" ng-src="{{slide.featured_image}}" ng-click="location('/posts/'+slide.id)" class="clickable" alt="{{slide.title}}">
+                        </md-card-footer>
+                      </md-card>
+            </div>
+        </div>
+      </md-card>
+  </md-grid-tile>
+</md-grid-list>
 </div>
