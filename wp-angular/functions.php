@@ -32,6 +32,7 @@ class theme_customizer
         $this->theme_configuration($wp_manager, 35);
         $this->facebook_configuration($wp_manager, 36);
         $this->carousel_configuration($wp_manager, 37);
+        $this->customiser_ga_key($wp_manager, 38);
     }
 
     public function facebook_configuration( $wp_manager, $wp_priority )
@@ -146,6 +147,30 @@ class theme_customizer
             'settings'   => 'customiser_logo',
             'priority' => 8
         ) ) );
+    }
+
+    /**
+     * CAROUSEL
+     */
+    public function customiser_ga_key( $wp_manager, $wp_priority )
+    {
+        // Carousel
+        $wp_manager->add_section( 'customiser_ga', array(
+            'title'          => 'Google analytics configuration',
+            'priority'       => $wp_priority,
+        ) );
+
+        $wp_manager->add_setting( 'customiser_ga_key', array(
+            'default'        => ''
+        ) );
+
+        $wp_manager->add_control( 'customiser_ga_key', array(
+            'label'   => __('Google analytics key'),
+            'section' => 'customiser_ga',
+            'description' => 'Cutomize here the google analytics key.',
+            'type'    => 'text',
+            'priority' => $wp_priority
+        ) );
     }
 
     /**

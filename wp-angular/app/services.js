@@ -611,9 +611,12 @@ myAppServices.factory('RestWordpressMenusTransform', ['$log', function($log) {
            */
           _.forEach(menuMap, function(item, key) {
               var parentId = item.id;
-              item.items = _.filter(menuMap, function(element) {
-                 return element.parent === parentId;
-              });
+              item.items = _.sortBy(
+                  _.filter(menuMap, function(element) {
+                    return element.parent === parentId;
+                  }), function(item) {
+                      return item.order;
+                  });
               if(item.parent === 0) {
                   menu.push(item);
               }
