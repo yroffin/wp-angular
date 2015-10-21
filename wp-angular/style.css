@@ -110,6 +110,8 @@ md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolb
 .container {
     opacity: 0.90;
     filter: alpha(opacity=90);
+    padding: 0px;
+    margin: auto;
 }
 
 /**
@@ -150,10 +152,9 @@ md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolb
 /**
  * carousel
  */
-.carousel-inner {
-    max-height: 256px;
-    overflow: hidden;
-    vertical-align: middle;
+.carousel-container {
+    padding: 0px;
+    margin: auto;
 }
 
 .carousel-caption {

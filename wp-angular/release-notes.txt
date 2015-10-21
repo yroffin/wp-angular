@@ -1,0 +1,45 @@
+1-le slider n'est pas ajusté à l’écran de mon mac
+
+Tu peux me donner une copie d'écran ?
+
+2-la police en Gris clair dans le menu n’est pas très lisible à mon gout
+
+Passage en noir
+
+3-Le menu événements doit être renommé en «  Apéro-concert » 
+
+4-Certains menus ne fonctionnent pas (photos par exemple)
+
+Ajout de la fonction photo
+
+5-la police est sympa, mais pas forcement très lisible. Je pense qu’une police plus classique est mieux adaptée pour une meilleure lisibilité.
+
+6-Un certain flottement de la bar slider quand on change de page. Comme une impression de mouvement. Le format de page semble changer de page en page.
+
+Définir le flottement
+
+1 - Je pense qu'il faut garder le slider uniquement sur cette page (comme on l'avait avant). Le fait de l'afficher sur toutes les pages du site brouille la lecture. Et si on le garde que sur la page d'accueil, il faut lui redonner de la hauteur. La je parle en tant que créateur de contenu, faire des diapos tout en longueur et tout maigre en hauteur, c'est compliqué pour organiser des informations. Je serais plutôt pour que le slider (si c'est possible) occupe toute la largeur de l'écran sur une largeur suffisante. 
+
+Slider uniquement sur la page d'accueil => page d'accueil d'ailleurs paramétrable dans le theme customizer
+Pour la taille ajout du paramétrage dans le theme customizer
+pour la pleine largeur à voir plus tard  
+
+2 - Autre élément important, il faut qu'on affiche plus clairement le menu haut (attention je parle en lecture sur écran PC car le menu affiché en mode mobile est très bien) :
+Un gros logo Ille & Zick (celui actuellement est vraiment trop petit) suivi sur la droite des éléments de menu (écrit en blanc aussi pour que ça ressorte plus), tout ça bien centré en haut de la page. Regarder sur ce site, je trouve ça très lisible
+Il faut que le nom Ille & Zick s'affiche clairement, que l'on sache ou on est arrivé !
+3 - Sous le slider, il faudrait faire respirer par un espace et ne pas coller direct du contenu
+4 - Il faudrait qu'on puisse revenir à l'accueil lorsque l'on clique sur le logo Ille & Zick
+5 - J'imagine que les éléments mis sous le slider sont temporaires ? parce qu'ils n'ont à mon sens pas leur place ici. Il faudrait sous le slider de la page d'accueil retrouver des informations d'actualités : l'apéro concert à venir, les news du moment, pourquoi pas le fil d'actu du facebook. En somme, un peu ce qu'on a sur le site existant !
+
+D'une manière générale, pour l'ensemble :
+1 - La police googlefonts que tu as utilisé est sympa mais uniquement pour les titres. Elle trouve qu'elle reste illisible pour la lecture de paragraphes.
+2 - Le menu événements devrait plutôt être renommé en «  Apéro-concert » 
+1 - Il serait bon de créer un footer dans lequel on retrouve les partenaires du festival
+2 - Il n'y a a pas de formulaire de contact sur la page "Contact" ?
+4 - Avec ma tablette (donc uniquement tactile), le site apparaît en mode PC (écran 10 pouces), impossible d'accéder au sous sous menu
+5 - Il faudrait placer un bandeau (peut être dans le footer) avec accès au réseau sociaux Ille & Zick + la possibilité d'inscription à la newsletter
+6 - Je trouve que le menu "Actu" n'a pas d'intérêt dans le menu général. L'actu aurait vraiment plus sa place en page d'accueil sous forme d'articles datés qui se suivent
+7 - Le "Promotions" dans le menu Événements (à transformer en Apéro Concert) n'a pas d'intérêt puisqu'on le retrouve déjà dans Archives - Médias
+8 - D'un point de vue organisation dans le menu archives, ça serait beaucoup plus clair si :
+En allant sur flyers/affiche, on puisse ensuite filtrer par saison (saison 2014-2015 - saison 2015-2016, etc). Idem pour les vidéos, photos, médias
+9 - Dans le menu Edition 2016 du festival, il faudrait que l'on retrouve les éléments "Présentation", "En pratique", "Tarifs", "Partenaires", etc même si aujourd'hui certains contenu restent vides (à nous de mettre un truc du genre "en cours de construction")

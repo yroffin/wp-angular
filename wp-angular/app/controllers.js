@@ -20,26 +20,26 @@
 
 angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSanitize', 'RestWordpressApp.services', 'angular-google-analytics'])
     .config(function (AnalyticsProvider) {
-        AnalyticsProvider.setAccount(initVars().wpGaKey);
+        AnalyticsProvider.setAccount(initVars().properties.wpGaKey);
     })
     .config(['$routeProvider', '$locationProvider',
         function($routeProvider, $locationProvider) {
             $routeProvider.
                 when('/posts', {
-                    controller: 'RestWordpressPostsCtrl',
+                    controller: 'wpPostsCtrl',
                     templateUrl: initVars().wpPartials+'partials/posts.html'
                 });
             $routeProvider.
                 when('/posts/:id', {
-                    controller: 'RestWordpressPostCtrl',
+                    controller: 'wpPostCtrl',
                     templateUrl: initVars().wpPartials+'partials/posts-detail.html'
                 }).
                 when('/pages', {
-                    controller: 'RestWordpressPagesCtrl',
+                    controller: 'wpPagesCtrl',
                     templateUrl: initVars().wpPartials+'partials/pages.html'
                 }).
                 when('/pages/:id', {
-                    controller: 'RestWordpressPageCtrl',
+                    controller: 'wpPageCtrl',
                     templateUrl: initVars().wpPartials+'partials/pages-detail.html'
                 }).
                 when('/categories', {
@@ -51,7 +51,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
                     templateUrl: initVars().wpPartials+'partials/galeries.html'
                 }).
                 when('/youtube/:id', {
-                    controller: 'RestWordpressVideosCtrl',
+                    controller: 'wpVideosCtrl',
                     templateUrl: initVars().wpPartials+'partials/videos.html'
                 }).
                 when('/medias', {
@@ -75,8 +75,8 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
                     templateUrl: initVars().wpPartials+'partials/facebook-feed.html'
                 }).
                 otherwise({
-                    controller: 'RestWordpressPagesCtrl',
-                    templateUrl: initVars().wpPartials+'partials/pages.html'
+                    controller: 'wpHomeCtrl',
+                    templateUrl: initVars().wpPartials+'partials/home.html'
                 });
         }])
     .config(function($mdThemingProvider) {
@@ -105,7 +105,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
     /**
      * main controller
      */
-    .controller('RestWordpressCtrl',
+    .controller('wpMainCtrl',
     ['$scope', '$mdSidenav', '$location', '$mdBottomSheet', '$window', '$mdDialog', '$mdMedia', '$log', 'Analytics',
      function($scope, $mdSidenav, $location, $mdBottomSheet, $window, $mdDialog, $mdMedia, $log, Analytics){
         /**
@@ -118,20 +118,17 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
         });
 
         /**
-         * store customizer in scope
+         * store wpVars in scope
          * and filter empty url
          */
-        $scope.customizer = initVars();
-        $scope.customizer.wpCarousel = _.filter($scope.customizer.wpCarousel, function(n) {
-        return n.url.length > 0});
-
-        /**
-         * internal properties
-         */
-        $scope.wpFacebookFeedId = wpFacebookFeedId;
-         if($scope.wpFacebookFeedId === '') $scope.wpFacebookFeedId = undefined;
+        $scope.wpVars = initVars();
+        $scope.wpVars.wpCarousel = _.filter($scope.wpVars.wpCarousel, function(n) {
+            return n.url != undefined && n.url.length > 0
+        });
+        $log.info("wpVars: ", $scope.wpVars);
 
         if($scope.working === undefined) $scope.working = {};
+
         /**
          * breadcrumbs
          */
@@ -198,6 +195,14 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
          * toggle navbar
          * @param menuId
          */
+        $scope.showCarousel = function(showIt) {
+            $scope.carouselIsVisible = showIt;
+        }
+
+        /**
+         * toggle navbar
+         * @param menuId
+         */
         $scope.toggleSideNav = function() {
             $mdSidenav($scope.menuId).toggle();
         }
@@ -222,7 +227,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
     /**
      * menu controller
      */
-    .controller('RestWordpressLoadMenuCtrl',
+    .controller('wpLoadMenuCtrl',
     ['$scope', 'RestWordpressMenus', 'RestWordpressMenusTransform', '$log', '$document', '$mdMenu', function($scope, menuServices, services, $log, $document, $mdMenu){
         /**
          * get configured menu
@@ -278,10 +283,23 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
         }
     }])
     /**
+     * home controller
+     */
+    .controller('wpHomeCtrl',
+    ['$scope', '$log', 'pageServices', function($scope, $log, pageServices) {
+        $scope.showCarousel(true);
+        $scope.breadcrumb.pages();
+        pageServices.page({id:$scope.wpVars.properties.wpPageOnFront}).then(function(data) {
+            $scope.working.home = data;
+            $scope.breadcrumb.pages(data);
+        });
+    }])
+    /**
      * posts controller
      */
-    .controller('RestWordpressPostsCtrl',
+    .controller('wpPostsCtrl',
     ['$scope', '$mdToast', 'postServices', function($scope, $mdToast, postServices){
+        $scope.showCarousel(false);
         $scope.breadcrumb.posts();
 
         /**
@@ -309,6 +327,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
      */
     .controller('wpCategoriesCtrl',
     ['$scope', '$mdToast', '$location', 'categoryServices', function($scope, $mdToast, $location, categoryServices){
+        $scope.showCarousel(false);
         $scope.breadcrumb.categories();
         /**
          * init categories
@@ -320,8 +339,9 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
     /**
      * pages controller
      */
-    .controller('RestWordpressPagesCtrl',
+    .controller('wpPagesCtrl',
     ['$scope', '$mdToast', '$location', 'pageServices', function($scope, $mdToast, $location, pageServices){
+        $scope.showCarousel(false);
         $scope.breadcrumb.pages();
         /**
          * init pages
@@ -342,9 +362,10 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
     /**
      * posts controller
      */
-    .controller('RestWordpressPostCtrl',
+    .controller('wpPostCtrl',
     ['$scope', '$mdSidenav', '$routeParams', '$mdToast', '$location', 'postServices',
         function($scope, $mdSidenav, $routeParams, $mdToast, $location, postServices){
+        $scope.showCarousel(false);
         $scope.breadcrumb.posts();
         postServices.post({id:$routeParams.id}).then(function(data) {
             $scope.working.post = data;
@@ -354,9 +375,10 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
     /**
      * pages controller
      */
-    .controller('RestWordpressPageCtrl',
+    .controller('wpPageCtrl',
     ['$scope', '$mdSidenav', '$routeParams', '$mdToast', '$location', 'pageServices',
         function($scope, $mdSidenav, $routeParams, $mdToast, $location, pageServices){
+        $scope.showCarousel(false);
         $scope.breadcrumb.pages();
         pageServices.page({id:$routeParams.id}).then(function(data) {
             $scope.working.page = data;
@@ -368,6 +390,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
      */
     .controller('wpGaleriesCtrl',
     ['$scope', '$routeParams', 'postServices', '$log', function($scope, $routeParams, postServices, $log){
+        $scope.showCarousel(false);
         $scope.breadcrumb.categories();
         postServices.categoryBySlug({slug:$routeParams.slug}).then(function(data) {
             $scope.working.galery = {};
@@ -381,6 +404,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
      */
     .controller('wpSliderCtrl',
     ['$scope', '$log', '$routeParams', '$timeout', 'postServices', function($scope, $log, $routeParams, $timeout, postServices){
+        $scope.showCarousel(false);
         $scope.breadcrumb.categories();
         /**
          * next slide animation
@@ -429,6 +453,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
     .controller('wpMediasCtrl',
     ['$scope', '$log', '$mdDialog', 'mediaServices',
         function($scope, $log, $mdDialog, mediaServices){
+            $scope.showCarousel(false);
             /**
              * pagination next
              */
@@ -504,21 +529,23 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
     /**
      * videos controller
      */
-    .controller('RestWordpressVideosCtrl',
+    .controller('wpVideosCtrl',
     ['$scope', '$mdSidenav', '$routeParams', '$mdToast', 'pageServices', '$sce',
         function($scope, $mdSidenav, $routeParams, $mdToast, pageServices, $sce){
+        $scope.showCarousel(false);
         pageServices.youtube({id:$routeParams.id}).then(function(data) {
             $scope.working.videos = data;
         });
     }])
-    .controller('RestWordpressVideosTrustedCtrl',
+    .controller('wpVideosTrustedCtrl',
     ['$scope', '$sce', function($scope, $sce){
         $scope.videoUrl = $sce.trustAsResourceUrl("https://www.youtube.com/embed/"+$scope.video.id);
     }])
     .controller('FacebookFeedCtrl',
     ['$scope', '$routeParams', 'facebookService', function($scope, $routeParams, facebookService){
+        $scope.showCarousel(false);
         facebookService.submit(
-            wordpressFacebookAppId,
+            $scope.wpVars.properties.wpFacebookAppId,
             function(args) {
             facebookService.api(args)
                 .then(function(response) {
@@ -539,7 +566,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
     .controller('FacebookPictureCtrl',
     ['$scope', '$routeParams', 'facebookService', function($scope, $routeParams, facebookService){
         facebookService.submit(
-            wordpressFacebookAppId,
+            $scope.wpVars.properties.wpFacebookAppId,
             function(args) {
             facebookService.api(args)
                 .then(function(response) {

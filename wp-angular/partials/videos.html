@@ -7,7 +7,7 @@
           ng-repeat="video in working.videos"
           md-colspan="1"
           md-rowspan="1">
-                    <iframe ng-controller="RestWordpressVideosTrustedCtrl" height="100%" width="100%" frameborder="0" allowfullscreen="1" title="{{video.title}}" ng-src="{{videoUrl}}"></iframe>
+                    <iframe ng-controller="wpVideosTrustedCtrl" height="100%" width="100%" frameborder="0" allowfullscreen="1" title="{{video.title}}" ng-src="{{videoUrl}}"></iframe>
       </md-grid-tile>
     </md-grid-list>
 </div>

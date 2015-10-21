@@ -4,30 +4,6 @@
      */
     $basedir = get_template_directory_uri()."/";
     $partials = "'wp-content/themes/".get_template()."/'";
-    /**
-     * theme customizer elements
-     */
-    $customiser_back_image = get_theme_mod('customiser_back_image','');
-    $customiser_logo = get_theme_mod('customiser_logo','');
-    $customiser_logo_width = get_theme_mod('customiser_logo_width','');
-    $customiser_logo_height = get_theme_mod('customiser_logo_height','');
-    $customiser_facebook_app_id = get_theme_mod('customiser_facebook_app_id','');
-    $customiser_facebook_feed_id = get_theme_mod('customiser_facebook_feed_id','');
-    $customiser_default_police = get_theme_mod('customiser_default_police','Roboto, sans serif');
-    $customiser_default_police_name = get_theme_mod('customiser_default_police_name','Roboto');
-    // Carousel
-    $customiser_carousel_slide01 = get_theme_mod('customiser_carousel_slide01','');
-    $customiser_carousel_slide02 = get_theme_mod('customiser_carousel_slide02','');
-    $customiser_carousel_slide03 = get_theme_mod('customiser_carousel_slide03','');
-    $customiser_carousel_slide04 = get_theme_mod('customiser_carousel_slide04','');
-    $customiser_carousel_slide05 = get_theme_mod('customiser_carousel_slide05','');
-    $customiser_carousel_desc_slide01 = get_theme_mod('customiser_carousel_description_slide01','');
-    $customiser_carousel_desc_slide02 = get_theme_mod('customiser_carousel_description_slide02','');
-    $customiser_carousel_desc_slide03 = get_theme_mod('customiser_carousel_description_slide03','');
-    $customiser_carousel_desc_slide04 = get_theme_mod('customiser_carousel_description_slide04','');
-    $customiser_carousel_desc_slide05 = get_theme_mod('customiser_carousel_description_slide05','');
-    // Google analytics
-    $customiser_ga_key = get_theme_mod('customiser_ga_key','');
 ?>
 <!doctype html>
 <!--
@@ -61,69 +37,84 @@ limitations under the License.
     <link rel="stylesheet" href="<?php echo $basedir; ?>style.css">
 
     <!-- Google fonts -->
-    <link href='http://fonts.googleapis.com/css?family=<?php echo $customiser_default_police_name; ?>' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=<?php echo get_theme_mod('wpDefaultPoliceName','Roboto'); ?>' rel='stylesheet' type='text/css'>
 
     <!-- Default style CSS -->
     <style>
         html, body {
-          font-family: <?php echo $customiser_default_police; ?>;
+          font-family: <?php echo get_theme_mod('wpDefaultPolice','Roboto, Sans serif'); ?>;
           font-size: 14px;
         }
         body {
-          background-image: url('<?php echo $customiser_back_image; ?>');
+          background-image: url('<?php echo get_theme_mod('wpBackImage',''); ?>');
           height: auto;
+        }
+        /**
+         * carousel
+         */
+        .carousel-inner {
+            max-height: <?php echo get_theme_mod('wpCarouselHeight',''); ?>;
+            overflow: hidden;
+            vertical-align: middle;
         }
     </style>
 
     <script>
         var wordpressPartialsUrl = <?php echo $partials; ?>;
         var wordpressRestApiUrl = 'index.php?json_route=';
-        var wordpressFacebookAppId = <?php echo "'".$customiser_facebook_app_id."'"; ?>;
-        var wpFacebookFeedId = <?php echo "'".$customiser_facebook_feed_id."'"; ?>;
+        var initVarsInstance;
         function initVars() {
-            var customizer = {
+            if(initVarsInstance != undefined) {
+                return initVarsInstance;
+            }
+            initVarsInstance = {
                 wpPartials:<?php echo $partials; ?>,
                 wordpressRestApiUrl:'index.php?json_route=',
-                wordpressFacebookAppId:<?php echo "'".$customiser_facebook_app_id."'"; ?>,
-                wpFacebookFeedId:<?php echo "'".$customiser_facebook_feed_id."'"; ?>,
-                wpLogo:<?php echo "'".$customiser_logo."'"; ?>,
-                wpLogoWidth:<?php echo "'".$customiser_logo_width."'"; ?>,
-                wpLogoHeight:<?php echo "'".$customiser_logo_height."'"; ?>,
-                wpDefaultPolice:<?php echo "'".$customiser_default_police."'"; ?>,
-                wpDefaultPoliceName:<?php echo "'".$customiser_default_police_name."'"; ?>,
-                wpGaKey:<?php echo "'".$customiser_ga_key."'"; ?>,
-                wpCarousel: [
-                {
-                    url:<?php echo "'".$customiser_carousel_slide01."'"; ?>,
-                    text:<?php echo "'".$customiser_carousel_desc_slide01."'"; ?>
-                },
-                {
-                    url:<?php echo "'".$customiser_carousel_slide02."'"; ?>,
-                    text:<?php echo "'".$customiser_carousel_desc_slide02."'"; ?>
-                },
-                {
-                    url:<?php echo "'".$customiser_carousel_slide03."'"; ?>,
-                    text:<?php echo "'".$customiser_carousel_desc_slide03."'"; ?>
-                },
-                {
-                    url:<?php echo "'".$customiser_carousel_slide04."'"; ?>,
-                    text:<?php echo "'".$customiser_carousel_desc_slide04."'"; ?>
-                },
-                {
-                    url:<?php echo "'".$customiser_carousel_slide05."'"; ?>,
-                    text:<?php echo "'".$customiser_carousel_desc_slide05."'"; ?>
+                properties: {
+                    <?php
+                        // Theme options
+                        foreach(get_theme_mods() as $key => $value){
+                            echo "                '".$key."': '".$value."',\n";
+                        }
+                        // Default options
+                        echo "                'wpPageOnFront': '".get_option('page_on_front')."'\n";
+                    ?>
                 }
-                ]
-            }
-            return customizer;
+            };
+            /**
+             * specific transformation for carousel
+             */
+            initVarsInstance.wpCarousel = [
+                {
+                    url:initVarsInstance.properties.wpCarouselImg01,
+                    text:initVarsInstance.properties.wpCarouselDesc01
+                },
+                {
+                    url:initVarsInstance.properties.wpCarouselImg02,
+                    text:initVarsInstance.properties.wpCarouselDesc02
+                },
+                {
+                    url:initVarsInstance.properties.wpCarouselImg03,
+                    text:initVarsInstance.properties.wpCarouselDesc03
+                },
+                {
+                    url:initVarsInstance.properties.wpCarouselImg04,
+                    text:initVarsInstance.properties.wpCarouselDesc04
+                },
+                {
+                    url:initVarsInstance.properties.wpCarouselImg05,
+                    text:initVarsInstance.properties.wpCarouselDesc05
+                }
+            ];
+            return initVarsInstance;
         }
     </script>
 </head>
-<body ng-cloak ng-controller="RestWordpressCtrl">
+<body ng-cloak ng-controller="wpMainCtrl">
 
 <!-- Side bar -->
 <md-sidenav class="md-sidenav-left" md-component-id="left" >
-    <md-content ng-controller="RestWordpressLoadMenuCtrl">
+    <md-content ng-controller="wpLoadMenuCtrl">
         <md-list>
             <div ng-repeat="item in working.menu">
                 <md-list-item class="md-3-line">
@@ -140,13 +131,13 @@ limitations under the License.
 </md-sidenav>
 
 <!-- Toolbar in no sm mode -->
-<div ng-controller="RestWordpressLoadMenuCtrl" ng-if="!screenIsSmall" set-class-when-at-top="fix-to-top">
+<div ng-controller="wpLoadMenuCtrl" ng-if="!screenIsSmall" set-class-when-at-top="fix-to-top">
     <div layout="column" id="menu-bar" flex>
         <nav class="navbar navbar-inverse">
           <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-              <img width="{{customizer.wpLogoWidth}}" height="{{customizer.wpLogoHeight}}" ng-src="{{customizer.wpLogo}}">
+              <img width="{{wpVars.properties.wpLogoWidth}}" height="{{wpVars.properties.wpLogoHeight}}" ng-src="{{wpVars.properties.wpLogo}}" ng-click="location('/home')">
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -181,23 +172,24 @@ limitations under the License.
 <!-- Main view -->
 <div layout="row" class="container" flex>
     <div layout="column" flex id="content">
+        <!-- Toolbar in sm mode -->
+        <md-toolbar ng-if="screenIsSmall" layout="row" class="md-right">
+            <!-- Logo -->
+            <div>
+                <img width="{{wpVars.properties.wpLogoWidth}}" height="{{wpVars.properties.wpLogoHeight}}" ng-src="{{wpVars.properties.wpLogo}}" ng-click="location('/home')">
+            </div>
+            <span flex></span>
+            <md-button class="md-fab md-raised" aria-label="Menu" ng-click="toggleSideNav()">
+                <ng-md-icon icon="menu"></ng-md-icon><md-tooltip>Menu</md-tooltip>
+            </md-button>
+            <md-button ng-show="wpVars.properties.wpFacebookFeedId" class="md-fab md-raised" aria-label="Menu" ng-click="location('/facebook/'+wpVars.properties.wpFacebookFeedId+'/feed')">
+                <ng-md-icon icon="facebook"></ng-md-icon><md-tooltip>Facebook</md-tooltip>
+            </md-button>
+        </md-toolbar>
+        <!-- Carousel -->
+        <carousel ng-show="carouselIsVisible" ng-controller="wpMainCtrl"></carousel>
         <!-- Main view -->
         <md-card>
-            <!-- Toolbar in sm mode -->
-            <md-toolbar ng-if="screenIsSmall" layout="row" class="md-right">
-                <!-- Logo -->
-                <div>
-                    <img width="{{customizer.wpLogoWidth}}" height="{{customizer.wpLogoHeight}}" ng-src="{{customizer.wpLogo}}">
-                </div>
-                <span flex></span>
-                <md-button class="md-fab md-raised" aria-label="Menu" ng-click="toggleSideNav()">
-                    <ng-md-icon icon="menu"></ng-md-icon><md-tooltip>Menu</md-tooltip>
-                </md-button>
-                <md-button ng-show="wpFacebookFeedId" class="md-fab md-raised" aria-label="Menu" ng-click="location('/facebook/<?php echo $customiser_facebook_feed_id ?>/feed')">
-                    <ng-md-icon icon="facebook"></ng-md-icon><md-tooltip>Facebook</md-tooltip>
-                </md-button>
-            </md-toolbar>
-            <carousel ng-controller="RestWordpressCtrl"></carousel>
             <md-card-content>
                 <ol class="breadcrumb">
                   <li ng-repeat="crumb in breadcrumb.breadcrumbs track by $index" ><a href="{{crumb.location}}">{{crumb.name}}</a></li>

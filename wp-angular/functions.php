@@ -37,32 +37,32 @@ class theme_customizer
 
     public function facebook_configuration( $wp_manager, $wp_priority )
     {
-        $wp_manager->add_section( 'customiser_facebook_section', array(
+        $wp_manager->add_section( 'wpCustomizerFacebookSection', array(
             'title'          => 'Facebook configuration',
             'priority'       => $wp_priority,
         ) );
 
         // Facebook secure id
-        $wp_manager->add_setting( 'customiser_facebook_app_id', array(
+        $wp_manager->add_setting( 'wpFacebookAppId', array(
             'default' => '01234560123456789',
         ) );
 
-        $wp_manager->add_control( 'customiser_facebook_app_id', array(
-            'label'   => __('Face book app id'),
-            'section' => 'customiser_facebook_section',
+        $wp_manager->add_control( 'wpFacebookAppId', array(
+            'label'   => __('Facebook app id'),
+            'section' => 'wpCustomizerFacebookSection',
             'description' => 'Enter here your Facebook App ID to access to a rich set of client-side functionality for adding Social Plugins, Facebook Login and Graph API calls. If empty Facebook App Id option is disabled.',
             'type'    => 'text',
             'priority' => 1
         ) );
 
         // Facebook feed id
-        $wp_manager->add_setting( 'customiser_facebook_feed_id', array(
+        $wp_manager->add_setting( 'wpFacebookFeedId', array(
             'default' => '',
         ) );
 
-        $wp_manager->add_control( 'customiser_facebook_feed_id', array(
+        $wp_manager->add_control( 'wpFacebookFeedId', array(
             'label'   => __('Face book feed id'),
-            'section' => 'customiser_facebook_section',
+            'section' => 'wpCustomizerFacebookSection',
             'description' => 'Enter here your Facebook feed id you want to browse. If empty Facebook Feed browse option is disabled.',
             'type'    => 'text',
             'priority' => 1
@@ -71,102 +71,106 @@ class theme_customizer
 
     public function theme_configuration( $wp_manager, $wp_priority )
     {
-        $wp_manager->add_section( 'customiser_section', array(
+        $wp_manager->add_section( 'wpCustomizerThemeConfiguration', array(
             'title'          => 'Theme configuration',
             'priority'       => $wp_priority,
         ) );
 
         // Back image
-        $wp_manager->add_setting( 'customiser_back_image', array(
+        $wp_manager->add_setting( 'wpBackImage', array(
             'default'        => '',
         ) );
 
-        $wp_manager->add_control( new WP_Customize_Image_Control( $wp_manager, 'customiser_back_image', array(
+        $wp_manager->add_control( new WP_Customize_Image_Control( $wp_manager, 'wpBackImage', array(
             'label'   => 'Image Setting',
-            'section' => 'customiser_section',
+            'section' => 'wpCustomizerThemeConfiguration',
             'description' => 'Cutomize here the background image for your site.',
-            'settings'   => 'customiser_back_image',
-            'priority' => 8
+            'settings'   => 'wpBackImage',
+            'priority' => 1
         ) ) );
 
         // Police
-        $wp_manager->add_setting( 'customiser_default_police', array(
+        $wp_manager->add_setting( 'wpDefaultPolice', array(
             'default'        => 'Roboto, sans serif'
         ) );
 
-        $wp_manager->add_control( 'customiser_default_police', array(
+        $wp_manager->add_control( 'wpDefaultPolice', array(
             'label'   => __('Default police name'),
-            'section' => 'customiser_section',
+            'section' => 'wpCustomizerThemeConfiguration',
             'description' => 'Enter here your default font.',
-            'settings'   => 'customiser_default_police'
+            'settings'   => 'wpDefaultPolice',
+            'priority' => 2
         ) );
 
-        $wp_manager->add_setting( 'customiser_default_police_name', array(
+        $wp_manager->add_setting( 'wpDefaultPoliceName', array(
             'default'        => 'Roboto'
         ) );
 
-        $wp_manager->add_control( 'customiser_default_police_name', array(
+        $wp_manager->add_control( 'wpDefaultPoliceName', array(
             'label'   => __('Default police'),
-            'section' => 'customiser_section',
+            'section' => 'wpCustomizerThemeConfiguration',
             'description' => 'Enter here your default font.',
-            'settings'   => 'customiser_default_police_name'
+            'settings'   => 'wpDefaultPoliceName',
+            'priority' => 3
         ) );
 
-        // Logo
-        $wp_manager->add_setting( 'customiser_logo_width', array(
+        $wp_manager->add_setting( 'wpLogo', array(
             'default'        => ''
         ) );
 
-        $wp_manager->add_control( 'customiser_logo_width', array(
-            'label'   => __('Logo width'),
-            'section' => 'customiser_section',
-            'description' => 'Enter here your logo width.',
-            'settings'   => 'customiser_logo_width'
-        ) );
-
-        // Logo
-        $wp_manager->add_setting( 'customiser_logo_height', array(
-            'default'        => ''
-        ) );
-
-        $wp_manager->add_control( 'customiser_logo_height', array(
-            'label'   => __('Logo height'),
-            'section' => 'customiser_section',
-            'description' => 'Enter here your logo height.',
-            'settings'   => 'customiser_logo_height'
-        ) );
-
-        $wp_manager->add_setting( 'customiser_logo', array(
-            'default'        => ''
-        ) );
-
-        $wp_manager->add_control( new WP_Customize_Image_Control( $wp_manager, 'customiser_logo', array(
+        $wp_manager->add_control( new WP_Customize_Image_Control( $wp_manager, 'wpLogo', array(
             'label'   => 'Logo Setting',
-            'section' => 'customiser_section',
+            'section' => 'wpCustomizerThemeConfiguration',
             'description' => 'Cutomize here the logo image for your site.',
-            'settings'   => 'customiser_logo',
+            'settings'   => 'wpLogo',
             'priority' => 8
         ) ) );
+
+        // Logo
+        $wp_manager->add_setting( 'wpLogoWidth', array(
+            'default'        => ''
+        ) );
+
+        $wp_manager->add_control( 'wpLogoWidth', array(
+            'label'   => __('Logo width'),
+            'section' => 'wpCustomizerThemeConfiguration',
+            'description' => 'Enter here your logo width.',
+            'settings'   => 'wpLogoWidth',
+            'priority' => 9
+        ) );
+
+        // Logo
+        $wp_manager->add_setting( 'wpLogoHeight', array(
+            'default'        => ''
+        ) );
+
+        $wp_manager->add_control( 'wpLogoHeight', array(
+            'label'   => __('Logo height'),
+            'section' => 'wpCustomizerThemeConfiguration',
+            'description' => 'Enter here your logo height.',
+            'settings'   => 'wpLogoHeight',
+            'priority' => 10
+        ) );
     }
 
     /**
-     * CAROUSEL
+     * google analytics
      */
     public function customiser_ga_key( $wp_manager, $wp_priority )
     {
-        // Carousel
-        $wp_manager->add_section( 'customiser_ga', array(
+        // google analytics
+        $wp_manager->add_section( 'wpCustomizerGoogleAnalytics', array(
             'title'          => 'Google analytics configuration',
             'priority'       => $wp_priority,
         ) );
 
-        $wp_manager->add_setting( 'customiser_ga_key', array(
+        $wp_manager->add_setting( 'wpGaKey', array(
             'default'        => ''
         ) );
 
-        $wp_manager->add_control( 'customiser_ga_key', array(
+        $wp_manager->add_control( 'wpGaKey', array(
             'label'   => __('Google analytics key'),
-            'section' => 'customiser_ga',
+            'section' => 'wpCustomizerGoogleAnalytics',
             'description' => 'Cutomize here the google analytics key.',
             'type'    => 'text',
             'priority' => $wp_priority
@@ -179,28 +183,28 @@ class theme_customizer
     public function carousel_configuration_slide( $wp_manager, $wp_numero )
     {
         // Description
-        $wp_manager->add_setting( 'customiser_carousel_description_slide0'.$wp_numero, array(
+        $wp_manager->add_setting( 'wpCarouselDesc0'.$wp_numero, array(
             'default' => 'TODO',
         ) );
 
-        $wp_manager->add_control( 'customiser_carousel_description_slide0'.$wp_numero, array(
+        $wp_manager->add_control( 'wpCarouselDesc0'.$wp_numero, array(
             'label'   => __('Description of slide '.$wp_numero),
-            'section' => 'customiser_carousel',
+            'section' => 'wpCustomizerCarousel',
             'description' => 'Cutomize here the description for slide0'.$wp_numero.'.',
             'type'    => 'text',
             'priority' => $wp_numero
         ) );
 
         // Image
-        $wp_manager->add_setting( 'customiser_carousel_slide0'.$wp_numero, array(
+        $wp_manager->add_setting( 'wpCarouselImg0'.$wp_numero, array(
             'default'        => 'TODO'
         ) );
 
-        $wp_manager->add_control( new WP_Customize_Image_Control( $wp_manager, 'customiser_carousel_slide0'.$wp_numero, array(
+        $wp_manager->add_control( new WP_Customize_Image_Control( $wp_manager, 'wpCarouselImg0'.$wp_numero, array(
             'label'   => 'Image',
-            'section' => 'customiser_carousel',
+            'section' => 'wpCustomizerCarousel',
             'description' => 'Cutomize here the slide0'.$wp_numero.' image.',
-            'settings'   => 'customiser_carousel_slide0'.$wp_numero,
+            'settings'   => 'wpCarouselImg0'.$wp_numero,
             'priority' => $wp_numero
         ) ) );
     }
@@ -211,15 +215,25 @@ class theme_customizer
     public function carousel_configuration( $wp_manager, $wp_priority )
     {
         // Carousel
-        $wp_manager->add_section( 'customiser_carousel', array(
+        $wp_manager->add_section( 'wpCustomizerCarousel', array(
             'title'          => 'Carousel configuration',
             'priority'       => $wp_priority,
         ) );
 
-        $wp_manager->add_setting( 'customiser_carousel_slide01', array(
-            'default'        => ''
+        // Carousel height
+        $wp_manager->add_setting( 'wpCarouselHeight', array(
+            'default' => '128px',
         ) );
 
+        $wp_manager->add_control( 'wpCarouselHeight', array(
+            'label'   => __('Carousel height'),
+            'section' => 'wpCustomizerCarousel',
+            'description' => 'Enter here your carousel default height.',
+            'type'    => 'text',
+            'priority' => 1
+        ) );
+
+        // Carousel slides
         $this->carousel_configuration_slide($wp_manager, 1);
         $this->carousel_configuration_slide($wp_manager, 2);
         $this->carousel_configuration_slide($wp_manager, 3);
