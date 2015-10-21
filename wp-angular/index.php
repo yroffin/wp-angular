@@ -54,7 +54,7 @@ limitations under the License.
     <meta name="apple-mobile-web-app-capable" content="yes">
 
     <!-- AngularJS Material Design -->
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.0/angular-material.min.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.4/angular-material.min.css">
     <!-- Latest compiled and minified CSS for bootstrap -->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <!-- Custom CSS -->
@@ -142,7 +142,7 @@ limitations under the License.
 <!-- Toolbar in no sm mode -->
 <div ng-controller="RestWordpressLoadMenuCtrl" ng-if="!screenIsSmall" set-class-when-at-top="fix-to-top">
     <div layout="column" id="menu-bar" flex>
-        <nav class="navbar navbar-default">
+        <nav class="navbar navbar-inverse">
           <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -186,7 +186,9 @@ limitations under the License.
             <!-- Toolbar in sm mode -->
             <md-toolbar ng-if="screenIsSmall" layout="row" class="md-right">
                 <!-- Logo -->
-                <img class="md-fab" width="{{customizer.wpLogoWidth}}" height="{{customizer.wpLogoHeight}}" ng-src="{{customizer.wpLogo}}">
+                <div>
+                    <img width="{{customizer.wpLogoWidth}}" height="{{customizer.wpLogoHeight}}" ng-src="{{customizer.wpLogo}}">
+                </div>
                 <span flex></span>
                 <md-button class="md-fab md-raised" aria-label="Menu" ng-click="toggleSideNav()">
                     <ng-md-icon icon="menu"></ng-md-icon><md-tooltip>Menu</md-tooltip>
@@ -218,7 +220,7 @@ limitations under the License.
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-aria.min.js"></script>
 
 <!-- AngularJS Material Design -->
-<script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.0/angular-material.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.4/angular-material.js"></script>
 <!-- Cf.  https://klarsys.github.io/angular-material-icons -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.5.0/angular-material-icons.min.js"></script>
 

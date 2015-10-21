@@ -1,0 +1,30 @@
+<div ng-cloak>
+    <nav>
+      <ul class="pagination">
+        <li>
+          <a href="#/medias" aria-label="Previous" ng-click="mediaPrev()">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li ng-repeat="page in working.media.pagination.pages" ng-class="{'active':page.active, '':!page.active}"><a href="#/medias" ng-click="load(page.index)">{{page.index}}</a></li>
+        <li>
+          <a href="#/medias" aria-label="Next" ng-click="mediaNext()">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <md-grid-list md-gutter="2px" md-cols-sm="1" md-cols-md="3" md-cols-lg="5" md-cols-gt-lg="5" md-row-height="1:1">
+      <md-grid-tile ng-repeat="media in working.media.medias track by $index">
+            <md-card>
+                <md-card-header>{{media.title}} #{{media.id}}</md-card-header>
+                <md-card-content></md-card-content>
+                <md-card-footer>
+    <img class="md-card-image" ng-src="{{media.meta.sizes.thumbnail.url}}" ng-click="mediaDialog(media)" class="clickable" alt="{{media.title}}">
+                </md-card-footer>
+            </md-card>
+          </md-card>
+      </md-grid-tile>
+    </md-grid-list>
+</div>

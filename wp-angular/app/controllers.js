@@ -54,6 +54,14 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
                     controller: 'RestWordpressVideosCtrl',
                     templateUrl: initVars().wpPartials+'partials/videos.html'
                 }).
+                when('/medias', {
+                    controller: 'wpMediasCtrl',
+                    templateUrl: initVars().wpPartials+'partials/medias.html'
+                }).
+                when('/medias/:id', {
+                    controller: 'wpMediasDetailCtrl',
+                    templateUrl: initVars().wpPartials+'partials/photos.html'
+                }).
                 when('/slides', {
                     controller: 'wpCategoriesCtrl',
                     templateUrl: initVars().wpPartials+'partials/slides.html'
@@ -414,6 +422,84 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
          */
         var slides = $routeParams.slug;
         $scope.loadSlides(slides);
+    }])
+    /**
+     * medias controller
+     */
+    .controller('wpMediasCtrl',
+    ['$scope', '$log', '$mdDialog', 'mediaServices',
+        function($scope, $log, $mdDialog, mediaServices){
+            /**
+             * pagination next
+             */
+            $scope.mediaNext = function(page) {
+                if($scope.working.media != undefined) {
+                    var page = $scope.working.media.pagination.active + 1;
+                    if(page > $scope.working.media.pagination.totalPages) {
+                        page = $scope.working.media.pagination.totalPages;
+                    }
+                }
+                $scope.load(page);
+            }
+            /**
+             * pagination prev
+             */
+            $scope.mediaPrev = function(page) {
+                if($scope.working.media != undefined) {
+                    var page = $scope.working.media.pagination.active - 1;
+                    if(page < 1) {
+                        page = 1;
+                    }
+                    $scope.load(page);
+                }
+            }
+            /**
+             * load
+             */
+            $scope.load = function(page) {
+                /**
+                 * load all medias and set pagination
+                 */
+                $log.info("Chargement page ", page)
+                mediaServices.medias({page:page}).then(function(data) {
+                    if($scope.working.media === undefined) {
+                        $scope.working.media = {};
+                    }
+                    $scope.working.media.medias = data.medias;
+                    $scope.working.media.pagination = data.pagination;
+                });
+            }
+            $scope.mediaDialog = function(media) {
+                $scope.mediaDialogData = {
+                    media: media
+                };
+                $mdDialog.show({
+                  scope: $scope,
+                  preserveScope: true,
+                  controller: 'wpMediaDialogCtrl',
+                  templateUrl: initVars().wpPartials+'partials/dialog/media.html',
+                  parent: angular.element(document.body),
+                  clickOutsideToClose:true
+                })
+                .then(function(answer) {
+                  $scope.status = 'You said the information was "' + answer + '".';
+                }, function() {
+                  $scope.status = 'You cancelled the dialog.';
+                });
+            };
+            /**
+             * no scope then load page 1
+             */
+            if($scope.working.media === undefined) {
+                $scope.load(1);
+            }
+    }])
+    /**
+     * medias controller
+     */
+    .controller('wpMediaDialogCtrl', ['$scope', '$log', 'mediaServices',
+        function($scope, $log, mediaServices){
+        $scope.media = $scope.mediaDialogData.media;
     }])
     /**
      * videos controller

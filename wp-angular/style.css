@@ -94,8 +94,8 @@ md-menu-bar md-backdrop.md-menu-backdrop {
 /**
  * fix md-card button alignment
  */
-img.md-fab {
-    width: auto;
+md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
+    background-color: rgb(0,0,0);
 }
 
 .default-style {
@@ -110,10 +110,6 @@ img.md-fab {
 .container {
     opacity: 0.90;
     filter: alpha(opacity=90);
-}
-
-.navbar-default {
-    background-color: #C3C3C3;
 }
 
 /**

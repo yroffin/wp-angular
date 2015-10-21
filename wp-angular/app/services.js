@@ -53,6 +53,33 @@ myAppServices.factory('wpCategoriesRest', [ '$resource', function($resource, $wi
 }]);
 
 /**
+ * category services
+ */
+myAppServices.factory('wpMediaRest', [ '$resource', function($resource) {
+	return $resource('', {}, {
+			/**
+			 * get categories collection
+			 */
+			medias: {
+				method: 'GET',
+				url: wordpressRestApiUrl + '/media',
+				params: {page: '@page'},
+				isArray: true,
+				cache: true
+			},
+			/**
+			 * get single category
+			 */
+			media: {
+				method: 'GET',
+				url: wordpressRestApiUrl + '/media/:id',
+				isArray: false,
+				cache: true
+			}
+    });
+}]);
+
+/**
  * posts services
  */
 myAppServices.factory('wpPostsRest', [ '$resource', function($resource, $windows) {
@@ -194,7 +221,7 @@ myAppServices.factory('businessServices', ['$mdToast', '$log', 'wpPostsRest', fu
             return data;
         },
         /**
-         * transform post
+         * transform category
          */
         transformCategory: function(cat) {
             var data = {
@@ -202,6 +229,21 @@ myAppServices.factory('businessServices', ['$mdToast', '$log', 'wpPostsRest', fu
                 name: cat.name,
                 slug: cat.slug,
                 description: cat.description
+            }
+            return data;
+        },
+        /**
+         * transform media
+         */
+        transformMedia: function(media) {
+            var data = {
+                id: media.ID,
+                title: media.title,
+                isImage: media.is_image,
+                format: media.format,
+                guid: media.guid,
+                source: media.source,
+                meta: media.attachment_meta
             }
             return data;
         },
@@ -235,14 +277,14 @@ myAppServices.factory('businessServices', ['$mdToast', '$log', 'wpPostsRest', fu
         /**
          * toast ok
          */
-        toastOk : function(message) {
+        toastOk : function(message, args) {
             $mdToast.show(
                 $mdToast.simple()
                     .content(message)
                     .position(this.getToastPosition())
                     .hideDelay(3000)
             );
-            $log.info(message);
+            $log.info(message, args);
         },
         /**
          * toast failure
@@ -256,6 +298,77 @@ myAppServices.factory('businessServices', ['$mdToast', '$log', 'wpPostsRest', fu
                     .theme("warn")
             )
             $log.warn(message);
+        }
+    }
+}]);
+
+/**
+ * pages transformation
+ */
+myAppServices.factory('mediaServices', ['$q', '$log', 'businessServices', 'wpMediaRest', function($q, $log, businessServices, wpMediaRest) {
+    /**
+     * initialize configuration
+     */
+    return {
+        /**
+         * retrieve normalized medias (collection)
+         */
+        medias: function(parameters) {
+            var deferred = $q.defer();
+
+            wpMediaRest.medias(parameters, function(data, responseHeaders) {
+                /**
+                 * normalize data
+                 */
+                var medias = [];
+                _.forEach(data, function(n) {
+                    medias.push(businessServices.transformMedia(n));
+                });
+                /**
+                 * build page index
+                 */
+                var pagination = {
+                        pages: [],
+                        total: responseHeaders()['x-wp-total'],
+                        totalPages: responseHeaders()['x-wp-totalpages']
+                };
+                for(var index = 1; index <= pagination.totalPages; index++) {
+                    pagination.pages.push({index: index, active: index == parameters.page})
+                    if(index == parameters.page) {
+                        pagination.active = index;
+                    }
+                }
+                deferred.resolve({
+                    medias:medias,
+                    pagination: pagination
+                });
+                businessServices.toastOk(medias.length + " media(s)", medias);
+            }, function(failure) {
+                businessServices.toastFailure(failure);
+                deferred.reject(failure);
+            });
+
+            return deferred.promise;
+        },
+        /**
+         * retrieve normalized media
+         */
+        media: function(media) {
+            var deferred = $q.defer();
+
+            wpCategoriesRest.media({id:media.id}, function(data) {
+                /**
+                 * normalize data
+                 */
+                var transformed = businessServices.transformMedia(data);
+                deferred.resolve(transformed);
+                businessServices.toastOk("Media " + transformed.title + " #" + transformed.id);
+            }, function(failure) {
+                businessServices.toastFailure(failure);
+                deferred.reject(failure);
+            });
+
+            return deferred.promise;
         }
     }
 }]);
