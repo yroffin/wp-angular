@@ -18,7 +18,15 @@
 
 /* Controllers */
 
-angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSanitize', 'RestWordpressApp.services', 'angular-google-analytics'])
+angular.module('RestWordpressApp',[
+    'ngMaterial',
+    'ngMdIcons',
+    'ngRoute',
+    'ngSanitize',
+    'angular-google-analytics',
+    'RestWordpressApp.services',
+    'wpDirective.services'
+])
     .config(function (AnalyticsProvider) {
         AnalyticsProvider.setAccount(initVars().properties.wpGaKey);
     })
@@ -32,7 +40,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
             $routeProvider.
                 when('/posts/:id', {
                     controller: 'wpPostCtrl',
-                    templateUrl: initVars().wpPartials+'partials/posts-detail.html'
+                    template: '<default-post />'
                 }).
                 when('/pages', {
                     controller: 'wpPagesCtrl',
@@ -40,7 +48,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
                 }).
                 when('/pages/:id', {
                     controller: 'wpPageCtrl',
-                    templateUrl: initVars().wpPartials+'partials/pages-detail.html'
+                    template: '<default-page />'
                 }).
                 when('/categories', {
                     controller: 'wpCategoriesCtrl',
@@ -72,7 +80,7 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
                 }).
                 when('/facebook/:id/:api', {
                     controller: 'FacebookFeedCtrl',
-                    templateUrl: initVars().wpPartials+'partials/facebook-feed.html'
+                    template: '<facebook-feed />'
                 }).
                 otherwise({
                     controller: 'wpHomeCtrl',
@@ -289,6 +297,38 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
     ['$scope', '$log', 'pageServices', function($scope, $log, pageServices) {
         $scope.showCarousel(true);
         $scope.breadcrumb.pages();
+
+        $scope.home = {};
+        $scope.home.tiles = [];
+        $scope.home.tiles.push({
+            title: 'tile de test #1',
+            type: 'tiny-post',
+            data: {
+                id: 707
+            }
+        });
+        $scope.home.tiles.push({
+            title: 'tile de test #2',
+            type: 'tiny-post',
+            data: {
+                id: 820
+            }
+        });
+        $scope.home.tiles.push({
+            title: 'tile de test #3',
+            type: 'tiny-post',
+            data: {
+                id: 826
+            }
+        });
+        $scope.home.tiles.push({
+            type: 'facebook-feed',
+            data: {
+                id: 'illeetzick',
+                api: 'feed'
+            }
+        });
+
         pageServices.page({id:$scope.wpVars.properties.wpPageOnFront}).then(function(data) {
             $scope.working.home = data;
             $scope.breadcrumb.pages(data);
@@ -367,10 +407,6 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
         function($scope, $mdSidenav, $routeParams, $mdToast, $location, postServices){
         $scope.showCarousel(false);
         $scope.breadcrumb.posts();
-        postServices.post({id:$routeParams.id}).then(function(data) {
-            $scope.working.post = data;
-            $scope.breadcrumb.posts(data);
-        });
     }])
     /**
      * pages controller
@@ -380,10 +416,6 @@ angular.module('RestWordpressApp',['ngMaterial', 'ngMdIcons', 'ngRoute', 'ngSani
         function($scope, $mdSidenav, $routeParams, $mdToast, $location, pageServices){
         $scope.showCarousel(false);
         $scope.breadcrumb.pages();
-        pageServices.page({id:$routeParams.id}).then(function(data) {
-            $scope.working.page = data;
-            $scope.breadcrumb.pages(data);
-        });
     }])
     /**
      * categories controller

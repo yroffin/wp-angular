@@ -38,7 +38,7 @@ myAppServices.factory('wpCategoriesRest', [ '$resource', function($resource, $wi
 				url: wordpressRestApiUrl + '/taxonomies/category/terms',
 				params: {},
 				isArray: true,
-				cache: false
+				cache: true
 			},
 			/**
 			 * get single category
@@ -47,7 +47,7 @@ myAppServices.factory('wpCategoriesRest', [ '$resource', function($resource, $wi
 				method: 'GET',
 				url: wordpressRestApiUrl + '/taxonomies/category/terms/:id',
 				isArray: false,
-				cache: false
+				cache: true
 			}
     });
 }]);
@@ -92,7 +92,7 @@ myAppServices.factory('wpPostsRest', [ '$resource', function($resource, $windows
 				url: wordpressRestApiUrl + '/posts',
 				params: {},
 				isArray: true,
-				cache: false
+				cache: true
 			},
 			/**
 			 * get single post
@@ -101,7 +101,7 @@ myAppServices.factory('wpPostsRest', [ '$resource', function($resource, $windows
 				method: 'GET',
 				url: wordpressRestApiUrl + '/posts/:id',
 				isArray: false,
-				cache: false
+				cache: true
 			},
 			/**
 			 * get posts by category (collection)
@@ -110,7 +110,7 @@ myAppServices.factory('wpPostsRest', [ '$resource', function($resource, $windows
 				method: 'GET',
 				url: wordpressRestApiUrl + '/posts&filter[category_name]=:name',
 				isArray: true,
-				cache: false
+				cache: true
 			},
 			/**
 			 * get posts by category (collection)
@@ -119,7 +119,7 @@ myAppServices.factory('wpPostsRest', [ '$resource', function($resource, $windows
 				method: 'GET',
 				url: wordpressRestApiUrl + '/posts&filter[category_name]=:slug',
 				isArray: true,
-				cache: false
+				cache: true
 			},
 			/**
 			 * get posts by category (collection)
@@ -128,7 +128,7 @@ myAppServices.factory('wpPostsRest', [ '$resource', function($resource, $windows
 				method: 'GET',
 				url: wordpressRestApiUrl + '/posts&filter[category_id]=:id',
 				isArray: true,
-				cache: false
+				cache: true
 			}
 		}
 	)}]);
@@ -146,7 +146,7 @@ myAppServices.factory('RestWordpressPages', [ '$resource', function($resource, $
 				url: wordpressRestApiUrl + '/pages',
 				params: {},
 				isArray: true,
-				cache: false
+				cache: true
 			},
 			/**
 			 * get single page
@@ -155,7 +155,7 @@ myAppServices.factory('RestWordpressPages', [ '$resource', function($resource, $
 				method: 'GET',
 				url: wordpressRestApiUrl + '/pages/:id',
 				isArray: false,
-				cache: false
+				cache: true
 			}
 		}
 	)}]);
