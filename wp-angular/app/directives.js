@@ -50,7 +50,7 @@ app.directive('setClassWhenAtTop', function ($window, $log) {
 app.directive('carousel', function ($window, $log) {
   return {
     restrict: 'E',
-    templateUrl: wordpressPartialsUrl +'partials/carousel.html'
+    templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/carousel.html'
   }
 });
 
@@ -60,7 +60,7 @@ app.directive('carousel', function ($window, $log) {
 app.directive('slider', function () {
   return {
     restrict: 'E',
-    templateUrl: wordpressPartialsUrl +'partials/animated-galeries.html'
+    templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/animated-galeries.html'
   }
 });
 
@@ -77,7 +77,7 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
 .directive('tinyPage', ['$log', '$routeParams', 'pageServices', function ($log, $routeParams, pageServices) {
   return {
     restrict: 'E',
-    templateUrl: wordpressPartialsUrl +'partials/directives/tiny-page.html',
+    templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/directives/tiny-page.html',
     link: function(scope, element, attrs) {
         /**
          * read routeParams first, then attributes
@@ -109,7 +109,7 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
 .directive('defaultPage', ['$log', '$routeParams', 'pageServices', function ($log, $routeParams, pageServices) {
   return {
     restrict: 'E',
-    templateUrl: wordpressPartialsUrl +'partials/directives/default-page.html',
+    templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/directives/default-page.html',
     link: function(scope, element, attrs) {
         /**
          * read routeParams first, then attributes
@@ -141,7 +141,7 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
 .directive('tinyPost', ['$log', '$routeParams', 'postServices', function ($log, $routeParams, postServices) {
   return {
     restrict: 'E',
-    templateUrl: wordpressPartialsUrl +'partials/directives/tiny-post.html',
+    templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/directives/tiny-post.html',
     link: function(scope, element, attrs) {
         /**
          * read routeParams first, then attributes
@@ -173,7 +173,7 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
 .directive('defaultPost', ['$log', '$routeParams', 'postServices', function ($log, $routeParams, postServices) {
   return {
     restrict: 'E',
-    templateUrl: wordpressPartialsUrl +'partials/directives/default-post.html',
+    templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/directives/default-post.html',
     link: function(scope, element, attrs) {
         /**
          * read routeParams first, then attributes
@@ -205,7 +205,7 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
 .directive('facebookFeed', ['$log', '$routeParams', 'facebookService', function ($log, $routeParams, facebookService) {
   return {
     restrict: 'E',
-    templateUrl: wordpressPartialsUrl +'partials/directives/facebook-feed.html',
+    templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/directives/facebook-feed.html',
     link: function(scope, element, attrs) {
         /**
          * read routeParams first, then attributes
@@ -243,6 +243,27 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
                 filter:"?fields=message,from,link"
             }
         );
+    }
+  }
+}])
+/**
+ * simple custom divider widget
+ */
+.controller('customDividerCtrl',
+['$scope', '$log', '$routeParams', function($scope, $log, $routeParams){
+}])
+/**
+ * page directive
+ */
+.directive('customDivider', ['$log', '$routeParams', function ($log, $routeParams) {
+  return {
+    restrict: 'E',
+    templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/directives/custom-divider.html',
+    link: function(scope, element, attrs) {
+        /**
+         * add text for this custom divider
+         */
+        scope.text = attrs.text;
     }
   }
 }])

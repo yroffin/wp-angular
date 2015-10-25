@@ -35,7 +35,7 @@ angular.module('RestWordpressApp',[
             $routeProvider.
                 when('/posts', {
                     controller: 'wpPostsCtrl',
-                    templateUrl: initVars().wpPartials+'partials/posts.html'
+                    templateUrl: initVars().wpTemplateDirectoryUri+'/partials/posts.html'
                 });
             $routeProvider.
                 when('/posts/:id', {
@@ -44,7 +44,7 @@ angular.module('RestWordpressApp',[
                 }).
                 when('/pages', {
                     controller: 'wpPagesCtrl',
-                    templateUrl: initVars().wpPartials+'partials/pages.html'
+                    templateUrl: initVars().wpTemplateDirectoryUri+'/partials/pages.html'
                 }).
                 when('/pages/:id', {
                     controller: 'wpPageCtrl',
@@ -52,31 +52,31 @@ angular.module('RestWordpressApp',[
                 }).
                 when('/categories', {
                     controller: 'wpCategoriesCtrl',
-                    templateUrl: initVars().wpPartials+'partials/categories.html'
+                    templateUrl: initVars().wpTemplateDirectoryUri+'/partials/categories.html'
                 }).
                 when('/categories/:slug', {
                     controller: 'wpGaleriesCtrl',
-                    templateUrl: initVars().wpPartials+'partials/galeries.html'
+                    templateUrl: initVars().wpTemplateDirectoryUri+'/partials/galeries.html'
                 }).
                 when('/youtube/:id', {
                     controller: 'wpVideosCtrl',
-                    templateUrl: initVars().wpPartials+'partials/videos.html'
+                    templateUrl: initVars().wpTemplateDirectoryUri+'/partials/videos.html'
                 }).
                 when('/medias', {
                     controller: 'wpMediasCtrl',
-                    templateUrl: initVars().wpPartials+'partials/medias.html'
+                    templateUrl: initVars().wpTemplateDirectoryUri+'/partials/medias.html'
                 }).
                 when('/medias/:id', {
                     controller: 'wpMediasDetailCtrl',
-                    templateUrl: initVars().wpPartials+'partials/photos.html'
+                    templateUrl: initVars().wpTemplateDirectoryUri+'/partials/photos.html'
                 }).
                 when('/slides', {
                     controller: 'wpCategoriesCtrl',
-                    templateUrl: initVars().wpPartials+'partials/slides.html'
+                    templateUrl: initVars().wpTemplateDirectoryUri+'/partials/slides.html'
                 }).
                 when('/slides/:slug', {
                     controller: 'wpSliderCtrl',
-                    templateUrl: initVars().wpPartials+'partials/animated-slides.html'
+                    templateUrl: initVars().wpTemplateDirectoryUri+'/partials/animated-slides.html'
                 }).
                 when('/facebook/:id/:api', {
                     controller: 'FacebookFeedCtrl',
@@ -84,7 +84,7 @@ angular.module('RestWordpressApp',[
                 }).
                 otherwise({
                     controller: 'wpHomeCtrl',
-                    templateUrl: initVars().wpPartials+'partials/home.html'
+                    templateUrl: initVars().wpTemplateDirectoryUri+'/partials/home.html'
                 });
         }])
     .config(function($mdThemingProvider) {
@@ -133,7 +133,33 @@ angular.module('RestWordpressApp',[
         $scope.wpVars.wpCarousel = _.filter($scope.wpVars.wpCarousel, function(n) {
             return n.url != undefined && n.url.length > 0
         });
+
+        /**
+        * specific transformation for home tile
+        */
+        $scope.wpTiles = [];
+        try {
+            if($scope.wpVars.properties.wpTile01Active == 1) {
+                $scope.wpTiles.push(angular.fromJson(initVarsInstance.properties.wpTile01Data));
+            }
+            if($scope.wpVars.properties.wpTile02Active == 1) {
+                $scope.wpTiles.push(angular.fromJson(initVarsInstance.properties.wpTile02Data));
+            }
+            if($scope.wpVars.properties.wpTile03Active == 1) {
+                $scope.wpTiles.push(angular.fromJson(initVarsInstance.properties.wpTile03Data));
+            }
+            if($scope.wpVars.properties.wpTile04Active == 1) {
+                $scope.wpTiles.push(angular.fromJson(initVarsInstance.properties.wpTile04Data));
+            }
+            if($scope.wpVars.properties.wpTile05Active == 1) {
+                $scope.wpTiles.push(angular.fromJson(initVarsInstance.properties.wpTile05Data));
+            }
+        } catch(e) {
+            $log.warn("$scope.wpTiles: ", e);
+        }
+
         $log.info("wpVars: ", $scope.wpVars);
+        $log.info("wpTiles: ", $scope.wpTiles);
 
         if($scope.working === undefined) $scope.working = {};
 
@@ -147,6 +173,7 @@ angular.module('RestWordpressApp',[
          * fix posts breadcrumb
          */
         $scope.breadcrumb.posts = function(detail) {
+            $scope.breadcrumb.active = true;
             if(detail == undefined) {
                 $scope.breadcrumb.breadcrumbs = [
                     {'location':'#/posts', 'name':'article(s)'}
@@ -162,6 +189,7 @@ angular.module('RestWordpressApp',[
          * fix pages breadcrumb
          */
         $scope.breadcrumb.pages = function(detail) {
+            $scope.breadcrumb.active = true;
             if(detail == undefined) {
                 $scope.breadcrumb.breadcrumbs = [
                     {'location':'#/pages', 'name':'page(s)'}
@@ -177,6 +205,7 @@ angular.module('RestWordpressApp',[
          * fix category breadcrumb
          */
         $scope.breadcrumb.categories = function(detail) {
+            $scope.breadcrumb.active = true;
             if(detail === undefined) {
                 $scope.breadcrumb.breadcrumbs = [
                     {'location':'#/categories', 'name':'categorie(s)'}
@@ -188,6 +217,13 @@ angular.module('RestWordpressApp',[
                     {'location':'#/slides/' + detail.slug, 'name':detail.name + ' (slide)'}
                 ];
             }
+        }
+
+        /**
+         * empty bread crumb
+         */
+        $scope.breadcrumb.empty = function() {
+                $scope.breadcrumb.active = false;
         }
 
         $scope.menuId = "left";
@@ -296,42 +332,15 @@ angular.module('RestWordpressApp',[
     .controller('wpHomeCtrl',
     ['$scope', '$log', 'pageServices', function($scope, $log, pageServices) {
         $scope.showCarousel(true);
-        $scope.breadcrumb.pages();
-
+        $scope.breadcrumb.empty();
+        /**
+         * set up tile
+         */
         $scope.home = {};
         $scope.home.tiles = [];
-        $scope.home.tiles.push({
-            title: 'tile de test #1',
-            type: 'tiny-post',
-            data: {
-                id: 707
-            }
-        });
-        $scope.home.tiles.push({
-            title: 'tile de test #2',
-            type: 'tiny-post',
-            data: {
-                id: 820
-            }
-        });
-        $scope.home.tiles.push({
-            title: 'tile de test #3',
-            type: 'tiny-post',
-            data: {
-                id: 826
-            }
-        });
-        $scope.home.tiles.push({
-            type: 'facebook-feed',
-            data: {
-                id: 'illeetzick',
-                api: 'feed'
-            }
-        });
-
-        pageServices.page({id:$scope.wpVars.properties.wpPageOnFront}).then(function(data) {
-            $scope.working.home = data;
-            $scope.breadcrumb.pages(data);
+        _.each($scope.wpTiles, function(item) {
+            $log.info("Tile:", item);
+            $scope.home.tiles.push(item);
         });
     }])
     /**

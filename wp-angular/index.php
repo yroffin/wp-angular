@@ -60,16 +60,19 @@ limitations under the License.
     </style>
 
     <script>
+        var wpTemplateDirectoryUri = '<?php echo get_template_directory_uri(); ?>';
+        var wpHomeUrl = '<?php echo get_site_url(); ?>';
         var wordpressPartialsUrl = <?php echo $partials; ?>;
-        var wordpressRestApiUrl = 'index.php?json_route=';
+        var wordpressRestApiUrl = '<?php echo get_site_url(); ?>';
         var initVarsInstance;
         function initVars() {
             if(initVarsInstance != undefined) {
                 return initVarsInstance;
             }
             initVarsInstance = {
-                wpPartials:<?php echo $partials; ?>,
-                wordpressRestApiUrl:'index.php?json_route=',
+                wpTemplateDirectoryUri: wpTemplateDirectoryUri,
+                wpHomeUrl: wpHomeUrl,
+                wpJsonRouteUrl: wpHomeUrl + '/index.php?json_route=',
                 properties: {
                     <?php
                         // Theme options
@@ -108,6 +111,7 @@ limitations under the License.
             ];
             return initVarsInstance;
         }
+        var wpVars = initVars();
     </script>
 </head>
 <body ng-cloak ng-controller="wpMainCtrl">
@@ -191,7 +195,7 @@ limitations under the License.
         <!-- Main view -->
         <md-card>
             <md-card-content>
-                <ol class="breadcrumb">
+                <ol ng-show="breadcrumb.active" class="breadcrumb">
                   <li ng-repeat="crumb in breadcrumb.breadcrumbs track by $index" ><a href="{{crumb.location}}">{{crumb.name}}</a></li>
                 </ol>
                 <ng-view></ng-view>

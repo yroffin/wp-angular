@@ -35,7 +35,7 @@ myAppServices.factory('wpCategoriesRest', [ '$resource', function($resource, $wi
 			 */
 			categories: {
 				method: 'GET',
-				url: wordpressRestApiUrl + '/taxonomies/category/terms',
+				url: wpVars.wpJsonRouteUrl + '/taxonomies/category/terms',
 				params: {},
 				isArray: true,
 				cache: true
@@ -45,7 +45,7 @@ myAppServices.factory('wpCategoriesRest', [ '$resource', function($resource, $wi
 			 */
 			category: {
 				method: 'GET',
-				url: wordpressRestApiUrl + '/taxonomies/category/terms/:id',
+				url: wpVars.wpJsonRouteUrl + '/taxonomies/category/terms/:id',
 				isArray: false,
 				cache: true
 			}
@@ -62,7 +62,7 @@ myAppServices.factory('wpMediaRest', [ '$resource', function($resource) {
 			 */
 			medias: {
 				method: 'GET',
-				url: wordpressRestApiUrl + '/media',
+				url: wpVars.wpJsonRouteUrl + '/media',
 				params: {page: '@page'},
 				isArray: true,
 				cache: true
@@ -72,7 +72,7 @@ myAppServices.factory('wpMediaRest', [ '$resource', function($resource) {
 			 */
 			media: {
 				method: 'GET',
-				url: wordpressRestApiUrl + '/media/:id',
+				url: wpVars.wpJsonRouteUrl + '/media/:id',
 				isArray: false,
 				cache: true
 			}
@@ -89,7 +89,7 @@ myAppServices.factory('wpPostsRest', [ '$resource', function($resource, $windows
 			 */
 			posts: {
 				method: 'GET',
-				url: wordpressRestApiUrl + '/posts',
+				url: wpVars.wpJsonRouteUrl + '/posts',
 				params: {},
 				isArray: true,
 				cache: true
@@ -99,7 +99,7 @@ myAppServices.factory('wpPostsRest', [ '$resource', function($resource, $windows
 			 */
 			post: {
 				method: 'GET',
-				url: wordpressRestApiUrl + '/posts/:id',
+				url: wpVars.wpJsonRouteUrl + '/posts/:id',
 				isArray: false,
 				cache: true
 			},
@@ -108,7 +108,7 @@ myAppServices.factory('wpPostsRest', [ '$resource', function($resource, $windows
 			 */
 			byCategoryName: {
 				method: 'GET',
-				url: wordpressRestApiUrl + '/posts&filter[category_name]=:name',
+				url: wpVars.wpJsonRouteUrl + '/posts&filter[category_name]=:name',
 				isArray: true,
 				cache: true
 			},
@@ -117,7 +117,7 @@ myAppServices.factory('wpPostsRest', [ '$resource', function($resource, $windows
 			 */
 			byCategorySlug: {
 				method: 'GET',
-				url: wordpressRestApiUrl + '/posts&filter[category_name]=:slug',
+				url: wpVars.wpJsonRouteUrl + '/posts&filter[category_name]=:slug',
 				isArray: true,
 				cache: true
 			},
@@ -126,7 +126,7 @@ myAppServices.factory('wpPostsRest', [ '$resource', function($resource, $windows
 			 */
 			byCategoryId: {
 				method: 'GET',
-				url: wordpressRestApiUrl + '/posts&filter[category_id]=:id',
+				url: wpVars.wpJsonRouteUrl + '/posts&filter[category_id]=:id',
 				isArray: true,
 				cache: true
 			}
@@ -143,7 +143,7 @@ myAppServices.factory('RestWordpressPages', [ '$resource', function($resource, $
 			 */
 			pages: {
 				method: 'GET',
-				url: wordpressRestApiUrl + '/pages',
+				url: wpVars.wpJsonRouteUrl + '/pages',
 				params: {},
 				isArray: true,
 				cache: true
@@ -153,7 +153,7 @@ myAppServices.factory('RestWordpressPages', [ '$resource', function($resource, $
 			 */
 			page: {
 				method: 'GET',
-				url: wordpressRestApiUrl + '/pages/:id',
+				url: wpVars.wpJsonRouteUrl + '/pages/:id',
 				isArray: false,
 				cache: true
 			}
@@ -171,7 +171,7 @@ myAppServices.factory('RestWordpressMenus', [ '$resource', function($resource) {
 			 */
 			menus: {
 				method: 'GET',
-				url: wordpressRestApiUrl + '/menus',
+				url: wpVars.wpJsonRouteUrl + '/menus',
 				params: {},
 				isArray: true,
 				cache: true
@@ -181,7 +181,7 @@ myAppServices.factory('RestWordpressMenus', [ '$resource', function($resource) {
 			 */
 			menu: {
 				method: 'GET',
-				url: wordpressRestApiUrl + '/menus/:id',
+				url: wpVars.wpJsonRouteUrl + '/menus/:id',
 				isArray: false,
 				cache: true
 			}

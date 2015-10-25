@@ -1,10 +1,9 @@
-<md-card>
- <img ng-src="{{post.featured_image}}" class="md-card-image" alt="{{post.title}}">
- <md-card-content>
-   <h3>{{post.title + ' #' + post.id}}</h3>
- </md-card-content>
+<div>
+ <img ng-src="{{post.featured_image}}" width="300" height="230" alt="{{post.title}}">
+ <md-content>
+   <h3>{{post.title}}</h3>
+ </md-content>
  <div class="md-actions" layout="row" layout-align="end center">
-   <md-button>Action 1</md-button>
-   <md-button>Action 2</md-button>
+   <md-button ng-click="location('/posts/'+post.id)"><ng-md-icon icon="tab" size="32"></ng-md-icon></md-button>
  </div>
-</md-card>
+</div>
