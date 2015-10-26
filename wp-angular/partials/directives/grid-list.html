@@ -2,7 +2,7 @@
   <md-grid-list
         md-cols-sm="1" md-cols-md="3" md-cols-gt-md="3"
         md-row-height-gt-md="1:1" md-row-height="1:1"
-        md-gutter="8px" md-gutter-gt-sm="4px">
+        md-gutter="1px" md-gutter-gt-sm="1px">
     <md-grid-tile ng-repeat="tile in params.tiles"
                   md-rowspan="{{tile.span.row}}"
                   md-colspan="{{tile.span.col}}"
@@ -28,6 +28,15 @@
             </div>
             <div ng-switch-when="news-letter" ng-controller="newsLetterCtrl">
                 <news-letter />
+            </div>
+            <div ng-switch-when="mail-to" ng-controller="mailToCtrl">
+                <mail-to url="{{tile.data.url}}" />
+            </div>
+            <div ng-switch-when="socials" ng-controller="socialsCtrl">
+                <socials scope="{{tile.data.socials}}" />
+            </div>
+            <div ng-switch-when="ads-banner" ng-controller="adsBannerCtrl">
+                <ads-banner scope="{{tile.data.ads}}" />
             </div>
         </div>
     </md-grid-tile>

@@ -356,7 +356,7 @@ myAppServices.factory('mediaServices', ['$q', '$log', 'businessServices', 'wpMed
         media: function(media) {
             var deferred = $q.defer();
 
-            wpCategoriesRest.media({id:media.id}, function(data) {
+            wpMediaRest.media({id:media.id}, function(data) {
                 /**
                  * normalize data
                  */
@@ -744,7 +744,7 @@ myAppServices.factory('RestWordpressMenusTransform', ['$log', function($log) {
 /**
  * facebook service
  */
-myAppServices.factory('facebookService', function($q,$window,$rootScope) {
+myAppServices.factory('facebookService', function($q, $window, $rootScope) {
   return {
         submit: function(appId, callback, args) {
             /**
@@ -803,3 +803,54 @@ myAppServices.factory('facebookService', function($q,$window,$rootScope) {
         }
     }
 });
+
+/**
+ * facebook service
+ */
+myAppServices.factory('wpDaemon', ['$timeout', '$log', function($timeout, $log) {
+  var that = {
+        activities: [],
+        timeout: $timeout,
+        started: false,
+        /**
+         * start method
+         */
+        start: function() {
+            if(that.started) return;
+            that.started = true;
+            that.timeout(that.eachSecond, 1000);
+            that.timeout(that.eachFiveSecond, 5000);
+        },
+        /**
+         * runner
+         */
+        runner: function(score) {
+            _.each(that.activities, function(context) {
+                if(score === context.score) {
+                    context.callback(context.data);
+                }
+            })
+        },
+        /**
+         * eachSecond daemon
+         */
+        eachSecond: function() {
+            that.runner(1000);
+            that.timeout(that.eachSecond, 1000);
+        },
+        /**
+         * eachSecond daemon
+         */
+        eachFiveSecond: function() {
+            that.runner(5000);
+            that.timeout(that.eachFiveSecond, 5000);
+        },
+        /**
+         * submit a new callback
+         */
+        submit: function(score, ctx, callback) {
+            that.activities.push({score: score, data:ctx, callback: callback});
+        }
+    }
+  return that;
+}]);

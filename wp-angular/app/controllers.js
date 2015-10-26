@@ -114,8 +114,13 @@ angular.module('RestWordpressApp',[
      * main controller
      */
     .controller('wpMainCtrl',
-    ['$scope', '$mdSidenav', '$location', '$mdBottomSheet', '$window', '$mdDialog', '$mdMedia', '$log', 'Analytics',
-     function($scope, $mdSidenav, $location, $mdBottomSheet, $window, $mdDialog, $mdMedia, $log, Analytics){
+    ['$scope', '$mdSidenav', '$location', '$mdBottomSheet', '$window', '$mdDialog', '$mdMedia', '$log', 'Analytics', 'wpDaemon',
+     function($scope, $mdSidenav, $location, $mdBottomSheet, $window, $mdDialog, $mdMedia, $log, Analytics, wpDaemon) {
+        /**
+         * start daemon service
+         */
+        wpDaemon.start();
+
         /**
          * wath media for adaptive render
          */
@@ -277,12 +282,21 @@ angular.module('RestWordpressApp',[
         }
 
         /**
-         * load configuration
+         * new location
          */
         $scope.location = function(target) {
             $mdSidenav($scope.menuId).close();
             if(target != undefined) {
                 $location.path(target);
+            }
+        }
+
+        /**
+         * open url
+         */
+        $scope.openUrl = function(target) {
+            if(target != undefined) {
+                $window.open(target, "_blank");
             }
         }
 

@@ -1,0 +1,6 @@
+<div ng-cloak layout="row">
+    <span ng-repeat="advertissement in params.ads">{{params.middle}}
+        <img ng-if="$index == params.middle" width="128px" height="128px" ng-src="{{advertissement.meta.guid}}" ng-click="openUrl(advertissement.url)" />
+        <img ng-show="!screenIsSmall" ng-if="$index != params.middle" width="64px" height="64px" ng-src="{{advertissement.meta.guid}}" ng-click="openUrl(advertissement.url)" />
+    </span>
+</div>

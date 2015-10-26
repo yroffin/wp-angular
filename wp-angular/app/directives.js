@@ -285,6 +285,88 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
   }
 }])
 /**
+ * simple custom divider widget
+ */
+.controller('mailToCtrl',
+['$scope', '$log', '$routeParams', function($scope, $log, $routeParams){
+}])
+/**
+ * page directive
+ */
+.directive('mailTo', ['$log', '$routeParams', function ($log, $routeParams) {
+  return {
+    restrict: 'E',
+    templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/directives/mail-to.html',
+    link: function(scope, element, attrs) {
+        /**
+         * load params
+         */
+        scope.params = {};
+        scope.params.url = attrs.url;
+    }
+  }
+}])
+/**
+ * simple custom divider widget
+ */
+.controller('socialsCtrl',
+['$scope', '$log', '$routeParams', function($scope, $log, $routeParams){
+}])
+/**
+ * page directive
+ */
+.directive('socials', ['$log', '$routeParams', function ($log, $routeParams) {
+  return {
+    restrict: 'E',
+    templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/directives/socials.html',
+    link: function(scope, element, attrs) {
+        /**
+         * load params
+         */
+        scope.params = {};
+        scope.params.socials = angular.fromJson(attrs.scope);
+    }
+  }
+}])
+/**
+ * simple custom divider widget
+ */
+.controller('adsBannerCtrl',
+['$scope', '$log', '$routeParams', function($scope, $log, $routeParams){
+}])
+/**
+ * page directive
+ */
+.directive('adsBanner', ['$log', '$routeParams', 'mediaServices', 'wpDaemon', function ($log, $routeParams, mediaServices, wpDaemon) {
+  return {
+    restrict: 'E',
+    templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/directives/ads-banner.html',
+    link: function(scope, element, attrs) {
+        /**
+         * load params
+         */
+        scope.params = {};
+        scope.params.ads = angular.fromJson(attrs.scope);
+        scope.params.middle = (scope.params.ads.length / 2) | 0;
+        /**
+         * search associated media
+         */
+        _.each(scope.params.ads, function(advert) {
+            mediaServices.media({id:advert.media}).then(function(data) {
+                advert.meta = data;
+            });
+        });
+        /**
+         * callback
+         */
+        wpDaemon.submit(5000, {ads:scope.params.ads}, function(context) {
+            context.ads.push(context.ads[0]);
+            context.ads.shift();
+        })
+    }
+  }
+}])
+/**
  * grid list widget
  */
 .controller('gridListCtrl',
