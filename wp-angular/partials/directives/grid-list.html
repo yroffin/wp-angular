@@ -1,12 +1,12 @@
 <div flex ng-cloak>
   <md-grid-list
-        md-cols-sm="1" md-cols-md="3" md-cols-gt-md="3"
+        md-cols-sm="1" md-cols-md="1" md-cols-gt-md="3"
         md-row-height-gt-md="1:1" md-row-height="1:1"
-        md-gutter="1px" md-gutter-gt-sm="1px">
+        md-gutter="2px" md-gutter-gt-sm="2px">
     <md-grid-tile ng-repeat="tile in params.tiles"
                   md-rowspan="{{tile.span.row}}"
                   md-colspan="{{tile.span.col}}"
-                  md-colspan-sm="1" >
+                  md-colspan-sm="1" md-colspan-md="1" >
         <div ng-switch on="tile.type" >
             <div ng-switch-when="tiny-page" ng-controller="tinyPageCtrl">
                 <tiny-page id="{{tile.data.id}}" />

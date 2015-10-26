@@ -153,3 +153,99 @@ Cutomize here the description for slide xx.
 ### Description of slide image xx
 
 Cutomize here the slide01 image for your carousel.
+
+## Home configuration
+
+Home configuration introduce 5 maximum tiles configuration, see above for tile models
+
+## Footer configuration
+
+Footer configuration introduce 5 maximum tiles configuration, see above for tile models
+
+## Tiles
+
+Each tile can be :
+- tiny-post
+- facebook-feed
+- mail-to
+- new-letter
+- socials
+- ads-banner
+
+### Tiny post tile
+
+| Attribute              | Description  |
+| :------------      |:--------------- |
+| span         | tile size in responsive grid |
+| type         | tiny-post |
+| data.id         | an id attribute, this id is the post id to display |
+
+```
+{
+    "span": {
+        "row": 1,
+        "col": 1
+    },
+    "type": "tiny-post",
+    "data": {
+        "id": 1781
+    }
+}
+```
+
+### Facebook tile
+
+| Attribute              | Description  |
+| :------------      |:--------------- |
+| span         | tile size in responsive grid |
+| type         | facebook-feed |
+| data.id      | facebook page id |
+| data.api     | facebook api, ex: feed |
+
+```
+{
+	"span": {
+		"row": 1,
+		"col": 3
+	},
+	"type": "facebook-feed",
+	"data": {
+		"id": "illeetzick",
+		"api": "feed"
+	}
+}
+```
+
+### Avertissement banner tile
+
+| Attribute              | Description  |
+| :------------      |:--------------- |
+| span         | tile size in responsive grid |
+| type         | ads-banner |
+| data.ads     | an array of objects |
+| data.ads[].media | media id |
+| data.ads[].url | media url |
+| data.ads[].text | text to display |
+
+```
+{
+	"span": {
+		"row": 1,
+		"col": 3
+	},
+	"type": "ads-banner",
+	"data": {
+		"ads": [{
+			"media": "1429",
+			"url": "http://www.google.fr",
+			"text": "pub 1"
+		},
+        ...
+		{
+			"media": "1442",
+			"url": "http://www.google.fr",
+			"text": "pub 2"
+		}]
+	}
+}
+```
