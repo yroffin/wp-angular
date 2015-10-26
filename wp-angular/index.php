@@ -77,7 +77,7 @@ limitations under the License.
                     <?php
                         // Theme options
                         foreach(get_theme_mods() as $key => $value){
-                            echo "                '".$key."': '".$value."',\n";
+                            echo "                '".$key."': '".preg_replace("/(\r\n|\n|\r|\t)/i", '', $value)."',\n";
                         }
                         // Default options
                         echo "                'wpPageOnFront': '".get_option('page_on_front')."'\n";

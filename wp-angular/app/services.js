@@ -282,7 +282,8 @@ myAppServices.factory('businessServices', ['$mdToast', '$log', 'wpPostsRest', fu
                 $mdToast.simple()
                     .content(message)
                     .position(this.getToastPosition())
-                    .hideDelay(3000)
+                    .capsule(true)
+                    .hideDelay(2000)
             );
             $log.info(message, args);
         },
