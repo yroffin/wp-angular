@@ -180,6 +180,7 @@ Each tile can be :
 | type         | tiny-post |
 | data.id         | an id attribute, this id is the post id to display |
 
+> sample code
 ```
 {
     "span": {
@@ -202,6 +203,7 @@ Each tile can be :
 | data.id      | facebook page id |
 | data.api     | facebook api, ex: feed |
 
+> sample code
 ```
 {
 	"span": {
@@ -227,6 +229,7 @@ Each tile can be :
 | data.ads[].url | media url |
 | data.ads[].text | text to display |
 
+> sample code
 ```
 {
 	"span": {
@@ -245,6 +248,43 @@ Each tile can be :
 			"media": "1442",
 			"url": "http://www.google.fr",
 			"text": "pub 2"
+		}]
+	}
+}
+```
+
+### Socials tile
+
+| Attribute              | Description  |
+| :------------      |:--------------- |
+| span         | tile size in responsive grid |
+| type         | ads-banner |
+| data.socials     | an array of objects |
+| data.socials[].icon | social icon |
+| data.socials[].url | social url |
+
+
+> sample code
+```
+{
+	"span": {
+		"row": 1,
+		"col": 1
+	},
+	"type": "socials",
+	"data": {
+		"socials": [
+		{
+			"icon": "mail",
+			"url": "mailto:yroffin@gmail.com"
+		},
+		{
+			"icon": "google-plus",
+			"url": "https://plus.google.com/"
+		},
+		{
+			"icon": "facebook",
+			"url": "https://facebook.com/"
 		}]
 	}
 }
