@@ -1,10 +1,10 @@
 1-le slider n'est pas ajusté à l’écran de mon mac
 
-Tu peux me donner une copie d'écran ?
+Tu peux me re-donner une copie d'écran ?
 
 2-la police en Gris clair dans le menu n’est pas très lisible à mon gout
 
-Passage en noir
+Fait : Passage en noir sur la démo
 
 3-Le menu événements doit être renommé en «  Apéro-concert » 
 
@@ -42,8 +42,22 @@ C'est fait
 
 5 - J'imagine que les éléments mis sous le slider sont temporaires ? parce qu'ils n'ont à mon sens pas leur place ici. Il faudrait sous le slider de la page d'accueil retrouver des informations d'actualités : l'apéro concert à venir, les news du moment, pourquoi pas le fil d'actu du facebook. En somme, un peu ce qu'on a sur le site existant !
 
+La page d'accueil est désormais paramétrable via le thème : "Home page configuration"
+
+5 tuiles responsives sur une grille de 3 colonnes sont prévues :
+- Tuile de type titre
+    ex de paramétrage: {"span": {"row": 1, "col": 3}, "type": "custom-divider", "data": {"text": "APÉRO CONCERT 666"}}
+    row 1 et col 3 veut dire que la tuile fait 1x3, le responsive est automatique
+- Tuile de type "post simplifié"
+    ex de paramétrage: {"span": {"row": 1, "col": 1}, "type": "tiny-post", "data": {"id": 1754}}
+    row 1 et col 3 veut dire que la tuile fait 1x1, le responsive est automatique
+- Tuile de type dernier commentaire facebook
+    ex de paramétrage: {"span": {"row": 1, "col": 3}, "type": "facebook-feed", "data": {"id": "illeetzick", "api":"feed"}}
+    row 1 et col 3 veut dire que la tuile fait 1x3, le responsive est automatique
+
 D'une manière générale, pour l'ensemble :
 1 - La police googlefonts que tu as utilisé est sympa mais uniquement pour les titres. Elle trouve qu'elle reste illisible pour la lecture de paragraphes.
+    /!\ TODO: revoir les polices
 2 - Le menu événements devrait plutôt être renommé en «  Apéro-concert »
     Fait
 1 - Il serait bon de créer un footer dans lequel on retrouve les partenaires du festival

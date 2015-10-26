@@ -1,35 +1,7 @@
 <div>
     <default-page id="{{wpVars.properties.wpPageOnFront}}" />
 </div>
-<div flex ng-cloak>
-  <md-grid-list
-        md-cols-sm="1" md-cols-md="3" md-cols-gt-md="3"
-        md-row-height-gt-md="1:1" md-row-height="1:1"
-        md-gutter="8px" md-gutter-gt-sm="4px">
-    <md-grid-tile ng-repeat="tile in home.tiles"
-                  md-rowspan="{{tile.span.row}}"
-                  md-colspan="{{tile.span.col}}"
-                  md-colspan-sm="1" >
-        <div ng-switch on="tile.type" >
-            <div ng-switch-when="tiny-page" ng-controller="tinyPageCtrl">
-                <tiny-page id="{{tile.data.id}}" />
-            </div>
-            <div ng-switch-when="default-page" ng-controller="defaultPageCtrl">
-                <default-page id="{{tile.data.id}}" />
-            </div>
-            <div ng-switch-when="tiny-post" ng-controller="tinyPostCtrl">
-                <tiny-post id="{{tile.data.id}}" />
-            </div>
-            <div ng-switch-when="default-post" ng-controller="defaultPostCtrl">
-                <default-post id="{{tile.data.id}}" />
-            </div>
-            <div ng-switch-when="custom-divider" ng-controller="customDividerCtrl">
-                <custom-divider text="{{tile.data.text}}" />
-            </div>
-            <div ng-switch-when="facebook-feed" ng-controller="facebookFeedCtrl">
-                <facebook-feed id="{{tile.data.id}}" api="{{tile.data.api}}" />
-            </div>
-        </div>
-    </md-grid-tile>
-  </md-grid-list>
+<br/>
+<div>
+    <grid-list scope="{{home.tiles}}" />
 </div>

@@ -30,7 +30,7 @@ limitations under the License.
     <meta name="apple-mobile-web-app-capable" content="yes">
 
     <!-- AngularJS Material Design -->
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.4/angular-material.min.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0-rc1/angular-material.min.css">
     <!-- Latest compiled and minified CSS for bootstrap -->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <!-- Custom CSS -->
@@ -201,6 +201,13 @@ limitations under the License.
                 <ng-view></ng-view>
             </md-card-content>
         </md-card>
+        <!-- Footer -->
+        <nav class="navbar navbar-inverse">
+              <img width="{{wpVars.properties.wpLogoWidth}}" height="{{wpVars.properties.wpLogoHeight}}" ng-src="{{wpVars.properties.wpLogo}}" ng-click="location('/home')">
+            <div ng-controller="wpFooterCtrl" class="container">
+                <grid-list scope="{{footer.tiles}}" />
+            </div>
+        </nav>
     </div>
 </div>
 
@@ -216,7 +223,7 @@ limitations under the License.
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-aria.min.js"></script>
 
 <!-- AngularJS Material Design -->
-<script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.4/angular-material.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0-rc1/angular-material.js"></script>
 <!-- Cf.  https://klarsys.github.io/angular-material-icons -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.5.0/angular-material-icons.min.js"></script>
 

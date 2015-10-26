@@ -54,6 +54,7 @@ class theme_customizer
         $this->carousel_configuration($wp_manager, 37);
         $this->customiser_ga_key($wp_manager, 38);
         $this->home_configuration($wp_manager, 39);
+        $this->footer_configuration($wp_manager, 40);
     }
 
     /**
@@ -287,14 +288,13 @@ class theme_customizer
         $this->home_configuration_tile($wp_manager, "05");
     }
 
-
     /**
      * home page configuration
      */
     public function home_configuration_tile( $wp_manager, $wpTileNumber )
     {
-        $wpPageTileActive = 'wpTile'.$wpTileNumber.'Active';
-        $wpPageTileData = 'wpTile'.$wpTileNumber.'Data';
+        $wpPageTileActive = 'wpTileHome'.$wpTileNumber.'Active';
+        $wpPageTileData = 'wpTileHome'.$wpTileNumber.'Data';
 
         // tile definition type
         $wp_manager->add_setting( $wpPageTileActive, array('default' => ''));
@@ -321,6 +321,64 @@ class theme_customizer
                 array(
                     'label' => 'Data',
                     'section' => 'wpCustomizerHomePage',
+                    'settings' => $wpPageTileData
+                )
+            )
+        );
+    }
+
+    /**
+     * footer configuration
+     */
+    public function footer_configuration( $wp_manager, $wp_priority )
+    {
+        // home page section
+        $wp_manager->add_section( 'wpCustomizerFooter', array(
+            'title'          => 'Footer configuration',
+            'priority'       => $wp_priority,
+        ) );
+
+        // Tiles
+        $this->footer_configuration_tile($wp_manager, "01");
+        $this->footer_configuration_tile($wp_manager, "02");
+        $this->footer_configuration_tile($wp_manager, "03");
+        $this->footer_configuration_tile($wp_manager, "04");
+        $this->footer_configuration_tile($wp_manager, "05");
+    }
+
+    /**
+     * home page configuration
+     */
+    public function footer_configuration_tile( $wp_manager, $wpTileNumber )
+    {
+        $wpPageTileActive = 'wpTileFooter'.$wpTileNumber.'Active';
+        $wpPageTileData = 'wpTileFooter'.$wpTileNumber.'Data';
+
+        // tile definition type
+        $wp_manager->add_setting( $wpPageTileActive, array('default' => ''));
+        $wp_manager->add_control(
+                $wpPageTileActive,
+                array(
+                    'label'          => __( 'Tile '.$wpTileNumber.' on / off' ),
+                    'section'        => 'wpCustomizerFooter',
+                    'settings'       => $wpPageTileActive,
+                    'type'           => 'checkbox'
+                )
+        );
+
+        // data definition type
+        $wp_manager->add_setting( $wpPageTileData, array(
+                                        'default' => ''
+                                    )
+                                );
+
+        $wp_manager->add_control(
+            new JsonData(
+                $wp_manager,
+                $wpPageTileData,
+                array(
+                    'label' => 'Data',
+                    'section' => 'wpCustomizerFooter',
                     'settings' => $wpPageTileData
                 )
             )

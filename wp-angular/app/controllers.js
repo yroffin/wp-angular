@@ -137,29 +137,54 @@ angular.module('RestWordpressApp',[
         /**
         * specific transformation for home tile
         */
-        $scope.wpTiles = [];
+        $scope.wpTilesHome = [];
         try {
-            if($scope.wpVars.properties.wpTile01Active == 1) {
-                $scope.wpTiles.push(angular.fromJson(initVarsInstance.properties.wpTile01Data));
+            if($scope.wpVars.properties.wpTileHome01Active == 1) {
+                $scope.wpTilesHome.push(angular.fromJson(initVarsInstance.properties.wpTileHome01Data));
             }
-            if($scope.wpVars.properties.wpTile02Active == 1) {
-                $scope.wpTiles.push(angular.fromJson(initVarsInstance.properties.wpTile02Data));
+            if($scope.wpVars.properties.wpTileHome02Active == 1) {
+                $scope.wpTilesHome.push(angular.fromJson(initVarsInstance.properties.wpTileHome02Data));
             }
-            if($scope.wpVars.properties.wpTile03Active == 1) {
-                $scope.wpTiles.push(angular.fromJson(initVarsInstance.properties.wpTile03Data));
+            if($scope.wpVars.properties.wpTileHome03Active == 1) {
+                $scope.wpTilesHome.push(angular.fromJson(initVarsInstance.properties.wpTileHome03Data));
             }
-            if($scope.wpVars.properties.wpTile04Active == 1) {
-                $scope.wpTiles.push(angular.fromJson(initVarsInstance.properties.wpTile04Data));
+            if($scope.wpVars.properties.wpTileHome04Active == 1) {
+                $scope.wpTilesHome.push(angular.fromJson(initVarsInstance.properties.wpTileHome04Data));
             }
-            if($scope.wpVars.properties.wpTile05Active == 1) {
-                $scope.wpTiles.push(angular.fromJson(initVarsInstance.properties.wpTile05Data));
+            if($scope.wpVars.properties.wpTileHome05Active == 1) {
+                $scope.wpTilesHome.push(angular.fromJson(initVarsInstance.properties.wpTileHome05Data));
             }
         } catch(e) {
-            $log.warn("$scope.wpTiles: ", e);
+            $log.warn("$scope.wpTilesHome: ", e);
+        }
+
+        /**
+        * specific transformation for home tile
+        */
+        $scope.wpTilesFooter = [];
+        try {
+            if($scope.wpVars.properties.wpTileFooter01Active == 1) {
+                $scope.wpTilesFooter.push(angular.fromJson(initVarsInstance.properties.wpTileFooter01Data));
+            }
+            if($scope.wpVars.properties.wpTileFooter02Active == 1) {
+                $scope.wpTilesFooter.push(angular.fromJson(initVarsInstance.properties.wpTileFooter02Data));
+            }
+            if($scope.wpVars.properties.wpTileFooter03Active == 1) {
+                $scope.wpTilesFooter.push(angular.fromJson(initVarsInstance.properties.wpTileFooter03Data));
+            }
+            if($scope.wpVars.properties.wpTileFooter04Active == 1) {
+                $scope.wpTilesFooter.push(angular.fromJson(initVarsInstance.properties.wpTileFooter04Data));
+            }
+            if($scope.wpVars.properties.wpTileFooter05Active == 1) {
+                $scope.wpTilesFooter.push(angular.fromJson(initVarsInstance.properties.wpTileFooter05Data));
+            }
+        } catch(e) {
+            $log.warn("$scope.wpTilesFooter: ", e);
         }
 
         $log.info("wpVars: ", $scope.wpVars);
-        $log.info("wpTiles: ", $scope.wpTiles);
+        $log.info("wpTilesHome: ", $scope.wpTilesHome);
+        $log.info("wpTilesFooter: ", $scope.wpTilesFooter);
 
         if($scope.working === undefined) $scope.working = {};
 
@@ -338,9 +363,24 @@ angular.module('RestWordpressApp',[
          */
         $scope.home = {};
         $scope.home.tiles = [];
-        _.each($scope.wpTiles, function(item) {
-            $log.info("Tile:", item);
-            $scope.home.tiles.push(item);
+        _.each($scope.wpTilesHome, function(item) {
+            $log.info("Tile [home]:", item);
+            $scope.home.tiles.push(angular.copy(item));
+        });
+    }])
+    /**
+     * footer controller
+     */
+    .controller('wpFooterCtrl',
+    ['$scope', '$log', function($scope, $log) {
+        /**
+         * set up tile
+         */
+        $scope.footer = {};
+        $scope.footer.tiles = [];
+        _.each($scope.wpTilesFooter, function(item) {
+            $log.info("Tile [footer]:", item);
+            $scope.footer.tiles.push(angular.copy(item));
         });
     }])
     /**

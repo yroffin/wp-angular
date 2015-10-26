@@ -267,5 +267,44 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
     }
   }
 }])
+/**
+ * simple custom divider widget
+ */
+.controller('newsLetterCtrl',
+['$scope', '$log', '$routeParams', function($scope, $log, $routeParams){
+}])
+/**
+ * page directive
+ */
+.directive('newsLetter', ['$log', '$routeParams', function ($log, $routeParams) {
+  return {
+    restrict: 'E',
+    templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/directives/news-letter.html',
+    link: function(scope, element, attrs) {
+    }
+  }
+}])
+/**
+ * grid list widget
+ */
+.controller('gridListCtrl',
+['$scope', '$log', '$routeParams', function($scope, $log, $routeParams){
+}])
+/**
+ * page directive
+ */
+.directive('gridList', ['$log', '$routeParams', function ($log, $routeParams) {
+  return {
+    restrict: 'E',
+    templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/directives/grid-list.html',
+    link: function(scope, element, attrs) {
+        /**
+         * load params
+         */
+        scope.params = {};
+        scope.params.tiles = angular.fromJson(attrs.scope);
+    }
+  }
+}])
 ;
 
