@@ -8,7 +8,9 @@
           <md-content>
             {{post.message}}
           </md-content>
-          <a ng-if="post.link" href="{{post.link}}"><ng-md-icon icon="link"></ng-md-icon></a>
+          <ng-md-icon ng-if="post.link" icon="pageview" ng-click="openUrl(post.link)">
+          <md-tooltip>Lire l'article sur facebook</md-tooltip>
+          </ng-md-icon>
         </div>
         <md-divider inset></md-divider>
       </md-list-item>

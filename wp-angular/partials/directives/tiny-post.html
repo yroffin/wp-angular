@@ -4,6 +4,8 @@
    <h3>{{post.title}}</h3>
  </md-content>
  <div class="md-actions" layout="row" layout-align="end center">
-   <md-button ng-click="location('/posts/'+post.id)"><ng-md-icon icon="tab" size="32"></ng-md-icon></md-button>
+   <ng-md-icon icon="pageview" size="32" ng-click="location('/posts/'+post.id)">
+      <md-tooltip>Lire l'article</md-tooltip>
+   </ng-md-icon>
  </div>
 </div>
