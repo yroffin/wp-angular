@@ -198,7 +198,7 @@ limitations under the License.
                 <ol ng-show="breadcrumb.active" class="breadcrumb">
                   <li ng-repeat="crumb in breadcrumb.breadcrumbs track by $index" ><a href="{{crumb.location}}">{{crumb.name}}</a></li>
                 </ol>
-                <ng-view></ng-view>
+                <ui-view></ui-view>
             </md-card-content>
         </md-card>
         <!-- Footer -->
@@ -232,6 +232,9 @@ limitations under the License.
 
 <!-- Latest compiled JavaScript Bootstrap -->
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<!-- Latest compiled ui-router version -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
 
 <!-- Facebook API -->
 <script src="//connect.facebook.net/en_US/all.js"></script>

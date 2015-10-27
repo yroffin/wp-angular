@@ -21,72 +21,94 @@
 angular.module('RestWordpressApp',[
     'ngMaterial',
     'ngMdIcons',
-    'ngRoute',
     'ngSanitize',
+    'ui.router',
+    'ui.router.router',
     'angular-google-analytics',
     'RestWordpressApp.services',
     'wpDirective.services'
-])
+    ])
     .config(function (AnalyticsProvider) {
         AnalyticsProvider.setAccount(initVars().properties.wpGaKey);
     })
-    .config(['$routeProvider', '$locationProvider',
-        function($routeProvider, $locationProvider) {
-            $routeProvider.
-                when('/posts', {
-                    controller: 'wpPostsCtrl',
-                    templateUrl: initVars().wpTemplateDirectoryUri+'/partials/posts.html'
-                });
-            $routeProvider.
-                when('/posts/:id', {
-                    controller: 'wpPostCtrl',
-                    template: '<default-post />'
-                }).
-                when('/pages', {
-                    controller: 'wpPagesCtrl',
-                    templateUrl: initVars().wpTemplateDirectoryUri+'/partials/pages.html'
-                }).
-                when('/pages/:id', {
-                    controller: 'wpPageCtrl',
-                    template: '<default-page />'
-                }).
-                when('/categories', {
-                    controller: 'wpCategoriesCtrl',
-                    templateUrl: initVars().wpTemplateDirectoryUri+'/partials/categories.html'
-                }).
-                when('/categories/:slug', {
-                    controller: 'wpGaleriesCtrl',
-                    templateUrl: initVars().wpTemplateDirectoryUri+'/partials/galeries.html'
-                }).
-                when('/youtube/:id', {
-                    controller: 'wpVideosCtrl',
-                    templateUrl: initVars().wpTemplateDirectoryUri+'/partials/videos.html'
-                }).
-                when('/medias', {
-                    controller: 'wpMediasCtrl',
-                    templateUrl: initVars().wpTemplateDirectoryUri+'/partials/medias.html'
-                }).
-                when('/medias/:id', {
-                    controller: 'wpMediasDetailCtrl',
-                    templateUrl: initVars().wpTemplateDirectoryUri+'/partials/photos.html'
-                }).
-                when('/slides', {
-                    controller: 'wpCategoriesCtrl',
-                    templateUrl: initVars().wpTemplateDirectoryUri+'/partials/slides.html'
-                }).
-                when('/slides/:slug', {
-                    controller: 'wpSliderCtrl',
-                    templateUrl: initVars().wpTemplateDirectoryUri+'/partials/animated-slides.html'
-                }).
-                when('/facebook/:id/:api', {
-                    controller: 'FacebookFeedCtrl',
-                    template: '<facebook-feed />'
-                }).
-                otherwise({
-                    controller: 'wpHomeCtrl',
-                    templateUrl: initVars().wpTemplateDirectoryUri+'/partials/home.html'
-                });
-        }])
+    .config(function($urlRouterProvider) {
+        /**
+         * default state
+         */
+        $urlRouterProvider.otherwise('/home');
+    })
+    .config(function($stateProvider) {
+        /**
+         * now set up the state
+         */
+        $stateProvider
+        .state('home', {
+            url: '/home',
+            controller: 'wpHomeCtrl',
+            templateUrl: initVars().wpTemplateDirectoryUri+'/partials/home.html'
+        })
+        .state('display-posts', {
+            url: '/posts',
+            controller: 'wpPostsCtrl',
+            templateUrl: initVars().wpTemplateDirectoryUri+'/partials/posts.html'
+        })
+        .state('display-one-post', {
+            url: '/posts/:id',
+            controller: 'wpPostCtrl',
+            template: '<default-post />'
+        })
+        .state('display-pages', {
+            url: '/pages',
+            controller: 'wpPagesCtrl',
+            templateUrl: initVars().wpTemplateDirectoryUri+'/partials/pages.html'
+        })
+        .state('display-one-page', {
+            url: '/pages/:id',
+            controller: 'wpPageCtrl',
+            template: '<default-page />'
+        })
+        .state('display-categories', {
+            url: '/categories',
+            controller: 'wpCategoriesCtrl',
+            templateUrl: initVars().wpTemplateDirectoryUri+'/partials/categories.html'
+        })
+        .state('display-one-category', {
+            url: '/categories/:slug',
+            controller: 'wpGaleriesCtrl',
+            templateUrl: initVars().wpTemplateDirectoryUri+'/partials/galeries.html'
+        })
+        .state('display-one-page-as-youtube', {
+            url: '/youtube/:id',
+            controller: 'wpVideosCtrl',
+            templateUrl: initVars().wpTemplateDirectoryUri+'/partials/videos.html'
+        })
+        .state('display-medias', {
+            url: '/medias',
+            controller: 'wpMediasCtrl',
+            templateUrl: initVars().wpTemplateDirectoryUri+'/partials/medias.html'
+        })
+        .state('display-one-media', {
+            url: '/medias/:id',
+            controller: 'wpMediasDetailCtrl',
+            templateUrl: initVars().wpTemplateDirectoryUri+'/partials/photos.html'
+        })
+        .state('display-slides', {
+            url: '/slides',
+            controller: 'wpCategoriesCtrl',
+            templateUrl: initVars().wpTemplateDirectoryUri+'/partials/slides.html'
+        })
+        .state('display-category-as-slide', {
+            url: '/slides/:slug',
+            controller: 'wpSliderCtrl',
+            templateUrl: initVars().wpTemplateDirectoryUri+'/partials/animated-slides.html'
+        })
+        .state('display-facebook', {
+            url: '/facebook/:id/:api',
+            controller: 'FacebookFeedCtrl',
+            template: '<facebook-feed />'
+        })
+        ;
+    })
     .config(function($mdThemingProvider) {
         // Configure a dark theme with primary foreground yellow
         $mdThemingProvider
@@ -466,8 +488,8 @@ angular.module('RestWordpressApp',[
      * posts controller
      */
     .controller('wpPostCtrl',
-    ['$scope', '$mdSidenav', '$routeParams', '$mdToast', '$location', 'postServices',
-        function($scope, $mdSidenav, $routeParams, $mdToast, $location, postServices){
+    ['$scope', '$mdSidenav', '$mdToast', '$location', 'postServices',
+        function($scope, $mdSidenav, $mdToast, $location, postServices){
         $scope.showCarousel(false);
         $scope.breadcrumb.posts();
     }])
@@ -475,8 +497,8 @@ angular.module('RestWordpressApp',[
      * pages controller
      */
     .controller('wpPageCtrl',
-    ['$scope', '$mdSidenav', '$routeParams', '$mdToast', '$location', 'pageServices',
-        function($scope, $mdSidenav, $routeParams, $mdToast, $location, pageServices){
+    ['$scope', '$mdSidenav', '$mdToast', '$location', 'pageServices',
+        function($scope, $mdSidenav, $mdToast, $location, pageServices){
         $scope.showCarousel(false);
         $scope.breadcrumb.pages();
     }])
@@ -484,10 +506,10 @@ angular.module('RestWordpressApp',[
      * categories controller
      */
     .controller('wpGaleriesCtrl',
-    ['$scope', '$routeParams', 'postServices', '$log', function($scope, $routeParams, postServices, $log){
+    ['$scope', '$stateParams', 'postServices', '$log', function($scope, $stateParams, postServices, $log){
         $scope.showCarousel(false);
         $scope.breadcrumb.categories();
-        postServices.categoryBySlug({slug:$routeParams.slug}).then(function(data) {
+        postServices.categoryBySlug({slug:$stateParams.slug}).then(function(data) {
             $scope.working.galery = {};
             $scope.working.galery.category = data.cat;
             $scope.breadcrumb.categories(data.cat);
@@ -498,7 +520,7 @@ angular.module('RestWordpressApp',[
      * slider controller
      */
     .controller('wpSliderCtrl',
-    ['$scope', '$log', '$routeParams', '$timeout', 'postServices', function($scope, $log, $routeParams, $timeout, postServices){
+    ['$scope', '$log', '$stateParams', '$timeout', 'postServices', function($scope, $log, $stateParams, $timeout, postServices){
         $scope.showCarousel(false);
         $scope.breadcrumb.categories();
         /**
@@ -539,7 +561,7 @@ angular.module('RestWordpressApp',[
         /**
          * load from scope
          */
-        var slides = $routeParams.slug;
+        var slides = $stateParams.slug;
         $scope.loadSlides(slides);
     }])
     /**
@@ -625,10 +647,10 @@ angular.module('RestWordpressApp',[
      * videos controller
      */
     .controller('wpVideosCtrl',
-    ['$scope', '$mdSidenav', '$routeParams', '$mdToast', 'pageServices', '$sce',
-        function($scope, $mdSidenav, $routeParams, $mdToast, pageServices, $sce){
+    ['$scope', '$mdSidenav', '$stateParams', '$mdToast', 'pageServices', '$sce',
+        function($scope, $mdSidenav, $stateParams, $mdToast, pageServices, $sce){
         $scope.showCarousel(false);
-        pageServices.youtube({id:$routeParams.id}).then(function(data) {
+        pageServices.youtube({id:$stateParams.id}).then(function(data) {
             $scope.working.videos = data;
         });
     }])
@@ -637,7 +659,7 @@ angular.module('RestWordpressApp',[
         $scope.videoUrl = $sce.trustAsResourceUrl("https://www.youtube.com/embed/"+$scope.video.id);
     }])
     .controller('FacebookFeedCtrl',
-    ['$scope', '$routeParams', 'facebookService', function($scope, $routeParams, facebookService){
+    ['$scope', '$stateParams', 'facebookService', function($scope, $stateParams, facebookService){
         $scope.showCarousel(false);
         facebookService.submit(
             $scope.wpVars.properties.wpFacebookAppId,
@@ -652,14 +674,14 @@ angular.module('RestWordpressApp',[
                 )
             },
             {
-                id:$routeParams.id,
-                api:$routeParams.api,
+                id:$stateParams.id,
+                api:$stateParams.api,
                 filter:"?fields=message,from,link"
             }
         );
     }])
     .controller('FacebookPictureCtrl',
-    ['$scope', '$routeParams', 'facebookService', function($scope, $routeParams, facebookService){
+    ['$scope', 'facebookService', function($scope, facebookService){
         facebookService.submit(
             $scope.wpVars.properties.wpFacebookAppId,
             function(args) {

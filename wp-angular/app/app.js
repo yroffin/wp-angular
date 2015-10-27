@@ -22,7 +22,6 @@
 
 angular.module('RestWordpressApp', [
     'ngResource',
-    'ngRoute',
     'ngMaterial',
     'ngMdIcons',
     'ngSanitize',

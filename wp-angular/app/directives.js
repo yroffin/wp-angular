@@ -74,7 +74,7 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
 /**
  * tiny page directive
  */
-.directive('tinyPage', ['$log', '$routeParams', 'pageServices', function ($log, $routeParams, pageServices) {
+.directive('tinyPage', ['$log', '$stateParams', 'pageServices', function ($log, $stateParams, pageServices) {
   return {
     restrict: 'E',
     templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/directives/tiny-page.html',
@@ -83,10 +83,10 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
          * read routeParams first, then attributes
          */
         var pageId;
-        if($routeParams.id === undefined) {
+        if($stateParams.id === undefined) {
             pageId = attrs.id;
         } else {
-            pageId = $routeParams.id;
+            pageId = $stateParams.id;
         }
         /**
          * call service to load scope
@@ -101,12 +101,12 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
  * main controller
  */
 .controller('defaultPageCtrl',
-['$scope', '$log', '$routeParams', function($scope, $log, $routeParams){
+['$scope', function($scope){
 }])
 /**
  * page directive
  */
-.directive('defaultPage', ['$log', '$routeParams', 'pageServices', function ($log, $routeParams, pageServices) {
+.directive('defaultPage', ['$log', '$stateParams', 'pageServices', function ($log, $stateParams, pageServices) {
   return {
     restrict: 'E',
     templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/directives/default-page.html',
@@ -115,10 +115,10 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
          * read routeParams first, then attributes
          */
         var pageId;
-        if($routeParams.id === undefined) {
+        if($stateParams.id === undefined) {
             pageId = attrs.id;
         } else {
-            pageId = $routeParams.id;
+            pageId = $stateParams.id;
         }
         /**
          * call service to load scope
@@ -138,7 +138,7 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
 /**
  * tiny page directive
  */
-.directive('tinyPost', ['$log', '$routeParams', 'postServices', function ($log, $routeParams, postServices) {
+.directive('tinyPost', ['$log', '$stateParams', 'postServices', function ($log, $stateParams, postServices) {
   return {
     restrict: 'E',
     templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/directives/tiny-post.html',
@@ -147,10 +147,10 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
          * read routeParams first, then attributes
          */
         var postId;
-        if($routeParams.id === undefined) {
+        if($stateParams.id === undefined) {
             postId = attrs.id;
         } else {
-            postId = $routeParams.id;
+            postId = $stateParams.id;
         }
         /**
          * call service to load scope
@@ -165,12 +165,12 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
  * main controller
  */
 .controller('defaultPostCtrl',
-['$scope', '$log', '$routeParams', function($scope, $log, $routeParams){
+['$scope', function($scope){
 }])
 /**
  * page directive
  */
-.directive('defaultPost', ['$log', '$routeParams', 'postServices', function ($log, $routeParams, postServices) {
+.directive('defaultPost', ['$log', '$stateParams', 'postServices', function ($log, $stateParams, postServices) {
   return {
     restrict: 'E',
     templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/directives/default-post.html',
@@ -179,10 +179,10 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
          * read routeParams first, then attributes
          */
         var postId;
-        if($routeParams.id === undefined) {
+        if($stateParams.id === undefined) {
             postId = attrs.id;
         } else {
-            postId = $routeParams.id;
+            postId = $stateParams.id;
         }
         /**
          * call service to load scope
@@ -197,12 +197,12 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
  * main controller
  */
 .controller('facebookFeedCtrl',
-['$scope', '$log', '$routeParams', function($scope, $log, $routeParams){
+['$scope', function($scope){
 }])
 /**
  * page directive
  */
-.directive('facebookFeed', ['$log', '$routeParams', 'facebookService', function ($log, $routeParams, facebookService) {
+.directive('facebookFeed', ['$log', '$stateParams', 'facebookService', function ($log, $stateParams, facebookService) {
   return {
     restrict: 'E',
     templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/directives/facebook-feed.html',
@@ -211,16 +211,16 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
          * read routeParams first, then attributes
          */
         var facebookId;
-        if($routeParams.id === undefined) {
+        if($stateParams.id === undefined) {
             facebookId = attrs.id;
         } else {
-            facebookId = $routeParams.id;
+            facebookId = $stateParams.id;
         }
         var facebookApi;
-        if($routeParams.id === undefined) {
+        if($stateParams.id === undefined) {
             facebookApi = attrs.api;
         } else {
-            facebookApi = $routeParams.api;
+            facebookApi = $stateParams.api;
         }
         $log.info("facebookFeed:", facebookId, facebookApi, scope.wpVars.properties.wpFacebookAppId);
         /**
@@ -250,12 +250,12 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
  * simple custom divider widget
  */
 .controller('customDividerCtrl',
-['$scope', '$log', '$routeParams', function($scope, $log, $routeParams){
+['$scope', function($scope){
 }])
 /**
  * page directive
  */
-.directive('customDivider', ['$log', '$routeParams', function ($log, $routeParams) {
+.directive('customDivider', ['$log', function ($log) {
   return {
     restrict: 'E',
     templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/directives/custom-divider.html',
@@ -271,12 +271,12 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
  * simple custom divider widget
  */
 .controller('newsLetterCtrl',
-['$scope', '$log', '$routeParams', function($scope, $log, $routeParams){
+['$scope', function($scope){
 }])
 /**
  * page directive
  */
-.directive('newsLetter', ['$log', '$routeParams', function ($log, $routeParams) {
+.directive('newsLetter', ['$log', function ($log) {
   return {
     restrict: 'E',
     templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/directives/news-letter.html',
@@ -288,12 +288,12 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
  * simple custom divider widget
  */
 .controller('mailToCtrl',
-['$scope', '$log', '$routeParams', function($scope, $log, $routeParams){
+['$scope', function($scope){
 }])
 /**
  * page directive
  */
-.directive('mailTo', ['$log', '$routeParams', function ($log, $routeParams) {
+.directive('mailTo', ['$log', function ($log) {
   return {
     restrict: 'E',
     templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/directives/mail-to.html',
@@ -310,12 +310,12 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
  * simple custom divider widget
  */
 .controller('socialsCtrl',
-['$scope', '$log', '$routeParams', function($scope, $log, $routeParams){
+['$scope', function($scope){
 }])
 /**
  * page directive
  */
-.directive('socials', ['$log', '$routeParams', function ($log, $routeParams) {
+.directive('socials', ['$log', function ($log) {
   return {
     restrict: 'E',
     templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/directives/socials.html',
@@ -332,12 +332,12 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
  * simple custom divider widget
  */
 .controller('adsBannerCtrl',
-['$scope', '$log', '$routeParams', function($scope, $log, $routeParams){
+['$scope', function($scope){
 }])
 /**
  * page directive
  */
-.directive('adsBanner', ['$log', '$routeParams', 'mediaServices', 'wpDaemon', function ($log, $routeParams, mediaServices, wpDaemon) {
+.directive('adsBanner', ['$log', 'mediaServices', 'wpDaemon', function ($log, mediaServices, wpDaemon) {
   return {
     restrict: 'E',
     templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/directives/ads-banner.html',
@@ -370,12 +370,12 @@ angular.module('wpDirective.services', ['RestWordpressApp.services'])
  * grid list widget
  */
 .controller('gridListCtrl',
-['$scope', '$log', '$routeParams', function($scope, $log, $routeParams){
+['$scope', function($scope){
 }])
 /**
  * page directive
  */
-.directive('gridList', ['$log', '$routeParams', function ($log, $routeParams) {
+.directive('gridList', ['$log', function ($log) {
   return {
     restrict: 'E',
     templateUrl: wpVars.wpTemplateDirectoryUri +'/partials/directives/grid-list.html',
